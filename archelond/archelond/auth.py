@@ -49,7 +49,7 @@ def generate_token(username):
     Return the token for the given user by signing a token of
     the username and a hash of the htpasswd string.
     """
-    serializer = get_signature
+    serializer = get_signature()
     return serializer.dumps(
         {
             'username': username,

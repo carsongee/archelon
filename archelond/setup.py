@@ -34,6 +34,8 @@ setup(
         'uwsgi',
         'passlib',
         'itsdangerous',
+        'pytz',
+        'elasticsearch',
         ],
     entry_points={'console_scripts': [
         'archelond = archelond.web:run_server',

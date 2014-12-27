@@ -7,17 +7,14 @@ import os
 from flask import Flask, jsonify, request
 from passlib.apache import HtpasswdFile
 
+from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
 from archelond.auth import requires_auth, generate_token
 
 log = logging.getLogger('archelond')
 
 V1_ROOT = '/api/v1/'
-DUMMY_HISTORY = [
-    {'command': 'cd'},
-    {'command': 'blah'},
-    {'command': 'echo hi'},
-]
+
 
 def run_server():
     """
@@ -51,9 +48,15 @@ def wsgi_app(debug=False):
     # Load up user database
     app.config['users'] = HtpasswdFile(app.config['HTPASSWD_PATH'])
 
+    # Setup database
+    if app.config['DATABASE_TYPE'] == 'MemoryData':
+        app.data = MemoryData(app.config)
+    elif app.config['DATABASE_TYPE'] == 'ElasticData':
+        app.data = ElasticData(app.config)
+
     # Set up logging
     configure_logging(app)
-    
+
     return app
 
 
@@ -90,12 +93,22 @@ def history(user):
     if request.method == 'GET':
         query = request.args.get('q')
         order = request.args.get('o')
+
+        order_type = None
+        if order:
+            if order not in ORDER_TYPES:
+                return jsonify(
+                    {'error': 'Order specified is not an option'}
+                ), 422
+            else:
+                order_type = order
+
         if query:
-            results = [x for x in DUMMY_HISTORY if query in x['command']]
+            results = app.data.filter(
+                query, order_type, user, request.remote_addr
+            )
         else:
-            results = DUMMY_HISTORY
-        if order and order == 'r':
-            results.reverse()
+            results = app.data.all(order_type, user, request.remote_addr)
         return jsonify({'commands': results})
 
     if request.method == 'POST':
@@ -107,6 +120,5 @@ def history(user):
         if not data.get('command'):
             return jsonify({'error': 'Missing command parameter'}), 422
 
-        DUMMY_HISTORY.append({'command': data['command']})
+        app.data.add(data['command'], user, request.remote_addr)
         return '', 201
-    raise Exception
