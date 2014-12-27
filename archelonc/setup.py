@@ -31,6 +31,7 @@ setup(
     ],
     install_requires=[
         'npyscreen',
+        'requests',
         ],
     scripts=['scripts/archelon'],
     entry_points={'console_scripts': [

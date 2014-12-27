@@ -8,7 +8,7 @@ import sys
 
 import npyscreen
 
-from archelonc.data import LocalHistory
+from archelonc.data import LocalHistory, WebHistory
 
 
 class SearchResult(npyscreen.Textfield):
@@ -161,11 +161,13 @@ class Search(npyscreen.NPSAppManaged):
         """
         Startup routine for the search application
         """
-        REMOTE_URL = os.environ.get('ARCHELON_URL')
-        REMOTE_TOKEN = os.environ.get('ARCHELON_TOKEN')
+        url = os.environ.get('ARCHELON_URL')
+        token = os.environ.get('ARCHELON_TOKEN')
 
         #  Determine the data model to use.
-        if not (REMOTE_URL and REMOTE_TOKEN):
+        if url and token:
+            self.data = WebHistory(url, token)
+        else:
             self.data = LocalHistory()
 
         self.addForm('MAIN', SearchReverse, name='Archelon: Reverse Search')

@@ -6,6 +6,8 @@ from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 import os
 
+import requests
+
 
 class HistoryBase(object):
     """
@@ -17,8 +19,8 @@ class HistoryBase(object):
     @abstractmethod
     def search_reverse(self, term):
         """
-        Return a list of dictionaries with at least 'command'
-        that is in reverse time order. i.e newest first.
+        Return a list of commmands that is in reverse
+        time order. i.e newest first.
         """
         pass
 
@@ -49,3 +51,35 @@ class LocalHistory(HistoryBase):
         ]
         results.reverse()
         return results
+
+
+class WebHistory(HistoryBase):
+    """
+    Use RESTful API to do searches against archelond.
+    """
+    SEARCH_URL = '/api/v1/history'
+
+    def __init__(self, url, token):
+        """
+        Setup requests session with API key and set base
+        URL.
+        """
+        self.url = '{url}{endpoint}'.format(
+            url=url.rstrip('/'),
+            endpoint=self.SEARCH_URL
+        )
+        self.session = requests.Session()
+        self.session.headers = {'Authorization': 'token {}'.format(token)}
+
+    def search_reverse(self, term):
+        """
+        Make request to API with sort order specified
+        and return the results as a list.
+        """
+        response = self.session.get(
+            self.url,
+            params={'q': term, 'o': 'reverse'}
+        )
+        if response.status_code != 200:
+            return ['Error in API Call {}'.format(response.text)]
+        return [x['command'] for x in response.json()['commands']]
