@@ -2,13 +2,13 @@
 """
 npyscreen based application for searching shell history
 """
-from collections import OrderedDict
 import curses
 import os
-import subprocess
 import sys
 
 import npyscreen
+
+from archelonc.data import LocalHistory
 
 
 class SearchResult(npyscreen.Textfield):
@@ -64,10 +64,7 @@ class SearchBox(npyscreen.TitleText):
         """
         Do the search and return the results
         """
-        return [
-            x for x in self.parent.history_list
-            if self.value in x
-        ]
+        return self.parent.parentApp.data.search_reverse(self.value)
 
     def when_value_edited(self):
         """
@@ -128,15 +125,6 @@ class SearchReverse(npyscreen.ActionFormV2):
             begin_entry_at=10
         )
 
-        # Go ahead and read all of history into an ordered dictionary to
-        # hash the file, remove duplicates, and then reverse it
-        history_dict = OrderedDict()
-        with open(os.path.expanduser('~/.bash_history')) as history_file:
-            for line in history_file:
-                history_dict[line.strip()] = None
-        self.history_list = history_dict.keys()
-        self.history_list.reverse()
-
         self.add_handlers({
             '!o': self.on_ok,
             '!c': self.on_cancel,
@@ -153,9 +141,12 @@ class SearchReverse(npyscreen.ActionFormV2):
 
     def on_ok(self, *args):
         """
-        Run the command using shutils and exit
+        We just drop the command into a
+        known file for the wrapper to pick
+        up
         """
-        subprocess.Popen(self.command_box.value.split(' '))
+        with open(os.path.expanduser('~/.archelon_cmd'), 'w') as cmd_file:
+            cmd_file.write(self.command_box.value)
         sys.exit(0)
 
     def on_cancel(self, *args):
@@ -170,4 +161,11 @@ class Search(npyscreen.NPSAppManaged):
         """
         Startup routine for the search application
         """
+        REMOTE_URL = os.environ.get('ARCHELON_URL')
+        REMOTE_TOKEN = os.environ.get('ARCHELON_TOKEN')
+
+        #  Determine the data model to use.
+        if not (REMOTE_URL and REMOTE_TOKEN):
+            self.data = LocalHistory()
+
         self.addForm('MAIN', SearchReverse, name='Archelon: Reverse Search')

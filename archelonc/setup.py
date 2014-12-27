@@ -32,8 +32,9 @@ setup(
     install_requires=[
         'npyscreen',
         ],
+    scripts=['scripts/archelon'],
     entry_points={'console_scripts': [
-        'archelon = archelonc.command:search_form',
+        'archelonf = archelonc.command:search_form',
         'archelonw = archelonw.command:watcher',
     ]},
     zip_safe=True,

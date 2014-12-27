@@ -1,0 +1,11 @@
+#!/bin/bash
+# The trick to this all working is this wrapper that you
+# source in rather than execute. i.e. `. archelon`. This
+# will run the python interface and interactively drop the command
+# entered
+archelonf
+rc=$?
+if [ $rc -eq 0 ]; then
+   eval $(cat ~/.archelon_cmd)
+   rm ~/.archelon_cmd
+fi
