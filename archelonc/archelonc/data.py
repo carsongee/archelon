@@ -78,8 +78,21 @@ class WebHistory(HistoryBase):
         """
         response = self.session.get(
             self.url,
-            params={'q': term, 'o': 'reverse'}
+            params={'q': term, 'o': 'r'}
         )
         if response.status_code != 200:
             return ['Error in API Call {}'.format(response.text)]
         return [x['command'] for x in response.json()['commands']]
+
+    def add(self, command):
+        """
+        Post a command to the remote server using the API
+        """
+        response = self.session.post(
+            self.url,
+            json={'command': command}
+        )
+        if response.status_code != 201:
+            return False, (response.json(), response.status_code)
+        else:
+            return True, None

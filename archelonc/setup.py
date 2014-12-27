@@ -36,7 +36,8 @@ setup(
     scripts=['scripts/archelon'],
     entry_points={'console_scripts': [
         'archelonf = archelonc.command:search_form',
-        'archelonw = archelonw.command:watcher',
+        'archelonw = archelonc.command:watcher',
+        'archelon_import = archelonc.command:import_history',
     ]},
     zip_safe=True,
 )
