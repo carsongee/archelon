@@ -89,10 +89,13 @@ def history(user):
     """
     if request.method == 'GET':
         query = request.args.get('q')
+        order = request.args.get('o')
         if query:
             results = [x for x in DUMMY_HISTORY if query in x['command']]
         else:
             results = DUMMY_HISTORY
+        if order and order == 'r':
+            results.reverse()
         return jsonify({'commands': results})
 
     if request.method == 'POST':
