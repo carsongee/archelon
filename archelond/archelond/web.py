@@ -12,6 +12,7 @@ from archelond.auth import requires_auth, generate_token
 
 log = logging.getLogger('archelond')
 
+V1_ROOT = '/api/v1/'
 DUMMY_HISTORY = [
     {'command': 'cd'},
     {'command': 'blah'},
@@ -69,7 +70,7 @@ def index(user):
     return 'Archelond Ready for Eating Shell History'
 
 
-@app.route('/api/v1/token', methods=['GET'])
+@app.route('{}token'.format(V1_ROOT), methods=['GET'])
 @requires_auth
 def token(user):
     """
@@ -79,7 +80,7 @@ def token(user):
     return jsonify({'token': generate_token(user)})
 
 
-@app.route('/api/v1/history', methods=['GET', 'POST'])
+@app.route('{}history'.format(V1_ROOT), methods=['GET', 'POST'])
 @requires_auth
 def history(user):
     """
