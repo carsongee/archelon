@@ -20,7 +20,7 @@ recommend adding:
 
   bind '"\033a":". archelon\n"'
 
-this will launch the reverse search of archelon via Ctrl-R.
+this will launch the reverse search of archelon via Alt-A.
 
 Web Enabled History
 ===================
