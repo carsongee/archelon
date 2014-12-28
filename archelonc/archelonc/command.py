@@ -47,12 +47,14 @@ def import_history():
         hist_file = sys.argv[1]
 
     with open(os.path.expanduser(hist_file)) as history_file:
+        commands = {}
         for line in history_file:
             command = line.strip()
             if not command:
                 continue
-            success, response = web_history.add(command)
-            if not success:
-                print('Failed to add command: `{}`, got:\n {}'.format(
-                    command, response
-                ))
+            commands[command] = None
+        success, response = web_history.bulk_add(commands.keys())
+        if not success:
+            print('Failed to add commands, got:\n {}'.format(
+                response
+            ))

@@ -96,3 +96,16 @@ class WebHistory(HistoryBase):
             return False, (response.json(), response.status_code)
         else:
             return True, None
+
+    def bulk_add(self, commands):
+        """
+        Post a list of commands
+        """
+        response = self.session.post(
+            self.url,
+            json={'commands': commands}
+        )
+        if response.status_code != 200:
+            return False, (response.json(), response.status_code)
+        else:
+            return True, (response.json(), response.status_code)

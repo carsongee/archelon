@@ -117,8 +117,21 @@ def history(user):
             data = request.json
         else:
             data = request.form
-        if not data.get('command'):
-            return jsonify({'error': 'Missing command parameter'}), 422
+        command = data.get('command')
+        commands = data.get('commands')
+        if not (command or commands):
+            return jsonify({'error': 'Missing command(s) parameter'}), 422
 
-        app.data.add(data['command'], user, request.remote_addr)
+        # Allow bulk posting to speedup imports with commands parameter
+        if commands:
+            results_list = []
+            if not isinstance(commands, list):
+                return jsonify({'error': 'Commands must be list'}), 422
+            for command in commands:
+                app.data.add(command, user, request.remote_addr)
+                results_list.append(('', 201))
+            return jsonify(results_list), 200
+        if not isinstance(command, str):
+            return jsonify({'error': 'Command must be a string'}), 422
+        app.data.add(command, user, request.remote_addr)
         return '', 201
