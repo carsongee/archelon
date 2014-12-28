@@ -138,15 +138,8 @@ class ElasticData(HistoryData):
                     'analysis' : {
                         'analyzer' : {
                             'command_analyzer' : {
-                                'tokenizer' : 'ngram_character_tokenizer'
-                            }
-                        },
-                        'tokenizer' : {
-                            'ngram_character_tokenizer' : {
-                                'type' : 'nGram',
-                                'min_gram' : '1',
-                                'max_gram' : '1',
-                                'token_chars': []
+                                'tokenizer' : 'keyword',
+                                'filter': 'lowercase'
                             }
                         }
                     }
@@ -155,7 +148,8 @@ class ElasticData(HistoryData):
                     self.index: {
                         'properties': {
                             'command': {
-                                'analyzer': 'command_analyzer',
+                                'search_analyzer': 'command_analyzer',
+                                'index_analyzer': 'command_analyzer',
                                 'type': 'string'
                             }
                         }
@@ -215,19 +209,16 @@ class ElasticData(HistoryData):
         if order and order == 'r':
             sort = 'timestamp:desc'
         if not body:
-            # Build a DSL based on the term as we aren't being given one.
             body = {
                 'query': {
-                    'filtered': {
-                        'filter': {
-                            'terms': {
-                                'command': list(term)
-                            }
+                    'match_phrase_prefix': {
+                        'command': {
+                            'query': term,
+                            'max_expansions': self.NUM_RESULTS
                         }
                     }
                 }
             }
-            
         # Implicitly we are sorting by score without order set, which
         # is nice
         try:
