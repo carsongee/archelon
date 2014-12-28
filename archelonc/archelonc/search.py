@@ -78,7 +78,7 @@ class SearchBox(npyscreen.TitleText):
 
         search_results = self.search()
         results_list.values = search_results
-        results_list.reset_display_cache
+        results_list.reset_display_cache()
         results_list.reset_cursor()
         results_list.update()
 

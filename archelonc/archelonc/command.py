@@ -8,6 +8,8 @@ import os
 import shutil
 import sys
 
+import requests
+
 from archelonc.search import Search
 from archelonc.data import WebHistory
 
@@ -72,7 +74,7 @@ def update():
 
     try:
         success, response = web_history.bulk_add(commands.keys())
-    except Exception, ex:
+    except requests.exceptions.ConnectionError, ex:
         print('Connection Error occured: %s', str(ex))
         sys.exit(1)
     if not success:
@@ -111,7 +113,7 @@ def import_history():
             commands[command] = None
     try:
         success, response = web_history.bulk_add(commands.keys())
-    except Exception, ex:
+    except requests.exceptions.ConnectionError, ex:
         print('Connection Error occured: %s', str(ex))
         sys.exit(1)
 

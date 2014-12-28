@@ -98,9 +98,15 @@ def auth_failed():
     )
 
 
-def requires_auth(f):
-    @wraps(f)
+def requires_auth(func):
+    """
+    Decorator function with basic and token authentication handler
+    """
+    @wraps(func)
     def decorated(*args, **kwargs):
+        """
+        Actual wrapper to run the auth checks.
+        """
         basic_auth = request.authorization
 
         is_valid = False
@@ -124,5 +130,5 @@ def requires_auth(f):
         if not is_valid:
             return auth_failed()
         kwargs['user'] = user
-        return f(*args, **kwargs)
+        return func(*args, **kwargs)
     return decorated

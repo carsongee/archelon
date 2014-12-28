@@ -2,6 +2,7 @@
 """
 Data modeling for command history to be modular
 """
+from __future__ import print_function
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 import os

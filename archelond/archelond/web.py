@@ -33,7 +33,7 @@ def run_server():
     app.run(host=host, port=port)
 
 
-def wsgi_app(debug=False):
+def wsgi_app():
     """
     Start flask application runtime
     """
@@ -70,7 +70,8 @@ def index(user):
     """
     Simple index view for documentation and navigation.
     """
-    return 'Archelond Ready for Eating Shell History'
+    return ('<p>Welcome {}. Archelond Ready for Eating'
+            'Shell History</p>'.format(user)), 200
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])

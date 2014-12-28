@@ -19,6 +19,10 @@ ORDER_TYPES = [
 log = logging.getLogger(__name__)
 
 class HistoryData(object):
+    """
+    Abstract class implementation of a database for use with
+    command history.
+    """
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -71,6 +75,7 @@ class MemoryData(HistoryData):
         """
         Initialize internal data structure with init data
         """
+        super(MemoryData, self).__init__(config)
         self.data = self.INITIAL_DATA
 
     def add(self, command, username, host):
@@ -113,7 +118,7 @@ class ElasticData(HistoryData):
     DOC_TYPE = 'history'
     # Only return a max of 50 results
     NUM_RESULTS = 50
-    
+
     def __init__(self, config):
         """
         Configure and setup the ES client
@@ -121,7 +126,7 @@ class ElasticData(HistoryData):
         super(ElasticData, self).__init__(config)
 
         # Connect
-        self.es = Elasticsearch(
+        self.elasticsearch = Elasticsearch(
             self.config['ELASTICSEARCH_URL'],
             sniff_on_start=True,
             sniff_on_connection_fail=True,
@@ -131,7 +136,7 @@ class ElasticData(HistoryData):
         # Analayzer is setup such that every single character can
         # be part of the search query
         self.index = self.config['ELASTICSEARCH_INDEX']
-        self.es.indices.create(
+        self.elasticsearch.indices.create(
             index=self.index, ignore=400,
             body={
                 'settings' : {
@@ -164,7 +169,8 @@ class ElasticData(HistoryData):
         """
         return '{0}_{1}'.format(username, self.DOC_TYPE)
 
-    def _doc_id(self, command):
+    @staticmethod
+    def _doc_id(command):
         """
         hash the command to make the document id
         """
@@ -177,15 +183,15 @@ class ElasticData(HistoryData):
         for user separation of data.
         """
         doc_type = self._doc_type(username)
-        id = self._doc_id(command)
+        doc_id = ElasticData._doc_id(command)
         document = {
             'command': command,
             'username': username,
             'host': host,
             'timestamp': datetime.utcnow().replace(tzinfo=pytz.utc),
         }
-        result = self.es.index(
-            index=self.index, doc_type=doc_type, id=id, body=document
+        result = self.elasticsearch.index(
+            index=self.index, doc_type=doc_type, id=doc_id, body=document
         )
         log.debug(result)
 
@@ -222,7 +228,7 @@ class ElasticData(HistoryData):
         # Implicitly we are sorting by score without order set, which
         # is nice
         try:
-            results = self.es.search(
+            results = self.elasticsearch.search(
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
                 body=body, sort=sort
             )
