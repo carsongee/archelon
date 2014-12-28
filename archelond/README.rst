@@ -14,6 +14,7 @@ Installation and Configuration
 ==============================
 
 .. code-block:: bash
+
   pip install archelond
 
 Security is obviously important for shell history, and to setup
@@ -22,21 +23,24 @@ as the user database.  To add one for yourself and configure archelond
 to use it, run something like:
 
 .. code-block:: bash
+
   htpasswd -c ~/.htpasswd username
   export HTPASSWD_PATH=~/.htpasswd
 
 After that minimal setup we can try things out with just a simple command of:
 
 .. code-block:: bash
+
   archelond
 
 Which will fire up the debug/development server using an in memory
 bash history data store that is very forgetful.  Once it is up, you
-should be able to go ``http://localhost:8580/``, login with the
-username and password you created in your htpasswd file, and see a
-lovely welcome page.  To check out the sample commands you can go to
-``http://localhost:8580/api/v1/history`` or get your token for use
-with archelonc ``http://localhost:8580/api/v1/token``.
+should be able to go `http://localhost:8580/ <http://localhost:8580/>`_,
+login with the username and password you created in your htpasswd
+file, and see a lovely welcome page.  To check out the sample commands
+you can go to `http://localhost:8580/api/v1/history
+<http://localhost:8580/api/v1/history>`_ or get your token for use with
+archelonc `http://localhost:8580/api/v1/token <http://localhost:8580/api/v1/token>`_.
 
 Wiring Up to Elasticsearch
 ==========================
@@ -48,6 +52,7 @@ add a couple environment variables to point at the service and set the
 storage provider class with something like:
 
 .. code-block:: bash
+
   export ARCHELOND_ELASTICSEARCH_URL='http://localhost:9200'
   export ARCHELOND_ELASTICSEARCH_INDEX='history'
   export ARCHELOND_DATABASE='ElasticData'
@@ -56,6 +61,7 @@ The index can be changed, but is the index in elasticsearch that will
 be used to store the history.
 
 .. note::
+
   archelond with the ``ElasticData`` can support multiple users as it
   uses the user in the document type
 
@@ -67,7 +73,7 @@ production you will want to run it through a proper wsgi application
 server.  As an example, we've added uwsgi in the requirements and it
 can be run in production with something like:
 
-.. code-block: bash
+.. code-block:: bash
   uwsgi --http :8580 -w archelond.web:app
 
 and then a Web server like nginx proxying over https in order to
