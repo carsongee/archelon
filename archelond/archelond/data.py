@@ -127,10 +127,7 @@ class ElasticData(HistoryData):
 
         # Connect
         self.elasticsearch = Elasticsearch(
-            self.config['ELASTICSEARCH_URL'],
-            sniff_on_start=True,
-            sniff_on_connection_fail=True,
-            sniffer_timeout=60
+            self.config['ELASTICSEARCH_URL']
         )
         # Create configured index.
         # Analayzer is setup such that every single character can

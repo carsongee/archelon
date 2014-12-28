@@ -74,6 +74,7 @@ server.  As an example, we've added uwsgi in the requirements and it
 can be run in production with something like:
 
 .. code-block:: bash
+
   uwsgi --http :8580 -w archelond.web:app
 
 and then a Web server like nginx proxying over https in order to
