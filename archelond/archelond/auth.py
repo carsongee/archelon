@@ -116,16 +116,18 @@ def requires_auth(func):
             )
         else:
             token = request.headers.get('Authorization', None)
-            if token:
-                # slice the 'token ' piece of the header (following
-                # github style):
-                token = token[6:]
-            else:
-                # Grab it from query dict instead
-                token = request.args.get('access_token')
-            log.debug('Received token: %s', token)
+            param_token = request.args.get('access_token')
+            if token or param_token:
+                if token:
+                    # slice the 'token ' piece of the header (following
+                    # github style):
+                    token = token[6:]
+                else:
+                    # Grab it from query dict instead
+                    token = param_token
+                log.debug('Received token: %s', token)
 
-            is_valid, user = check_token_auth(token)
+                is_valid, user = check_token_auth(token)
 
         if not is_valid:
             return auth_failed()
