@@ -70,7 +70,7 @@ def index(user):
     """
     Simple index view for documentation and navigation.
     """
-    return ('<p>Welcome {}. Archelond Ready for Eating'
+    return ('<p>Welcome {}. Archelond Ready for Eating '
             'Shell History</p>'.format(user)), 200
 
 
