@@ -150,7 +150,11 @@ class SearchReverse(npyscreen.ActionFormV2):
         sys.exit(0)
 
     def on_cancel(self, *args):
-        sys.exit(0)
+        """
+        Drop out with a non 1 exit code so the
+        wrapper doesn't execute anything
+        """
+        sys.exit(1)
 
 
 class Search(npyscreen.NPSAppManaged):

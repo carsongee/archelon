@@ -5,6 +5,7 @@ Data modeling for command history to be modular
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 import os
+import sys
 
 import requests
 
@@ -76,10 +77,15 @@ class WebHistory(HistoryBase):
         Make request to API with sort order specified
         and return the results as a list.
         """
-        response = self.session.get(
-            self.url,
-            params={'q': term, 'o': 'r'}
-        )
+        try:
+            response = self.session.get(
+                self.url,
+                params={'q': term, 'o': 'r'}
+            )
+        except requests.exceptions.ConnectionError:
+            print('Failed to connect to server, check settings')
+            sys.exit(1)
+
         if response.status_code != 200:
             return ['Error in API Call {}'.format(response.text)]
         return [x['command'] for x in response.json()['commands']]
@@ -88,10 +94,15 @@ class WebHistory(HistoryBase):
         """
         Post a command to the remote server using the API
         """
-        response = self.session.post(
-            self.url,
-            json={'command': command}
-        )
+        try:
+            response = self.session.post(
+                self.url,
+                json={'command': command}
+            )
+        except requests.exceptions.ConnectionError:
+            print('Failed to connect to server, check settings')
+            sys.exit(1)
+
         if response.status_code != 201:
             return False, (response.json(), response.status_code)
         else:

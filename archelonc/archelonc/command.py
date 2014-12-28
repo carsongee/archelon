@@ -3,12 +3,28 @@
 Command line entry points for the archelon client.
 """
 from __future__ import print_function
+from difflib import Differ
 import os
-import subprocess
+import shutil
 import sys
 
 from archelonc.search import Search
 from archelonc.data import WebHistory
+
+HISTORY_FILE = os.path.expanduser('~/.archelon_history')
+
+
+def _get_web_setup():
+    """
+    either get a WebHistory object or None if we aren't configured for
+    one.
+    """
+    # Check if we are pointed at an archelond server
+    url = os.environ.get('ARCHELON_URL')
+    token = os.environ.get('ARCHELON_TOKEN')
+    if not (url and token):
+        return None
+    return WebHistory(url, token)
 
 
 def search_form():
@@ -18,43 +34,91 @@ def search_form():
     Search().run()
 
 
-def watcher():
+def update():
     """
-    Watch for commands, listen to signals, upload, etc
+    Capture diff between stored history and new history and upload
+    the delta.
     """
-    print('not implemented')
+    web_history = _get_web_setup()
+    # If we aren't setup for Web usage, just bomb out.
+    if not web_history:
+        sys.exit(0)
+
+    current_hist_file = os.path.expanduser(
+        os.environ.get('HISTFILE', '~/.bash_history')
+    )
+    # Create our diff file if it doesn't exist
+    if not os.path.exists(HISTORY_FILE):
+        open(HISTORY_FILE, 'a').close()
+
+    # Compare the current history to our previously stored one,
+    # upload any additions and copy the file over.
+    commands = {}
+    with open(HISTORY_FILE) as cached, open(current_hist_file) as current:
+        differ = Differ()
+        results = differ.compare(cached.readlines(), current.readlines())
+
+        # use diff lib "codes" to see if we need to upload differences
+        for diff in results:
+            if diff[:2] == '+ ' or diff[:2] == '? ':
+                if diff[:2]:
+                    commands[diff[2:]] = None
+
+    # Warn if we are doing a large upload
+    num_commands = len(commands.keys())
+    if num_commands > 50:
+        print('Beginning upload of {} history items. '
+              'This may take a while...'.format(num_commands))
+
+    try:
+        success, response = web_history.bulk_add(commands.keys())
+    except Exception, ex:
+        print('Connection Error occured: %s', str(ex))
+        sys.exit(1)
+    if not success:
+        print('Failed to add commands, got:\n {}'.format(
+            response
+        ))
+        sys.exit(1)
+    shutil.copy(current_hist_file, HISTORY_FILE)
 
 
 def import_history():
     """
     Import current shell's history into server
     """
-    # Check if we are pointed at an archelond server
-    url = os.environ.get('ARCHELON_URL')
-    token = os.environ.get('ARCHELON_TOKEN')
-    if not (url and token):
+    web_history = _get_web_setup()
+    if not web_history:
         print(
-            'You must specify an ARCHELON server in the environment with '
+            'You must specify an archelon server in the environment with '
             '`ARCHELON_URL` and `ARCHELON_TOKEN` environment variables'
         )
         sys.exit(1)
-    web_history = WebHistory(url, token)
 
     # Read history and post to server.  if arg[1]
     # is given, use that file as the history file.
-    hist_file = '~/.bash_history'
+    hist_file = os.environ.get('HISTFILE', '~/.bash_history')
     if len(sys.argv) == 2:
         hist_file = sys.argv[1]
 
-    with open(os.path.expanduser(hist_file)) as history_file:
+    hist_file_path = os.path.expanduser(hist_file)
+    with open(hist_file_path) as history_file:
         commands = {}
         for line in history_file:
             command = line.strip()
             if not command:
                 continue
             commands[command] = None
+    try:
         success, response = web_history.bulk_add(commands.keys())
-        if not success:
-            print('Failed to add commands, got:\n {}'.format(
-                response
-            ))
+    except Exception, ex:
+        print('Connection Error occured: %s', str(ex))
+        sys.exit(1)
+
+    if not success:
+        print('Failed to add commands, got:\n {}'.format(
+            response
+        ))
+    # Make copy of imported history so we only have to track
+    # changes from here on out when archelon is invoked
+    shutil.copy(hist_file_path, HISTORY_FILE)

@@ -18,7 +18,7 @@ recommend adding:
 
 .. code-block:: bash
 
-  bind '"\C-R":". archelon\n"'
+  bind '"\033a":". archelon\n"'
 
 this will launch the reverse search of archelon via Ctrl-R.
 
