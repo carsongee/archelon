@@ -26,7 +26,7 @@ setup(
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Information Technology',
         ('License :: OSI Approved :: '
-         'GNU Affero General Public License v3 (AGPLv3)'),
+         'GNU Affero General Public License v3'),
         'Operating System :: POSIX :: Linux',
     ],
     install_requires=[

@@ -1,0 +1,5 @@
+--index-url https://pypi.python.org/simple/
+
+# Handy for development to install both
+-e archelond
+-e archelonc
