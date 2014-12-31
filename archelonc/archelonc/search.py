@@ -52,7 +52,7 @@ class SearchResults(npyscreen.MultiLineAction):
         cmd_box.been_edited = True
         cmd_box.update()
         self.parent.editw = 2
-        self.parent.edit()
+        self.parent.command_box.edit()
 
 
 class SearchBox(npyscreen.TitleText):
@@ -64,7 +64,10 @@ class SearchBox(npyscreen.TitleText):
         """
         Do the search and return the results
         """
-        return self.parent.parentApp.data.search_reverse(self.value)
+        if not self.parent.order:
+            return self.parent.parentApp.data.search_forward(self.value)
+        elif self.parent.order == 'r':
+            return self.parent.parentApp.data.search_reverse(self.value)
 
     def when_value_edited(self):
         """
@@ -90,10 +93,24 @@ class SearchBox(npyscreen.TitleText):
                 cmd_box.update()
 
 
-class SearchReverse(npyscreen.ActionFormV2):
+class SearchForm(npyscreen.ActionFormWithMenus):
     """
-    Reverse command history search.
+    Command history search form
     """
+
+    def forward_order(self):
+        """
+        Change sort order to forward
+        """
+        self.order = None
+        self.search_box.when_value_edited()
+
+    def reverse_order(self):
+        """
+        Change sort order to forward
+        """
+        self.order = 'r'
+        self.search_box.when_value_edited()
 
     def afterEditing(self):
         """
@@ -105,6 +122,9 @@ class SearchReverse(npyscreen.ActionFormV2):
         """
         Build the form for searching
         """
+        # Set default order to reverse
+        self.order = 'r'
+
         self.search_box = self.add(
             SearchBox,
             name='Search',
@@ -128,6 +148,13 @@ class SearchReverse(npyscreen.ActionFormV2):
             '!c': self.on_cancel,
             curses.ascii.ESC: self.on_cancel
         })
+
+        # Create our menus
+        self.menu = self.new_menu()
+        self.menu.addItemsFromList([
+            ('Forward Order', self.forward_order, '^F'),
+            ('Reverse Order', self.reverse_order, '^R'),
+        ])
 
     def beforeEditing(self):
         """
@@ -171,4 +198,4 @@ class Search(npyscreen.NPSAppManaged):
         else:
             self.data = LocalHistory()
 
-        self.addForm('MAIN', SearchReverse, name='Archelon: Reverse Search')
+        self.addForm('MAIN', SearchForm, name='Archelon: Reverse Search')

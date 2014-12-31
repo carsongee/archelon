@@ -19,13 +19,21 @@ class HistoryBase(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
+    def search_forward(self, term):
+        """
+        Return a list of commmands that is in forward
+        time order. i.e oldest first.
+        """
+        pass
+
+    @abstractmethod
     def search_reverse(self, term):
         """
         Return a list of commmands that is in reverse
         time order. i.e newest first.
         """
         pass
-
+    
 
 class LocalHistory(HistoryBase):
     """
@@ -42,6 +50,16 @@ class LocalHistory(HistoryBase):
             for line in history_file:
                 history_dict[line.strip()] = None
         self.data = history_dict.keys()
+
+    def search_forward(self, term):
+        """
+        Return a list of commmands that is in forward
+        time order. i.e oldest first.
+        """
+        return [
+            x for x in self.data
+            if term in x
+        ]
 
     def search_reverse(self, term):
         """
@@ -72,6 +90,24 @@ class WebHistory(HistoryBase):
         )
         self.session = requests.Session()
         self.session.headers = {'Authorization': 'token {}'.format(token)}
+
+    def search_forward(self, term):
+        """
+        Return a list of commmands that is in forward
+        time order. i.e oldest first.
+        """
+        try:
+            response = self.session.get(
+                self.url,
+                params={'q': term}
+            )
+        except requests.exceptions.ConnectionError:
+            print('Failed to connect to server, check settings')
+            sys.exit(1)
+
+        if response.status_code != 200:
+            return ['Error in API Call {}'.format(response.text)]
+        return [x['command'] for x in response.json()['commands']]
 
     def search_reverse(self, term):
         """
