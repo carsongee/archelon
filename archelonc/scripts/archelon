@@ -8,12 +8,16 @@
 history -a
 archelon_update
 if [ $? -ne 0 ]; then
-	echo "Server update failed, check configuration/server."
+    echo "Server update failed, check configuration/server."
 fi
 
 archelonf
 rc=$?
 
 if [ $rc -eq 0 ]; then
-   eval $(cat ~/.archelon_cmd)
+    cmd=$(cat ~/.archelon_cmd)
+    # Add to history
+    history -s $cmd
+    # Run it
+    eval $cmd
 fi
