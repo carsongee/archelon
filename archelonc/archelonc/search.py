@@ -105,23 +105,21 @@ class SearchReverse(npyscreen.ActionFormV2):
         """
         Build the form for searching
         """
+        self.search_box = self.add(
+            SearchBox,
+            name='Search',
+            begin_entry_at=10
+        )
         self.results_list = self.add(
             SearchResults,
             name='Results',
             scroll_exit=True,
-            max_height=-6,
+            max_height=-3,
             values=[]
-        )
-        self.search_box = self.add(
-            SearchBox,
-            name='Search',
-            rely=-4,
-            begin_entry_at=10
         )
         self.command_box = self.add(
             CommandBox,
             name='Command',
-            rely=-3,
             begin_entry_at=10
         )
 
@@ -136,7 +134,6 @@ class SearchReverse(npyscreen.ActionFormV2):
         Set the edit index to the search box
         and tell it to preserve the value
         """
-        self.editw = 1
         self.preserve_selected_widget = True
 
     def on_ok(self, *args):
