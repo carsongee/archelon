@@ -1,6 +1,6 @@
 /* Primary site css */
 h1 {
-	color: #0f382a;
+	color: #56934a;
 }
 .token {
 	margin-top: 1.5em;
@@ -29,4 +29,18 @@ h1 {
 #history-table {
 	table-layout: fixed;
 	word-break: break-all;
+}
+
+li.paginate_button.active a{
+	background-color: #3ebfcf;
+	border-color: #3ebfcf;
+}
+
+.pagination>li>a, .pagination>li>span {
+	color: #3ebfcf;
+}
+
+#history-table thead tr {
+	background-color: #3b836c;
+	color: #f0f0f0;
 }
