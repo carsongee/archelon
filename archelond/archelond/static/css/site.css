@@ -1,8 +1,11 @@
 /* Primary site css */
 h1 {
-	color: #56934a;
+	color: #0f382a;
 }
-.token {
+#search-box {
+	margin-top: 1.5em;
+}
+#token {
 	margin-top: 1.5em;
 }
 #token-toggle {
