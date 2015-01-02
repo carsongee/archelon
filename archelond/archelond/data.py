@@ -18,6 +18,7 @@ ORDER_TYPES = [
 
 log = logging.getLogger(__name__)
 
+
 class HistoryData(object):
     """
     Abstract class implementation of a database for use with
@@ -82,7 +83,7 @@ class MemoryData(HistoryData):
         """
         Append item to data list
         """
-        self.data['command'] = {
+        self.data[command] = {
             'username': username,
             'host': host,
             'timestamp': datetime.utcnow().replace(tzinfo=pytz.utc),
@@ -136,11 +137,11 @@ class ElasticData(HistoryData):
         self.elasticsearch.indices.create(
             index=self.index, ignore=400,
             body={
-                'settings' : {
-                    'analysis' : {
-                        'analyzer' : {
-                            'command_analyzer' : {
-                                'tokenizer' : 'keyword',
+                'settings': {
+                    'analysis': {
+                        'analyzer': {
+                            'command_analyzer': {
+                                'tokenizer': 'keyword',
                                 'filter': 'lowercase'
                             }
                         }

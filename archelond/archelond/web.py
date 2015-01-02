@@ -4,12 +4,13 @@ Main entry point for flask application
 import logging
 import os
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
+from flask.ext.assets import Environment
 from passlib.apache import HtpasswdFile
 
+from archelond.auth import requires_auth, generate_token
 from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
-from archelond.auth import requires_auth, generate_token
 
 log = logging.getLogger('archelond')
 
@@ -29,6 +30,7 @@ def run_server():
         'Running in debug mode. Do not run this way in production'
     )
     app.config['LOG_LEVEL'] = 'DEBUG'
+    app.config['ASSETS_DEBUG'] = True
     configure_logging(app)
     app.run(host=host, port=port)
 
@@ -62,6 +64,7 @@ def wsgi_app():
 
 # Setup flask application
 app = wsgi_app()
+assets = Environment(app)
 
 
 @app.route('/')
@@ -70,8 +73,7 @@ def index(user):
     """
     Simple index view for documentation and navigation.
     """
-    return ('<p>Welcome {}. Archelond Ready for Eating '
-            'Shell History</p>'.format(user)), 200
+    return render_template('index.html'), 200
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])
