@@ -3,4 +3,4 @@
 Client for Web enabled shell history
 """
 
-VERSION = '0.2.1'
+VERSION = '0.3.0'
