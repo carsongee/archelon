@@ -15,7 +15,7 @@ setup(
     name='archelond',
     version=VERSION,
     packages=find_packages(),
-    package_data={},
+    include_package_data=True,
     license='AGPLv3',
     author='Carson Gee',
     author_email='x@carsongee.com',
