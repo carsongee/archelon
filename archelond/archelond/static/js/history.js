@@ -59,7 +59,7 @@ var count = 1;
             var template = Handlebars.compile(source);
             var html = template(this.collection.models);
             $('#history-table').dataTable().fnDestroy();
-			this.$el.html(html);
+            this.$el.html(html);
             $('#history-table').dataTable({
                 'filter': false,
                 'order': [[2, 'desc']],
@@ -72,22 +72,22 @@ var count = 1;
             });
         }
     });
-	var Search = Backbone.View.extend({
-		el: '#search-box',
-		events: {
-			'keyup #search': 'search'
-		},
-		search: function() {
-			this.collection.fetch();
-		}
-	});
-	var collection = new Commands();
+    var Search = Backbone.View.extend({
+        el: '#search-box',
+        events: {
+            'keyup #search': 'search'
+        },
+        search: function() {
+            this.collection.fetch();
+        }
+    });
+    var collection = new Commands();
     var commands = new CommandsView({
-		'collection': collection
-	});
-	var search = new Search({
-		'collection': collection
-	});
+        'collection': collection
+    });
+    var search = new Search({
+        'collection': collection
+    });
     var token = new TokenView();
     
 })(jQuery);
