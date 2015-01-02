@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% assets filters='cssmin', output='gen/packed.css',
+        'css/bootstrap.min.css', 'css/dataTables.bootstrap.css',
+        'css/site.css'
+    %}
+    <link href="{{ ASSET_URL }}" rel="stylesheet">
+    {% endassets %}
+    {% endblock %}
+    {% block extra_head %}{% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+      - Archelon
+    </title>
+  </head>
+  <body>
+    {% block content %}
+    {% endblock %}
+    {% block js %}
+    {% assets filters='jsmin', output='gen/packed.js',
+        'js/jquery-2.1.3.min.js', 'js/bootstrap.min.js',
+        'js/jquery.dataTables.min.js', 'js/dataTables.bootstrap.min.js',
+        'js/underscore-1.7.0-min.js', 'js/backbone-1.1.2-min.js',
+        'js/handlebars-v2.0.0.js', 'js/moment-2.8.4-min.js',
+        'js/datetime-moment.js'
+    %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% endblock %}
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

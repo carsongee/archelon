@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}
+Archelon is Hungry
+{% endblock %}
+
+{% block content %}
+
+<script id="CommandsTemplate" type="text/x-handlebars-template">
+{% raw %}
+  {{#each []}}
+  <tr>
+    <td>{{ this.attributes.command }}</td>
+    <td>{{ this.attributes.host }}</td>
+    <td>{{ this.last_used }}</td>
+    <td></td>
+  </tr>
+  {{/each}}
+{% endraw %}
+</script>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="col-xs-8">
+      <h1>
+        Archelon Shell History Management
+      </h1>
+    </div>
+    <div class="col-xs-2" id="search-box">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="search" class="form-control input-lg"
+                 name="search" id="search" placeholder="Search">
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-2" id="token">
+      <a href="#" id="token-toggle" class="pull-right token btn btn-lg btn-info">
+        <span id="token-label">Reveal Token</span>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12" id="token-display">
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <table id="history-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Host</th>
+            <th>Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="history-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+<script type="text/javascript" charset="utf-8">
+  var HISTORY_API_URL = "{{ url_for('history') }}";
+  var TOKEN_API_URL = "{{ url_for('token') }}";
+</script>
+{% assets filters='jsmin', output='gen/history.js',
+    'js/history.js'
+%}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% endblock %}

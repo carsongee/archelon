@@ -19,7 +19,7 @@ setup(
     license='AGPLv3',
     author='Carson Gee',
     author_email='x@carsongee.com',
-    url="http://github.com/carsongee/arcelon",
+    url="http://github.com/carsongee/archelon",
     description=("Client connected to archelonc for Web shell history"),
     long_description=README,
     classifiers=[

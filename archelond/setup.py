@@ -15,11 +15,11 @@ setup(
     name='archelond',
     version=VERSION,
     packages=find_packages(),
-    package_data={},
+    include_package_data=True,
     license='AGPLv3',
     author='Carson Gee',
     author_email='x@carsongee.com',
-    url="http://github.com/carsongee/arcelon",
+    url="http://github.com/carsongee/archelon",
     description=("Web server for Web shell history"),
     long_description=README,
     classifiers=[
@@ -36,6 +36,9 @@ setup(
         'itsdangerous',
         'pytz',
         'elasticsearch',
+        'Flask-Assets',
+        'cssmin',
+        'jsmin',
         ],
     entry_points={'console_scripts': [
         'archelond = archelond.web:run_server',
