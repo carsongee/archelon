@@ -36,6 +36,9 @@ setup(
         'itsdangerous',
         'pytz',
         'elasticsearch',
+        'Flask-Assets',
+        'cssmin',
+        'jsmin',
         ],
     entry_points={'console_scripts': [
         'archelond = archelond.web:run_server',
