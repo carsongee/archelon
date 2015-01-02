@@ -53,7 +53,10 @@ var count = 1;
 				'filter': false,
 				'order': [[2, 'desc']],
 				'pageLength': 25,
-				'lengthMenu': [10, 25, 50, 75, 100, "All"],
+				'lengthMenu': [10, 25, 50, 75, 100, 1000],
+				'columnDefs': [
+					{ 'width': '60%', 'targets': 0 }
+				],
 				'destroy': true
 			});
 		},

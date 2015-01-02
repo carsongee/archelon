@@ -11,6 +11,7 @@ h1 {
 #token-display {
 	border: 1px solid #333;
 	color: #ccc;
+	margin: .5em 0 .5em 0;
 	padding: 2em;
 	display: none;
 	background: #56934a; /* Old browsers */
@@ -23,4 +24,9 @@ h1 {
 	background: -ms-linear-gradient(top,  #56934a 33%,#317420 100%,#317420 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #56934a 33%,#317420 100%,#317420 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#56934a', endColorstr='#317420',GradientType=0 ); /* IE6-8 */
+}
+
+#history-table {
+	table-layout: fixed;
+	word-break: break-all;
 }
