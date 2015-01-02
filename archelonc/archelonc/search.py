@@ -134,13 +134,14 @@ class SearchForm(npyscreen.ActionFormWithMenus):
             SearchResults,
             name='Results',
             scroll_exit=True,
-            max_height=-3,
+            max_height=-2,
             values=[]
         )
         self.command_box = self.add(
             CommandBox,
             name='Command',
-            begin_entry_at=10
+            begin_entry_at=10,
+            rely=-3
         )
 
         self.add_handlers({
