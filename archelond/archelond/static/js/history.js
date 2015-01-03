@@ -93,7 +93,13 @@ var count = 1;
     var Search = Backbone.View.extend({
         el: '#search-box',
         events: {
-            'keyup #search': 'search'
+            'keyup #search': 'search',
+            'keypress #search': 'disable_enter'
+        },
+        disable_enter: function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
         },
         search: function() {
             this.collection.fetch();
