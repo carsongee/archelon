@@ -12,7 +12,12 @@ Archelon is Hungry
     <td>{{ this.attributes.command }}</td>
     <td>{{ this.attributes.host }}</td>
     <td>{{ this.last_used }}</td>
-    <td></td>
+    <td>
+      <button type="button" data-id="{{ this.attributes.id }}"
+              class="btn btn-danger delete-history" aria-label="Left Align">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      </button>
+    </td>
   </tr>
   {{/each}}
 {% endraw %}
