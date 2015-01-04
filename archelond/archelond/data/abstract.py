@@ -10,17 +10,18 @@ class HistoryData(object):
     Abstract class implementation of a database for use with command
     history.  Generally a command data item needs just two things, an
     ID and the command itself.  It also needs order.  See the
-    :py:class:`MemoryData` class as the simplest structure using an
-    :py:class:`collections.OrderedDict`.
+    :py:class:`archelond.data.MemoryData` class as the simplest
+    structure using an :py:class:`collections.OrderedDict`.
 
     An ID can be any string, and the concrete implementation of
     :py:class:`HistoryData` is responsible for type casting it if
     needed.
 
     It is also required implicitly that there is only one entry
-    per command.  Thus ``add``ing the same command multiple times
+    per command.  Thus ``add`` ing the same command multiple times
     should result in the return of just one command when filtered
     by a term equal to that command.
+
     """
     __metaclass__ = ABCMeta
 
@@ -80,7 +81,7 @@ class HistoryData(object):
             host (str): The IP address of API caller
 
         Returns:
-            Dictionary with at least the keys ``id`` and ``command``
+            Command (dict): Dictionary with at least the keys ``id`` and ``command``
         """
         pass
 
