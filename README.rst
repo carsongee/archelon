@@ -1,6 +1,9 @@
 Archelon
 ========
 
+.. image:: docs/images/full-logo.png
+   :align: center
+
 I live more than half my waking life in a shell, and one of my
 frustrations has always been having a nicely searchable and synced
 shell history across hundreds of servers.  This is my attempt at

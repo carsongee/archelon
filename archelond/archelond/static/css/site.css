@@ -1,4 +1,10 @@
 /* Primary site css */
+.logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 h1 {
     color: #0f382a;
 }
@@ -14,7 +20,7 @@ h1 {
 #token-display {
     border: 1px solid #333;
     color: #ccc;
-    margin: .5em 0 .5em 0;
+    margin: 0 0 .5em 0;
     padding: 2em;
     display: none;
     background: #56934a; /* Old browsers */
