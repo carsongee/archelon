@@ -12,4 +12,5 @@ simple API and Web server backed by a nice search engine
 (Elasticsearch).
 
 The project is split in two, and the client is actually pretty cool
-without the Web server.  To get started, check out the `documentation <http://archelon.rtfd.org/>`_.
+without the Web server.  To get started, check out the
+`documentation <http://archelon.rtfd.org/>`_.
