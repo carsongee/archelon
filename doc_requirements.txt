@@ -1,0 +1,8 @@
+--index-url https://pypi.python.org/simple/
+
+# Handy for development to install both
+-e archelond
+-e archelonc
+sphinx>=1.2.3
+sphinx_bootstrap_theme>=0.4.5
+sphinxcontrib-napoleon

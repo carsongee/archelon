@@ -37,8 +37,16 @@ Which will fire up the debug/development server using an in memory
 bash history data store that is very forgetful.  Once it is up, you
 should be able to go `http://localhost:8580/
 <http://localhost:8580/>`_, login with the username and password you
-created in your htpasswd file, and see a lovely welcome page.  To
-check out the sample commands you can go to
+created in your htpasswd file, and see a lovely Web interface for
+searching and deleting your shell history similar to:
+
+.. image:: _static/images/archelond_screen.png
+  :align: center
+
+.  It also provides a simple
+button to reveal the token you need in archelonc to connect the two
+together. To access the RESTful API side directly, you can check out
+the sample commands by visiting
 `http://localhost:8580/api/v1/history
 <http://localhost:8580/api/v1/history>`_ or get your token for use
 with archelonc `http://localhost:8580/api/v1/token
@@ -59,8 +67,8 @@ storage provider class with something like:
   export ARCHELOND_ELASTICSEARCH_INDEX='history'
   export ARCHELOND_DATABASE='ElasticData'
 
-The index can be changed, but is the index in elasticsearch that will
-be used to store the history.
+The index can be changed as desired, but it is the index in
+elasticsearch that will be used to store the history.
 
 .. note::
 
@@ -70,10 +78,10 @@ be used to store the history.
 Running in Production
 ---------------------
 
-Running the ``archelond`` is good for testing out, but to run it in
-production you will want to run it through a proper wsgi application
-server.  As an example, we've added uwsgi in the requirements and it
-can be run in production with something like:
+Running the ``archelond`` command is good for testing out, but to run
+it in production you will want to run it through a proper wsgi
+application server.  As an example, we've added uwsgi in the
+requirements and it can be run in production with something like:
 
 .. code-block:: bash
 
@@ -84,15 +92,18 @@ further secure your shell history.
 
 Running in Heroku
 ~~~~~~~~~~~~~~~~~
-For heroku, it is very easy to setup the application part.  Just create a requirements.txt file in the root of your repo with at least one line:
 
-.. code-block::
+For heroku, it is very easy to setup the application part.  Just
+create a requirements.txt file in the root of your repo with at least
+one line:
+
+.. code-block:: text
 
   archelond
 
 Setup a Procfile with:
 
-.. code-block::
+.. code-block:: text
 
   web: uwsgi uwsgi.ini
 
