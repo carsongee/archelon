@@ -16,6 +16,11 @@ class HistoryData(object):
     An ID can be any string, and the concrete implementation of
     :py:class:`HistoryData` is responsible for type casting it if
     needed.
+
+    It is also required implicitly that there is only one entry
+    per command.  Thus ``add``ing the same command multiple times
+    should result in the return of just one command when filtered
+    by a term equal to that command.
     """
     __metaclass__ = ABCMeta
 
@@ -59,6 +64,23 @@ class HistoryData(object):
             command_id (str): Unique command identifier
             username (str): The username of the person adding it
             host (str): The IP address of API caller
+        """
+        pass
+
+    @abstractmethod
+    def get(self, command_id, username, host, **kwargs):
+        """Get a single command
+
+        Retrieve a single command by username and id. Raise a
+        KeyError if the command does not exist.
+
+        Args:
+            command_id (str): Unique command identifier
+            username (str): The username of the person adding it
+            host (str): The IP address of API caller
+
+        Returns:
+            Dictionary with at least the keys ``id`` and ``command``
         """
         pass
 

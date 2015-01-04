@@ -42,7 +42,7 @@ class MemoryData(HistoryData):
         """
         return hashlib.sha256(command).hexdigest()
 
-    def add(self, command, username, host):
+    def add(self, command, username, host, **kwargs):
         """
         Append item to data list
         """
@@ -52,6 +52,7 @@ class MemoryData(HistoryData):
             'username': username,
             'host': host,
             'timestamp': datetime.utcnow().replace(tzinfo=pytz.utc),
+            'meta': kwargs
         }
         return cmd_id
 
@@ -60,6 +61,14 @@ class MemoryData(HistoryData):
         Remove key from internal dictionary
         """
         del self.data[command_id]
+
+    def get(self, command_id, username, host, **kwargs):
+        """
+        Pull the specified command out of the data store.
+        """
+        command = self.data[command_id]
+        command['id'] = command_id
+        return command
 
     def all(self, order, username, host, **kwargs):
         """

@@ -8,7 +8,7 @@ import hashlib
 import logging
 
 from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import RequestError
+from elasticsearch.exceptions import RequestError, NotFoundError
 import pytz
 
 from archelond.data.abstract import HistoryData
@@ -79,7 +79,7 @@ class ElasticData(HistoryData):
         """
         return hashlib.sha256(command).hexdigest()
 
-    def add(self, command, username, host):
+    def add(self, command, username, host, **kwargs):
         """
         Add the command to the index with a time stamp and id
         by hash of the command and append username to doc type
@@ -93,6 +93,8 @@ class ElasticData(HistoryData):
             'host': host,
             'timestamp': datetime.utcnow().replace(tzinfo=pytz.utc),
         }
+        # Add kwargs to meta key in document
+        document['meta'] = kwargs
         result = self.elasticsearch.index(
             index=self.index, doc_type=doc_type, id=doc_id, body=document
         )
@@ -103,11 +105,26 @@ class ElasticData(HistoryData):
         """
         Remove item from elasticsearch
         """
-        result = self.elasticsearch.delete(
-            self.index, self._doc_type(username), command_id
-        )
-        if not result['found']:
+        try:
+            self.elasticsearch.delete(
+                self.index, self._doc_type(username), command_id
+            )
+        except NotFoundError:
             raise KeyError
+
+    def get(self, command_id, username, host, **kwargs):
+        """
+        Pull one command out of elasticsearch
+        """
+        try:
+            hit = self.elasticsearch.get(
+                self.index, command_id, self._doc_type(username)
+            )
+        except NotFoundError:
+            raise KeyError
+        result = hit['_source']
+        result['id'] = hit['_id']
+        return result
 
     def all(self, order, username, host, **kwargs):
         """
