@@ -1,16 +1,19 @@
 """
 Main entry point for flask application
 """
+import json
 import logging
 import os
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, url_for
 from flask.ext.assets import Environment
 from passlib.apache import HtpasswdFile
+from werkzeug.contrib.fixers import ProxyFix
 
 from archelond.auth import requires_auth, generate_token
 from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
+from archelond.util import jsonify_code
 
 log = logging.getLogger('archelond')
 
@@ -65,6 +68,8 @@ def wsgi_app():
 # Setup flask application
 app = wsgi_app()
 assets = Environment(app)
+# Add proxy fixer
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
@@ -100,9 +105,10 @@ def history(user):
         order_type = None
         if order:
             if order not in ORDER_TYPES:
-                return jsonify(
-                    {'error': 'Order specified is not an option'}
-                ), 422
+                return jsonify_code(
+                    {'error': 'Order specified is not an option'},
+                    422
+                )
             else:
                 order_type = order
 
@@ -116,25 +122,106 @@ def history(user):
 
     if request.method == 'POST':
         # Accept json or form type
+        from_form = True
         if request.json:
             data = request.json
+            from_form = False
         else:
             data = request.form
         command = data.get('command')
         commands = data.get('commands')
         if not (command or commands):
-            return jsonify({'error': 'Missing command(s) parameter'}), 422
+            return jsonify_code({'error': 'Missing command(s) parameter'}, 422)
 
         # Allow bulk posting to speedup imports with commands parameter
         if commands:
+            if from_form:
+                commands = json.loads(commands)
             results_list = []
             if not isinstance(commands, list):
-                return jsonify({'error': 'Commands must be list'}), 422
+                return jsonify_code({'error': 'Commands must be list'}, 422)
             for command in commands:
-                app.data.add(command, user, request.remote_addr)
-                results_list.append(('', 201))
-            return jsonify(results_list), 200
+                cmd_id = app.data.add(command, user, request.remote_addr)
+                results_list.append(
+                    {
+                        'response': '',
+                        'status_code': 201,
+                        'headers': {
+                            'location': url_for('history_item', cmd_id=cmd_id)
+                        },
+                    }
+                )
+            return jsonify({'responses': results_list})
         if not isinstance(command, str):
-            return jsonify({'error': 'Command must be a string'}), 422
-        app.data.add(command, user, request.remote_addr)
-        return '', 201
+            return jsonify_code({'error': 'Command must be a string'}, 422)
+
+        cmd_id = app.data.add(command, user, request.remote_addr)
+        return '', 201, {'location': url_for('history_item', cmd_id=cmd_id)}
+
+
+@app.route('{}history/<cmd_id>'.format(V1_ROOT),
+           methods=['GET', 'PUT', 'DELETE'])
+@requires_auth
+def history_item(user, cmd_id):
+    """Actions for individual command history items.
+
+    Updates, gets, or deletes a command from the active data store.
+
+    PUT: Takes a payload in either form or JSON request, and runs the
+    add routine by passing the dictinoary minus ``command``,
+    ``username``, and ``host`` as kwargs to the data stores ``add``
+    routine.
+    """
+    if request.method == 'GET':
+        log.debug('Retrieving %s for %s', cmd_id, user)
+        try:
+            cmd = app.data.get(cmd_id, user, request.remote_addr)
+        except KeyError:
+            return jsonify_code({'error': 'No such history item'}, 404)
+        return jsonify(cmd)
+
+    if request.method == 'PUT':
+        # This will only update kwargs since we
+        # have a deduplicated data structure by command.
+        log.debug('Updating %s for %s', cmd_id, user)
+        try:
+            cmd = app.data.get(cmd_id, user, request.remote_addr)
+        except KeyError:
+            return jsonify_code({'error': 'No such history item'}, 404)
+        from_form = True
+        if request.json:
+            data = request.json
+            from_form = False
+        else:
+            data = request.form
+        if not data:
+            return jsonify_code(
+                {'error': 'Data is required, received empty PUT'},
+                422
+            )
+        put_command = data.get('payload')
+        if not put_command:
+            return jsonify_code(
+                {'error': 'Request must contain ``payload`` parameter'},
+                422
+            )
+        if from_form:
+            put_command = json.loads(put_command)
+
+        # Make sure we don't let them overwrite server side params
+        try:
+            del put_command['command']
+            del put_command['username']
+            del put_command['host']
+        except KeyError:
+            pass
+        app.data.add(cmd['command'], user, request.remote_addr, **put_command)
+        return '', 204
+
+    if request.method == 'DELETE':
+        log.debug('Deleting %s for %s', cmd_id, user)
+        try:
+            app.data.delete(cmd_id, user, request.remote_addr)
+        except KeyError:
+            return jsonify_code({'error': 'No such history item'}, 404)
+        return jsonify(message='success')
