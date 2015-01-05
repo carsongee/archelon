@@ -20,6 +20,7 @@ def check_basic_auth(username, password):
     valid = current_app.config['users'].check_password(username, password)
     if not valid:
         log.warn('Invalid login from %s', username)
+        valid = False
     return (
         valid,
         username
