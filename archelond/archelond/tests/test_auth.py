@@ -6,7 +6,10 @@ import unittest
 
 from archelond.web import wsgi_app
 from archelond.auth import (
-    check_basic_auth
+    check_basic_auth,
+    generate_token,
+    get_hashhash,
+    get_signature
 )
 
 
@@ -50,3 +53,33 @@ class TestAuth(unittest.TestCase):
             valid, username = check_basic_auth(not_user, 'blah')
             self.assertFalse(valid)
             self.assertEqual(not_user, username)
+
+    def test_token_generation(self):
+        """
+        Verify token authentication using known hash and signature
+        """
+        test_user = 'foo'
+        known_token = ('eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZvbyIsImhhc2'
+                       'hoYXNoIjoiNTEwNjI3M2Y3Nzg5ZjFlMjZiNGEyMTI3ODk5OTJmN'
+                       'zVjMTU0MzNmNDAyZjNlOTRhZDE4ZTdjODBhZWU4MGZhZiJ9.Bas'
+                       'bIHjgUzemMiBI34SmbiOkOm49ktZZWrFT6b71mVs')
+        known_hashhash = ('5106273f7789f1e26b4a212789992f75c15433f402f3e94a'
+                          'd18e7c80aee80faf')
+
+        with self.app.app_context():
+            # Set well known secret for known token generation
+            self.app.config['FLASK_SECRET'] = 'wellknown'
+
+            # Verify token generation against known value
+            token = generate_token(test_user)
+            self.assertEqual(known_token, token)
+
+            # Verify hashhash against known value
+            hashhash = get_hashhash(test_user)
+            self.assertEqual(hashhash, known_hashhash)
+
+            # Now go ahead and verify the reverse
+            serializer = get_signature()
+            data = serializer.loads(token)
+            self.assertTrue(data['username'], test_user)
+            self.assertTrue(data['hashhash'], hashhash)
