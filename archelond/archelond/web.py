@@ -50,9 +50,6 @@ def wsgi_app():
     else:
         app.config.from_object('archelond.config')
 
-    # Load up user database
-    app.config['users'] = HtpasswdFile(app.config['HTPASSWD_PATH'])
-
     # Setup database
     if app.config['DATABASE_TYPE'] == 'MemoryData':
         app.data = MemoryData(app.config)
@@ -61,6 +58,16 @@ def wsgi_app():
 
     # Set up logging
     configure_logging(app)
+
+    # Load up user database
+    try:
+        app.config['users'] = HtpasswdFile(app.config['HTPASSWD_PATH'])
+    except IOError:
+        log.critical(
+            'No htpasswd file loaded, please set `ARCHELOND_HTPASSWD`'
+            'environment variable to a valid apache htpasswd file.'
+        )
+        app.config['users'] = HtpasswdFile()
 
     return app
 
