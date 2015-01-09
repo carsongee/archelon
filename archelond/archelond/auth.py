@@ -109,7 +109,6 @@ def requires_auth(func):
         Actual wrapper to run the auth checks.
         """
         basic_auth = request.authorization
-
         is_valid = False
         if basic_auth:
             is_valid, user = check_basic_auth(

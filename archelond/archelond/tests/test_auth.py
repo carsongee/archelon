@@ -1,9 +1,11 @@
 """
 Test out our authentication module.
 """
+import base64
 import os
 import unittest
 
+from flask import request
 import mock
 
 from archelond.web import wsgi_app
@@ -12,7 +14,8 @@ from archelond.auth import (
     generate_token,
     get_hashhash,
     get_signature,
-    check_token_auth
+    check_token_auth,
+    requires_auth
 )
 
 
@@ -41,6 +44,16 @@ class TestAuth(unittest.TestCase):
         self.app = wsgi_app()
         # Set well known secret for known token generation
         self.app.config['FLASK_SECRET'] = 'wellknown'
+
+    def _get_requires_auth_decorator(self):
+        """
+        Returns decorated mock function from
+        :py:function:`archelond.auth.requires_auth`
+        """
+        wrapped = mock.Mock()
+        wrapped.__name__ = 'foo'
+        decorated = requires_auth(wrapped)
+        return wrapped, decorated
 
     def test_check_basic_auth(self):
         """
@@ -123,3 +136,68 @@ class TestAuth(unittest.TestCase):
                 'Token auth signed message, but invalid user %s',
                 self.NOT_USER
             )
+
+            # Test that a different password invalidates token
+            token = sig.dumps({
+                'username': self.TEST_USER,
+                'hashhash': get_hashhash('norm')
+            })
+            valid, username = check_token_auth(token)
+            self.assertEqual(False, valid)
+            self.assertEqual(None, username)
+            log.warn.assert_called_with(
+                'Token and password do not match, '
+                '%s needs to regenerate token',
+                self.TEST_USER
+            )
+
+            # Test valid case
+            token = generate_token(self.TEST_USER)
+            valid, username = check_token_auth(token)
+            self.assertEqual(True, valid)
+            self.assertEqual(self.TEST_USER, username)
+
+    def test_requires_auth(self):
+        """
+        Verify full auth with both token and basic auth.
+        """
+
+        # Test successful basic auth
+        with self.app.test_request_context(headers={
+                'Authorization': 'Basic {0}'.format(base64.b64encode(
+                    '{0}:{1}'.format(self.TEST_USER, self.TEST_PASS)
+                ))
+        }):
+            wrapped, decorated = self._get_requires_auth_decorator()
+            decorated()
+            wrapped.assert_called_with(user=self.TEST_USER)
+
+        # Test successful token header auth
+        with self.app.app_context():
+            with self.app.test_request_context(headers={
+                    'Authorization': 'token {0}'.format(
+                        generate_token(self.TEST_USER)
+                    )
+            }):
+                wrapped, decorated = self._get_requires_auth_decorator()
+                decorated()
+                wrapped.assert_called_with(user=self.TEST_USER)
+
+        # Test successful token param auth
+        with self.app.app_context():
+            with self.app.test_request_context():
+                wrapped = mock.Mock()
+                request.args = {
+                    'access_token': generate_token(self.TEST_USER)
+                }
+                wrapped, decorated = self._get_requires_auth_decorator()
+                decorated()
+                wrapped.assert_called_with(user=self.TEST_USER)
+
+        # Test unsuccessful auth
+        with self.app.test_request_context(headers={
+                'Authorization': 'token blah blah'
+        }):
+            wrapped, decorated = self._get_requires_auth_decorator()
+            response = decorated()
+            self.assertEqual(401, response.status_code)
