@@ -38,7 +38,7 @@ class MemoryData(HistoryData):
     @staticmethod
     def _doc_id(command):
         """
-        hash the command to make the document id
+        hash the command to make the id
         """
         return hashlib.sha256(command).hexdigest()
 

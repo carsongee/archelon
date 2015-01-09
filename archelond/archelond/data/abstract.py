@@ -52,7 +52,7 @@ class HistoryData(object):
         Returns:
             Command ID (str): The id of the command stored
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def delete(self, command_id, username, host, **kwargs):
@@ -66,7 +66,7 @@ class HistoryData(object):
             username (str): The username of the person adding it
             host (str): The IP address of API caller
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def get(self, command_id, username, host, **kwargs):
@@ -81,9 +81,10 @@ class HistoryData(object):
             host (str): The IP address of API caller
 
         Returns:
-            Command (dict): Dictionary with at least the keys ``id`` and ``command``
+            Command (dict): Dictionary with at least the keys ``id``
+                            and ``command``
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def all(self, order, username, host, **kwargs):
@@ -102,7 +103,7 @@ class HistoryData(object):
             list: A list of dictionaries where each dictionary must
                 have at least a ``command`` key and an ``id`` key.
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def filter(self, term, order, username, host, **kwargs):
@@ -119,4 +120,4 @@ class HistoryData(object):
             list: A list of dictionaries where each dictionary must
                 have at least a ``command`` key and an ``id`` key.
         """
-        pass
+        pass  # pragma: no cover
