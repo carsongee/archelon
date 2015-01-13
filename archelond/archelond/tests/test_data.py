@@ -1,6 +1,7 @@
 """
 Test out the server data classes
 """
+import os
 import time
 import unittest
 
@@ -57,8 +58,22 @@ class TestMemoryData(unittest.TestCase):
         """
         Build internal data model with app context
         """
+        self.old_conf = os.environ.get('ARCHELOND_CONF')
+        os.environ['ARCHELOND_CONF'] = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            'config', 'basic.py'
+        )
         self.config = wsgi_app().config
         self.data = archelond.data.MemoryData(self.config)
+
+    def tearDown(self):  # pragma: no cover
+        """
+        Restore previous config variable
+        """
+        if self.old_conf:
+            os.environ['ARCHELOND_CONF'] = self.old_conf
+        else:
+            del os.environ['ARCHELOND_CONF']
 
     def test_init(self):
         """
@@ -141,15 +156,25 @@ class TestElasticData(unittest.TestCase):
         """
         Create the ElasticData Object and make it available to tests.
         """
+        self.old_conf = os.environ.get('ARCHELOND_CONF')
+        os.environ['ARCHELOND_CONF'] = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            'config', 'elastic.py'
+        )
         self.config = wsgi_app().config
         self.data = archelond.data.ElasticData(self.config)
 
-    def tearDown(self):
+    def tearDown(self):  # pragma: no cover
         """
-        Nuke the entire index at the end of each test.
+        Nuke the entire index at the end of each test, and reset the
+        conf environment variable.
         """
         client = self.data.elasticsearch
         client.indices.delete(self.config['ELASTICSEARCH_INDEX'])
+        if self.old_conf:
+            os.environ['ARCHELOND_CONF'] = self.old_conf
+        else:
+            del os.environ['ARCHELOND_CONF']
 
     def test_init(self):
         """Validate that init is doing what we want.

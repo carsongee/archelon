@@ -55,6 +55,8 @@ def wsgi_app():
         app.data = MemoryData(app.config)
     elif app.config['DATABASE_TYPE'] == 'ElasticData':
         app.data = ElasticData(app.config)
+    else:
+        raise Exception('No valid database type is set')
 
     # Set up logging
     configure_logging(app)
@@ -159,11 +161,14 @@ def history(user):
                     }
                 )
             return jsonify({'responses': results_list})
-        if not isinstance(command, str):
+        if not (isinstance(command, unicode) or isinstance(command, str)):
             return jsonify_code({'error': 'Command must be a string'}, 422)
 
         cmd_id = app.data.add(command, user, request.remote_addr)
         return '', 201, {'location': url_for('history_item', cmd_id=cmd_id)}
+    else:  # pragma: no cover
+        log.critical('Unsupported method used')
+        raise Exception('Unsupported http method used')
 
 
 @app.route('{}history/<cmd_id>'.format(V1_ROOT),
@@ -232,3 +237,6 @@ def history_item(user, cmd_id):
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(message='success')
+    else:  # pragma: no cover
+        log.critical('Unsupported method used')
+        raise Exception('Unsupported http method used')

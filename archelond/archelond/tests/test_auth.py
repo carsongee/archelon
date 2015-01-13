@@ -36,14 +36,26 @@ class TestAuth(unittest.TestCase):
         """
         Change the app.config and build the app object
         """
-
+        self.old_conf = os.environ.get('ARCHELOND_CONF')
         os.environ['ARCHELOND_CONF'] = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
-            'config', 'basic.py'
+            'config', 'elastic.py'
         )
         self.app = wsgi_app()
         # Set well known secret for known token generation
         self.app.config['FLASK_SECRET'] = 'wellknown'
+
+    def tearDown(self):  # pragma: no cover
+        """
+        Restore previous config variable and delete the
+        elasticsearch test index
+        """
+        client = self.app.data.elasticsearch
+        client.indices.delete(self.app.config['ELASTICSEARCH_INDEX'])
+        if self.old_conf:
+            os.environ['ARCHELOND_CONF'] = self.old_conf
+        else:
+            del os.environ['ARCHELOND_CONF']
 
     def _get_requires_auth_decorator(self):
         """
