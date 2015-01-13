@@ -8,7 +8,9 @@ import hashlib
 import logging
 
 from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import RequestError, NotFoundError
+from elasticsearch.exceptions import (
+    RequestError, NotFoundError, ConnectionError
+)
 import pytz
 
 from archelond.data.abstract import HistoryData
@@ -163,7 +165,7 @@ class ElasticData(HistoryData):
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
                 body=body, sort=sort
             )
-        except RequestError, ex:
+        except (ConnectionError, RequestError) as ex:
             log.exception(ex)
             return []
         log.debug(results)

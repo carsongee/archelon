@@ -11,9 +11,12 @@ DATABASE_TYPE = os.environ.get(
     'MemoryData'
 )
 
-ELASTICSEARCH_URL = os.environ.get('ARCHELOND_TEST_ELASTICSEARCH_URL', None)
+ELASTICSEARCH_URL = os.environ.get(
+    'ARCHELOND_TEST_ELASTICSEARCH_URL',
+    'localhost:9200'
+)
 ELASTICSEARCH_INDEX = os.environ.get(
-    'ARCHELOND_TEST_ELASTICSEARCH_INDEX', None
+    'ARCHELOND_TEST_ELASTICSEARCH_INDEX', 'test_search_index'
 )
 
 
