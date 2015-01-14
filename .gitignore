@@ -55,3 +55,4 @@ target/
 
 # Ignore htpasswd files
 archelond/.htpasswd
+cover/

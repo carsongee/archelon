@@ -11,7 +11,7 @@ import pytz
 from archelond.data.abstract import HistoryData
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class MemoryData(HistoryData):
@@ -38,7 +38,7 @@ class MemoryData(HistoryData):
     @staticmethod
     def _doc_id(command):
         """
-        hash the command to make the document id
+        hash the command to make the id
         """
         return hashlib.sha256(command).hexdigest()
 

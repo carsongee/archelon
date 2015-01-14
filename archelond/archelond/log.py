@@ -12,6 +12,9 @@ def configure_logging(app):
     Set the log level for the application
     """
 
+    # Disable log exceptions due to overly long elasticsearch
+    # log messages
+    logging.raiseExceptions = False
     # Set up format for default logging
     hostname = platform.node().split('.')[0]
     formatter = ('%(asctime)s %(levelname)s %(process)d [%(name)s] '
