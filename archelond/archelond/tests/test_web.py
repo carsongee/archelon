@@ -311,6 +311,16 @@ class TestWeb(unittest.TestCase):
             content_type='application/json',
             data=json.dumps({})
         )
+        self.assertEqual(422, response.status_code)
+
+        # Add data, but no payload key
+        response = self._authed(
+            '{}{}'.format(base_url, command_id),
+            method='PUT',
+            content_type='application/json',
+            data=json.dumps({'foo': 'bar'})
+        )
+        self.assertEqual(422, response.status_code)
 
         # Now update it with PUT and verify the extra sauce
         response = self._authed(

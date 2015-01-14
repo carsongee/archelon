@@ -260,7 +260,7 @@ class TestElasticData(ElasticTestClass):
         # are properly filtering by user.
         self.data.add('better not see me', not_user, None)
         # Wait a little for the index to build
-        time.sleep(1)
+        time.sleep(2)
         results = self.data.all('r', user, None)
         self.assertEqual(num_commands, len(results))
         # Verify order while we are at it
@@ -276,7 +276,7 @@ class TestElasticData(ElasticTestClass):
         user = 'archelon-jr'
         self.data.add('is this thing on', user, None)
         self.data.add('cheesey petes', user, None)
-        time.sleep(1)
+        time.sleep(2)
         results = self.data.filter('this', None, user, None)
         self.assertEqual(1, len(results))
         self.assertFalse('petes' in results[0]['command'])
