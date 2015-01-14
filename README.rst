@@ -1,7 +1,5 @@
 Archelon
 ========
-.. image:: docs/_static/images/full-logo.png
-   :align: center
 .. image:: https://img.shields.io/travis/carsongee/archelon.svg
 .. image:: https://img.shields.io/coveralls/carsongee/archelon.svg
 .. image:: https://img.shields.io/pypi/v/archelonc.svg
@@ -13,6 +11,11 @@ Archelon
 .. image:: https://img.shields.io/pypi/dm/archelond.svg
    :alt: 'Archelon Daemon'
 .. image:: https://img.shields.io/pypi/l/archelond.svg
+
+
+.. image:: docs/_static/images/full-logo.png
+   :align: center
+
 
 I live more than half my waking life in a shell, and one of my
 frustrations has always been having a nicely searchable and synced
