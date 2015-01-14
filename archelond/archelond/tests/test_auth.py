@@ -2,13 +2,10 @@
 Test out our authentication module.
 """
 import base64
-import os
-import unittest
 
 from flask import request
 import mock
 
-from archelond.web import wsgi_app
 from archelond.auth import (
     check_basic_auth,
     generate_token,
@@ -17,9 +14,10 @@ from archelond.auth import (
     check_token_auth,
     requires_auth
 )
+from archelond.tests.base import ElasticTestClass
 
 
-class TestAuth(unittest.TestCase):
+class TestAuth(ElasticTestClass):
     """
     Verify each piece of our authentication module using
     the htpasswd in tests/config/
@@ -32,32 +30,8 @@ class TestAuth(unittest.TestCase):
                   'bIHjgUzemMiBI34SmbiOkOm49ktZZWrFT6b71mVs')
     NOT_USER = 'notuser'
 
-    def setUp(self):
-        """
-        Change the app.config and build the app object
-        """
-        self.old_conf = os.environ.get('ARCHELOND_CONF')
-        os.environ['ARCHELOND_CONF'] = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'config', 'elastic.py'
-        )
-        self.app = wsgi_app()
-        # Set well known secret for known token generation
-        self.app.config['FLASK_SECRET'] = 'wellknown'
-
-    def tearDown(self):  # pragma: no cover
-        """
-        Restore previous config variable and delete the
-        elasticsearch test index
-        """
-        client = self.app.data.elasticsearch
-        client.indices.delete(self.app.config['ELASTICSEARCH_INDEX'])
-        if self.old_conf:
-            os.environ['ARCHELOND_CONF'] = self.old_conf
-        else:
-            del os.environ['ARCHELOND_CONF']
-
-    def _get_requires_auth_decorator(self):
+    @classmethod
+    def _get_requires_auth_decorator(cls):
         """
         Returns decorated mock function from
         :py:function:`archelond.auth.requires_auth`
@@ -73,7 +47,6 @@ class TestAuth(unittest.TestCase):
         and doesn't with a bad one
         """
         with self.app.app_context():
-            print(self.app.config['users'].users())
             self.assertTrue(self.TEST_USER in self.app.config['users'].users())
             # Verify positive case
             valid, username = check_basic_auth(self.TEST_USER, self.TEST_PASS)
@@ -176,22 +149,22 @@ class TestAuth(unittest.TestCase):
 
         # Test successful basic auth
         with self.app.test_request_context(headers={
-                'Authorization': 'Basic {0}'.format(base64.b64encode(
-                    '{0}:{1}'.format(self.TEST_USER, self.TEST_PASS)
-                ))
+            'Authorization': 'Basic {0}'.format(base64.b64encode(
+                '{0}:{1}'.format(self.TEST_USER, self.TEST_PASS)
+            ))
         }):
-            wrapped, decorated = self._get_requires_auth_decorator()
+            wrapped, decorated = TestAuth._get_requires_auth_decorator()
             decorated()
             wrapped.assert_called_with(user=self.TEST_USER)
 
         # Test successful token header auth
         with self.app.app_context():
             with self.app.test_request_context(headers={
-                    'Authorization': 'token {0}'.format(
-                        generate_token(self.TEST_USER)
-                    )
+                'Authorization': 'token {0}'.format(
+                    generate_token(self.TEST_USER)
+                )
             }):
-                wrapped, decorated = self._get_requires_auth_decorator()
+                wrapped, decorated = TestAuth._get_requires_auth_decorator()
                 decorated()
                 wrapped.assert_called_with(user=self.TEST_USER)
 
@@ -202,14 +175,14 @@ class TestAuth(unittest.TestCase):
                 request.args = {
                     'access_token': generate_token(self.TEST_USER)
                 }
-                wrapped, decorated = self._get_requires_auth_decorator()
+                wrapped, decorated = TestAuth._get_requires_auth_decorator()
                 decorated()
                 wrapped.assert_called_with(user=self.TEST_USER)
 
         # Test unsuccessful auth
         with self.app.test_request_context(headers={
-                'Authorization': 'token blah blah'
+            'Authorization': 'token blah blah'
         }):
-            wrapped, decorated = self._get_requires_auth_decorator()
+            wrapped, decorated = TestAuth._get_requires_auth_decorator()
             response = decorated()
             self.assertEqual(401, response.status_code)

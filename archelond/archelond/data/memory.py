@@ -11,7 +11,7 @@ import pytz
 from archelond.data.abstract import HistoryData
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class MemoryData(HistoryData):

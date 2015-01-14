@@ -6,6 +6,7 @@ import logging
 import os
 
 from flask import Flask, jsonify, request, render_template, url_for
+# pylint: disable=no-name-in-module, import-error
 from flask.ext.assets import Environment
 from passlib.apache import HtpasswdFile
 from werkzeug.contrib.fixers import ProxyFix
@@ -15,7 +16,7 @@ from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
 from archelond.util import jsonify_code
 
-log = logging.getLogger('archelond')
+log = logging.getLogger('archelond')  # pylint: disable=invalid-name
 
 V1_ROOT = '/api/v1/'
 
@@ -43,47 +44,47 @@ def wsgi_app():
     Start flask application runtime
     """
     # Setup the app
-    app = Flask('archelond')
+    new_app = Flask('archelond')
     # Get configuration from default or via environment variable
     if os.environ.get('ARCHELOND_CONF'):
-        app.config.from_envvar('ARCHELOND_CONF')
+        new_app.config.from_envvar('ARCHELOND_CONF')
     else:
-        app.config.from_object('archelond.config')
+        new_app.config.from_object('archelond.config')
 
     # Setup database
-    if app.config['DATABASE_TYPE'] == 'MemoryData':
-        app.data = MemoryData(app.config)
-    elif app.config['DATABASE_TYPE'] == 'ElasticData':
-        app.data = ElasticData(app.config)
+    if new_app.config['DATABASE_TYPE'] == 'MemoryData':
+        new_app.data = MemoryData(new_app.config)
+    elif new_app.config['DATABASE_TYPE'] == 'ElasticData':
+        new_app.data = ElasticData(new_app.config)
     else:
         raise Exception('No valid database type is set')
 
     # Set up logging
-    configure_logging(app)
+    configure_logging(new_app)
 
     # Load up user database
     try:
-        app.config['users'] = HtpasswdFile(app.config['HTPASSWD_PATH'])
+        new_app.config['users'] = HtpasswdFile(new_app.config['HTPASSWD_PATH'])
     except IOError:
         log.critical(
             'No htpasswd file loaded, please set `ARCHELOND_HTPASSWD`'
             'environment variable to a valid apache htpasswd file.'
         )
-        app.config['users'] = HtpasswdFile()
+        new_app.config['users'] = HtpasswdFile()
 
-    return app
+    return new_app
 
 
 # Setup flask application
-app = wsgi_app()
-assets = Environment(app)
+app = wsgi_app()  # pylint: disable=invalid-name
+assets = Environment(app)  # pylint: disable=invalid-name
 # Add proxy fixer
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
 @requires_auth
-def index(user):
+def index(user):  # pylint: disable=unused-argument
     """
     Simple index view for documentation and navigation.
     """
@@ -227,7 +228,9 @@ def history_item(user, cmd_id):
             del put_command['host']
         except KeyError:
             pass
-        app.data.add(cmd['command'], user, request.remote_addr, **put_command)
+        app.data.add(  # pylint: disable=star-args
+            cmd['command'], user, request.remote_addr, **put_command
+        )
         return '', 204
 
     if request.method == 'DELETE':

@@ -29,11 +29,14 @@ class TestUtil(unittest.TestCase):
             )
 
             # Verify jsonify not accepting a root valued json object
-            with self.assertRaisesRegexp(
-                    ValueError, 'dictionary update sequence element #0 .+'):
+            with self.assertRaisesRegexp(ValueError,
+                                         'dictionary update sequence element'
+                                         ' #0 .+'):
+
                 jsonify_code('asdf', 200)
 
             # Verify bad status_code
-            with self.assertRaisesRegexp(
-                    TypeError, 'a number is required'):
+            with self.assertRaisesRegexp(TypeError,
+                                         'a number is required'):
+
                 jsonify_code({'test': 1}, 'foo')

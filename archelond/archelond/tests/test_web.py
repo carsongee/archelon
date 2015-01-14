@@ -17,6 +17,8 @@ class TestWeb(unittest.TestCase):
     """
     Verify the views and API
     """
+    # pylint: disable=no-member
+
     USER = 'foo'
     PASS = 'bar'
     DEFAULT_COMMAND = 'cheese it'
@@ -83,15 +85,15 @@ class TestWeb(unittest.TestCase):
         """
         See how we handle bad database types
         """
-        self.old_class = os.environ.get('ARCHELOND_TEST_DATABASE')
+        old_class = os.environ.get('ARCHELOND_TEST_DATABASE')
         os.environ['ARCHELOND_TEST_DATABASE'] = 'NotADatabaseClass'
         with self.assertRaisesRegexp(
-                Exception, 'No valid database type is set'
+            Exception, 'No valid database type is set'
         ):
             archelond.web.wsgi_app()
 
-        if self.old_class:  # pragma: no cover
-            os.environ['ARCHELOND_TEST_DATABASE'] = self.old_class
+        if old_class:  # pragma: no cover
+            os.environ['ARCHELOND_TEST_DATABASE'] = old_class
         else:
             del os.environ['ARCHELOND_TEST_DATABASE']
 
@@ -144,14 +146,14 @@ class TestWeb(unittest.TestCase):
         """
         Validate the history view read verbs
         """
-        URL = '/api/v1/history'
+        url = '/api/v1/history'
 
         # Verify it is protected
-        response = self.client.get(URL)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 401)
 
         # Verify get of all
-        response = self._authed(URL)
+        response = self._authed(url)
         self.assertEqual(response.status_code, 200)
         commands = json.loads(response.data)['commands']
         command_list = [x['command'] for x in commands]
@@ -161,7 +163,7 @@ class TestWeb(unittest.TestCase):
             counter += 1
 
         # Grab with reverse order to sort
-        response = self._authed('{}?o=r'.format(URL))
+        response = self._authed('{}?o=r'.format(url))
         self.assertEqual(response.status_code, 200)
         commands = json.loads(response.data)['commands']
         command_list = [x['command'] for x in commands]
@@ -171,14 +173,14 @@ class TestWeb(unittest.TestCase):
             counter -= 1
 
         # Test out filtering
-        response = self._authed('{}?q=cpuinfo'.format(URL))
+        response = self._authed('{}?q=cpuinfo'.format(url))
         self.assertEqual(response.status_code, 200)
         commands = json.loads(response.data)['commands']
         self.assertEqual(len(commands), 1)
         self.assertEqual(commands[0]['command'], 'cat /proc/cpuinfo')
 
         # Test invalid order
-        response = self._authed('{}?o=foo'.format(URL))
+        response = self._authed('{}?o=foo'.format(url))
         self.assertEqual(response.status_code, 422)
         self.assertEqual(
             json.loads(response.data)['error'],
@@ -189,30 +191,30 @@ class TestWeb(unittest.TestCase):
         """
         Test adding history items via API
         """
-        URL = '/api/v1/history'
+        url = '/api/v1/history'
 
         # Verify it is protected
-        response = self.client.post(URL)
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 401)
 
         # Post form command
-        response = self._authed(URL, method='POST', data={'command': 'who'})
+        response = self._authed(url, method='POST', data={'command': 'who'})
         self.assertEqual(201, response.status_code)
 
         # Post json command
         response = self._authed(
-            URL, method='POST', content_type='application/json',
+            url, method='POST', content_type='application/json',
             data=json.dumps({'command': 'who'})
         )
 
         # Verify that the command is in the store
-        response = self._authed('{}?q=who'.format(URL))
+        response = self._authed('{}?q=who'.format(url))
         commands = json.loads(response.data)['commands']
         self.assertEqual(len(commands), 1)
         self.assertEqual(commands[0]['command'], 'who')
 
         # Send no command
-        response = self._authed(URL, method='POST', data={'fluffy': 'bunnies'})
+        response = self._authed(url, method='POST', data={'fluffy': 'bunnies'})
         self.assertEqual(422, response.status_code)
         self.assertEqual(
             'Missing command(s) parameter',
@@ -221,23 +223,21 @@ class TestWeb(unittest.TestCase):
 
         # Send command that isn't a string
         response = self._authed(
-            URL, method='POST',
+            url, method='POST',
             data=json.dumps({'command': True}),
             content_type='application/json'
         )
-        print(response.data)
-        raise Exception
         self.assertEqual(422, response.status_code)
 
     def test_multi_post(self):
         """
         Verify bulk posting via json or form
         """
-        URL = '/api/v1/history'
+        url = '/api/v1/history'
 
-        COMMANDS = ['stuff', 'things', 'blah', 'ls']
+        commands = ['stuff', 'things', 'blah', 'ls']
         response = self._authed(
-            URL, method='POST', data={'commands': json.dumps(COMMANDS)}
+            url, method='POST', data={'commands': json.dumps(commands)}
         )
         self.assertEqual(200, response.status_code)
         responses = json.loads(response.data)['responses']
@@ -246,8 +246,8 @@ class TestWeb(unittest.TestCase):
 
         # Post via json just to make sure we work both ways
         response = self._authed(
-            URL, method='POST', content_type='application/json',
-            data=json.dumps({'commands': COMMANDS})
+            url, method='POST', content_type='application/json',
+            data=json.dumps({'commands': commands})
         )
         self.assertEqual(200, response.status_code)
         responses = json.loads(response.data)['responses']
@@ -256,7 +256,7 @@ class TestWeb(unittest.TestCase):
 
         # Post a dictionary instead of a list
         response = self._authed(
-            URL, method='POST', content_type='application/json',
+            url, method='POST', content_type='application/json',
             data=json.dumps({'commands': {'stuff': None, 'things': None}})
         )
         self.assertEqual(422, response.status_code)
@@ -269,16 +269,16 @@ class TestWeb(unittest.TestCase):
         """
         Grab a single history item by id
         """
-        BASE_URL = '/api/v1/history/'
+        base_url = '/api/v1/history/'
         # Post a single item to work with
         command_id = self._create_command()
 
         # Validate auth is required
-        response = self.client.get('{}{}'.format(BASE_URL, command_id))
+        response = self.client.get('{}{}'.format(base_url, command_id))
         self.assertEqual(401, response.status_code)
 
         # Verify we can get the command with auth
-        response = self._authed('{}{}'.format(BASE_URL, command_id))
+        response = self._authed('{}{}'.format(base_url, command_id))
         self.assertEqual(200, response.status_code)
         self.assertEqual(
             self.DEFAULT_COMMAND,
@@ -286,16 +286,16 @@ class TestWeb(unittest.TestCase):
         )
 
         # Test against invalid command id
-        response = self._authed('{}12345'.format(BASE_URL))
+        response = self._authed('{}12345'.format(base_url))
         self.assertEqual(404, response.status_code)
 
     def test_history_item_put(self):
         """
         Verify PUT method
         """
-        BASE_URL = '/api/v1/history/'
+        base_url = '/api/v1/history/'
         # Try and update non-existent command
-        response = self._authed('{}12345'.format(BASE_URL), method='PUT')
+        response = self._authed('{}12345'.format(base_url), method='PUT')
         self.assertEqual(404, response.status_code)
         self.assertEqual(
             'No such history item',
@@ -306,7 +306,7 @@ class TestWeb(unittest.TestCase):
 
         # Try and update without sending any payload
         response = self._authed(
-            '{}{}'.format(BASE_URL, command_id),
+            '{}{}'.format(base_url, command_id),
             method='PUT',
             content_type='application/json',
             data=json.dumps({})
@@ -314,13 +314,13 @@ class TestWeb(unittest.TestCase):
 
         # Now update it with PUT and verify the extra sauce
         response = self._authed(
-            '{}{}'.format(BASE_URL, command_id),
+            '{}{}'.format(base_url, command_id),
             method='PUT',
             data={'payload': json.dumps({'pumpkins': True})}
         )
         self.assertEqual(204, response.status_code)
         # Now check that pumpkins are there
-        response = self._authed('{}{}'.format(BASE_URL, command_id))
+        response = self._authed('{}{}'.format(base_url, command_id))
         self.assertEqual(200, response.status_code)
         self.assertTrue(
             json.loads(response.data)['meta']['pumpkins']
@@ -328,7 +328,7 @@ class TestWeb(unittest.TestCase):
 
         # Make sure our PUT can't do bad things
         response = self._authed(
-            '{}{}'.format(BASE_URL, command_id),
+            '{}{}'.format(base_url, command_id),
             method='PUT',
             content_type='application/json',
             data=json.dumps({
@@ -338,23 +338,23 @@ class TestWeb(unittest.TestCase):
             })
         )
         self.assertEqual(204, response.status_code)
-        response = self._authed('{}{}'.format(BASE_URL, command_id))
+        response = self._authed('{}{}'.format(base_url, command_id))
         self.assertFalse('enigma' in json.loads(response.data).values())
 
     def test_delete_item(self):
         """
         Test out deleting an item
         """
-        BASE_URL = '/api/v1/history/'
+        base_url = '/api/v1/history/'
 
         # Delete non-existent command
-        response = self._authed('{}12345'.format(BASE_URL), method='DELETE')
+        response = self._authed('{}12345'.format(base_url), method='DELETE')
         self.assertEqual(404, response.status_code)
 
         # Create a command to delete
         command_id = self._create_command()
         response = self._authed(
-            '{}{}'.format(BASE_URL, command_id),
+            '{}{}'.format(base_url, command_id),
             method='DELETE'
         )
         self.assertEqual(200, response.status_code)

@@ -15,7 +15,7 @@ import pytz
 
 from archelond.data.abstract import HistoryData
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class ElasticData(HistoryData):
@@ -41,6 +41,7 @@ class ElasticData(HistoryData):
         # Analyzer is setup such that every single character can
         # be part of the search query
         self.index = self.config['ELASTICSEARCH_INDEX']
+        # pylint: disable=unexpected-keyword-arg
         self.elasticsearch.indices.create(
             index=self.index, ignore=400,
             body={
@@ -161,6 +162,7 @@ class ElasticData(HistoryData):
         # Implicitly we are sorting by score without order set, which
         # is nice
         try:
+            # pylint: disable=unexpected-keyword-arg
             results = self.elasticsearch.search(
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
                 body=body, sort=sort

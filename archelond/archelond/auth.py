@@ -9,7 +9,7 @@ from flask import request, Response, current_app
 from itsdangerous import JSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 def check_basic_auth(username, password):
