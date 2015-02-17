@@ -73,7 +73,9 @@ def update():
               'This may take a while...'.format(num_commands))
 
     try:
-        success, response = web_history.bulk_add(commands.keys())
+        success, response = web_history.bulk_add(
+            [x for x in commands.keys() if x]
+        )
     except requests.exceptions.ConnectionError, ex:
         print('Connection Error occured: %s', str(ex))
         sys.exit(1)
