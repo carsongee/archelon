@@ -302,7 +302,6 @@ class TestElasticData(ElasticTestClass):
         self.assertEqual(1, len(results))
 
         # Assert page 2 has no results
-        # Assert page 1 has one result
         results = self.data.all('r', user, None, page=2)
         self.assertEqual(0, len(results))
 
