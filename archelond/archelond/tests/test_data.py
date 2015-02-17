@@ -145,6 +145,15 @@ class TestMemoryData(unittest.TestCase):
             self.assertEqual(item['command'], commands[index])
             index -= 1
 
+    def test_page_not_used(self):
+        """
+        Assert that there is only ever one page
+        """
+        self.assertEqual(0, len(self.data.all('r', None, None, page=2)))
+        self.assertEqual(0, len(self.data.filter(
+            'stuff', 'r', None, None, page=23
+        )))
+
 
 class TestElasticData(ElasticTestClass):
     """Test out elastic search backed data store.

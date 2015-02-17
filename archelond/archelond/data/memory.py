@@ -70,16 +70,21 @@ class MemoryData(HistoryData):
         command['id'] = command_id
         return command
 
-    def all(self, order, username, host, **kwargs):
+    def all(self, order, username, host, page=0, **kwargs):
         """
         Simply rewrap the data structure, order,  and return
         """
+        if page != 0:
+            return []
         return self.filter(None, order, username, host)
 
-    def filter(self, term, order, username, host, **kwargs):
+    def filter(self, term, order, username, host, page=0, **kwargs):
         """
         Return filtered and reversed OrderedDict.
         """
+        if page != 0:
+            return []
+
         if order and order == 'r':
             ordered_set = reversed(self.data.items())
         else:
