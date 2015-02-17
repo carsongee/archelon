@@ -281,6 +281,31 @@ class TestElasticData(ElasticTestClass):
         self.assertEqual(1, len(results))
         self.assertFalse('petes' in results[0]['command'])
 
+    def test_page(self):
+        """
+        Test that paging works
+        """
+        num_commands = self.data.NUM_RESULTS + 1
+        user = 'archelon-jr'
+
+        self.assertEqual(0, len(self.data.all(None, user, None)))
+        for command_increment in range(num_commands):
+            self.data.add(
+                'go giant turtle number {}'.format(command_increment),
+                user,
+                None
+            )
+        # Wait for index to build
+        time.sleep(2)
+        # Assert page 1 has one result
+        results = self.data.all('r', user, None, page=1)
+        self.assertEqual(1, len(results))
+
+        # Assert page 2 has no results
+        # Assert page 1 has one result
+        results = self.data.all('r', user, None, page=2)
+        self.assertEqual(0, len(results))
+
     def test_bad_connection(self):
         """
         Replace the data storage class instance with a dead one

@@ -129,7 +129,7 @@ class ElasticData(HistoryData):
         result['id'] = hit['_id']
         return result
 
-    def all(self, order, username, host, **kwargs):
+    def all(self, order, username, host, page=0, **kwargs):
         """
         Just build a body with match all and return filter
         """
@@ -138,9 +138,9 @@ class ElasticData(HistoryData):
                 "match_all": {}
             }
         }
-        return self.filter(None, order, username, host, body)
+        return self.filter(None, order, username, host, body, page)
 
-    def filter(self, term, order, username, host, body=None, **kwargs):
+    def filter(self, term, order, username, host, body=None, page=0, **kwargs):
         """
         Return filtered search that is ordered
         """
@@ -165,7 +165,7 @@ class ElasticData(HistoryData):
             # pylint: disable=unexpected-keyword-arg
             results = self.elasticsearch.search(
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
-                body=body, sort=sort
+                body=body, sort=sort, from_=self.NUM_RESULTS*page
             )
         except (ConnectionError, RequestError) as ex:
             log.exception(ex)
