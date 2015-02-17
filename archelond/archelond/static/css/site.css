@@ -33,6 +33,8 @@ h1 {
     background: -ms-linear-gradient(top,  #56934a 33%,#317420 100%,#317420 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #56934a 33%,#317420 100%,#317420 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#56934a', endColorstr='#317420',GradientType=0 ); /* IE6-8 */
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 #history-table {

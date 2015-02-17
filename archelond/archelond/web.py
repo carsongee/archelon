@@ -111,6 +111,7 @@ def history(user):
     if request.method == 'GET':
         query = request.args.get('q')
         order = request.args.get('o')
+        page = int(request.args.get('p', 0))
 
         order_type = None
         if order:
@@ -124,10 +125,12 @@ def history(user):
 
         if query:
             results = app.data.filter(
-                query, order_type, user, request.remote_addr
+                query, order_type, user, request.remote_addr, page=page
             )
         else:
-            results = app.data.all(order_type, user, request.remote_addr)
+            results = app.data.all(
+                order_type, user, request.remote_addr, page=page
+            )
         return jsonify({'commands': results})
 
     if request.method == 'POST':
