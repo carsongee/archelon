@@ -25,7 +25,7 @@ to use it, run something like:
 .. code-block:: bash
 
   htpasswd -c ~/.htpasswd username
-  export HTPASSWD_PATH=~/.htpasswd
+  export ARCHELOND_HTPASSWD_PATH=~/.htpasswd
 
 After that minimal setup we can try things out with just a simple command of:
 

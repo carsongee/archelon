@@ -8,12 +8,14 @@ import hashlib
 import logging
 
 from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import RequestError, NotFoundError
+from elasticsearch.exceptions import (
+    RequestError, NotFoundError, ConnectionError
+)
 import pytz
 
 from archelond.data.abstract import HistoryData
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class ElasticData(HistoryData):
@@ -39,6 +41,7 @@ class ElasticData(HistoryData):
         # Analyzer is setup such that every single character can
         # be part of the search query
         self.index = self.config['ELASTICSEARCH_INDEX']
+        # pylint: disable=unexpected-keyword-arg
         self.elasticsearch.indices.create(
             index=self.index, ignore=400,
             body={
@@ -126,7 +129,7 @@ class ElasticData(HistoryData):
         result['id'] = hit['_id']
         return result
 
-    def all(self, order, username, host, **kwargs):
+    def all(self, order, username, host, page=0, **kwargs):
         """
         Just build a body with match all and return filter
         """
@@ -135,9 +138,9 @@ class ElasticData(HistoryData):
                 "match_all": {}
             }
         }
-        return self.filter(None, order, username, host, body)
+        return self.filter(None, order, username, host, body, page)
 
-    def filter(self, term, order, username, host, body=None, **kwargs):
+    def filter(self, term, order, username, host, body=None, page=0, **kwargs):
         """
         Return filtered search that is ordered
         """
@@ -159,11 +162,12 @@ class ElasticData(HistoryData):
         # Implicitly we are sorting by score without order set, which
         # is nice
         try:
+            # pylint: disable=unexpected-keyword-arg
             results = self.elasticsearch.search(
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
-                body=body, sort=sort
+                body=body, sort=sort, from_=self.NUM_RESULTS*page
             )
-        except RequestError, ex:
+        except (ConnectionError, RequestError) as ex:
             log.exception(ex)
             return []
         log.debug(results)

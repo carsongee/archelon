@@ -6,6 +6,7 @@ import logging
 import os
 
 from flask import Flask, jsonify, request, render_template, url_for
+# pylint: disable=no-name-in-module, import-error
 from flask.ext.assets import Environment
 from passlib.apache import HtpasswdFile
 from werkzeug.contrib.fixers import ProxyFix
@@ -15,7 +16,7 @@ from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
 from archelond.util import jsonify_code
 
-log = logging.getLogger('archelond')
+log = logging.getLogger('archelond')  # pylint: disable=invalid-name
 
 V1_ROOT = '/api/v1/'
 
@@ -43,38 +44,47 @@ def wsgi_app():
     Start flask application runtime
     """
     # Setup the app
-    app = Flask('archelond')
+    new_app = Flask('archelond')
     # Get configuration from default or via environment variable
     if os.environ.get('ARCHELOND_CONF'):
-        app.config.from_envvar('ARCHELOND_CONF')
+        new_app.config.from_envvar('ARCHELOND_CONF')
     else:
-        app.config.from_object('archelond.config')
-
-    # Load up user database
-    app.config['users'] = HtpasswdFile(app.config['HTPASSWD_PATH'])
+        new_app.config.from_object('archelond.config')
 
     # Setup database
-    if app.config['DATABASE_TYPE'] == 'MemoryData':
-        app.data = MemoryData(app.config)
-    elif app.config['DATABASE_TYPE'] == 'ElasticData':
-        app.data = ElasticData(app.config)
+    if new_app.config['DATABASE_TYPE'] == 'MemoryData':
+        new_app.data = MemoryData(new_app.config)
+    elif new_app.config['DATABASE_TYPE'] == 'ElasticData':
+        new_app.data = ElasticData(new_app.config)
+    else:
+        raise Exception('No valid database type is set')
 
     # Set up logging
-    configure_logging(app)
+    configure_logging(new_app)
 
-    return app
+    # Load up user database
+    try:
+        new_app.config['users'] = HtpasswdFile(new_app.config['HTPASSWD_PATH'])
+    except IOError:
+        log.critical(
+            'No htpasswd file loaded, please set `ARCHELOND_HTPASSWD`'
+            'environment variable to a valid apache htpasswd file.'
+        )
+        new_app.config['users'] = HtpasswdFile()
+
+    return new_app
 
 
 # Setup flask application
-app = wsgi_app()
-assets = Environment(app)
+app = wsgi_app()  # pylint: disable=invalid-name
+assets = Environment(app)  # pylint: disable=invalid-name
 # Add proxy fixer
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
 @requires_auth
-def index(user):
+def index(user):  # pylint: disable=unused-argument
     """
     Simple index view for documentation and navigation.
     """
@@ -101,6 +111,7 @@ def history(user):
     if request.method == 'GET':
         query = request.args.get('q')
         order = request.args.get('o')
+        page = int(request.args.get('p', 0))
 
         order_type = None
         if order:
@@ -114,10 +125,12 @@ def history(user):
 
         if query:
             results = app.data.filter(
-                query, order_type, user, request.remote_addr
+                query, order_type, user, request.remote_addr, page=page
             )
         else:
-            results = app.data.all(order_type, user, request.remote_addr)
+            results = app.data.all(
+                order_type, user, request.remote_addr, page=page
+            )
         return jsonify({'commands': results})
 
     if request.method == 'POST':
@@ -152,11 +165,14 @@ def history(user):
                     }
                 )
             return jsonify({'responses': results_list})
-        if not isinstance(command, str):
+        if not (isinstance(command, unicode) or isinstance(command, str)):
             return jsonify_code({'error': 'Command must be a string'}, 422)
 
         cmd_id = app.data.add(command, user, request.remote_addr)
         return '', 201, {'location': url_for('history_item', cmd_id=cmd_id)}
+    else:  # pragma: no cover
+        log.critical('Unsupported method used')
+        raise Exception('Unsupported http method used')
 
 
 @app.route('{}history/<cmd_id>'.format(V1_ROOT),
@@ -215,7 +231,9 @@ def history_item(user, cmd_id):
             del put_command['host']
         except KeyError:
             pass
-        app.data.add(cmd['command'], user, request.remote_addr, **put_command)
+        app.data.add(  # pylint: disable=star-args
+            cmd['command'], user, request.remote_addr, **put_command
+        )
         return '', 204
 
     if request.method == 'DELETE':
@@ -225,3 +243,6 @@ def history_item(user, cmd_id):
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(message='success')
+    else:  # pragma: no cover
+        log.critical('Unsupported method used')
+        raise Exception('Unsupported http method used')

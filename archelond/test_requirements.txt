@@ -1,0 +1,9 @@
+--index-url https://pypi.python.org/simple/
+
+nose
+coverage
+mock
+diff-cover
+pep8
+pylint
+coveralls

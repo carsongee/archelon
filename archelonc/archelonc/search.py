@@ -15,7 +15,22 @@ class SearchResult(npyscreen.Textfield):
     """
     Search result item
     """
-    pass
+    def update(self, clear=True):
+        if self.highlight:
+            results_list = self.parent.results_list
+            current_item = results_list.cursor_line
+            total_items = len(results_list.values)
+            app = self.parent.parentApp
+            if (current_item == total_items - 1) and app.more:
+                # Grab the next set of results
+                app.page += 1
+                results = self.parent.search_box.search(page=app.page)
+                if len(results) == 0:
+                    app.more = False
+                results_list.values.extend(results)
+                results_list.reset_display_cache()
+                results_list.update()
+        super(SearchResult, self).update(clear)
 
 
 class CommandBox(npyscreen.TitleText):
@@ -60,14 +75,14 @@ class SearchBox(npyscreen.TitleText):
     Search box command, updates trigger
     deeper searching.
     """
-    def search(self):
+    def search(self, page=0):
         """
         Do the search and return the results
         """
         if not self.parent.order:
-            return self.parent.parentApp.data.search_forward(self.value)
+            return self.parent.parentApp.data.search_forward(self.value, page)
         elif self.parent.order == 'r':
-            return self.parent.parentApp.data.search_reverse(self.value)
+            return self.parent.parentApp.data.search_reverse(self.value, page)
 
     def when_value_edited(self):
         """
@@ -78,6 +93,10 @@ class SearchBox(npyscreen.TitleText):
             return
         results_list = self.parent.results_list
         cmd_box = self.parent.command_box
+
+        # Reset page number back to 0
+        self.parent.parentApp.page = 0
+        self.parent.parentApp.more = True
 
         search_results = self.search()
         results_list.values = search_results
@@ -186,6 +205,10 @@ class Search(npyscreen.NPSAppManaged):
     """
     Search application.  Determines which form to show.
     """
+    # Set default page, and whether there are more results
+    page = 0
+    more = True
+
     def onStart(self):
         """
         Startup routine for the search application

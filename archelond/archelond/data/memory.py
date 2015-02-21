@@ -11,7 +11,7 @@ import pytz
 from archelond.data.abstract import HistoryData
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class MemoryData(HistoryData):
@@ -38,7 +38,7 @@ class MemoryData(HistoryData):
     @staticmethod
     def _doc_id(command):
         """
-        hash the command to make the document id
+        hash the command to make the id
         """
         return hashlib.sha256(command).hexdigest()
 
@@ -70,16 +70,21 @@ class MemoryData(HistoryData):
         command['id'] = command_id
         return command
 
-    def all(self, order, username, host, **kwargs):
+    def all(self, order, username, host, page=0, **kwargs):
         """
         Simply rewrap the data structure, order,  and return
         """
+        if page != 0:
+            return []
         return self.filter(None, order, username, host)
 
-    def filter(self, term, order, username, host, **kwargs):
+    def filter(self, term, order, username, host, page=0, **kwargs):
         """
         Return filtered and reversed OrderedDict.
         """
+        if page != 0:
+            return []
+
         if order and order == 'r':
             ordered_set = reversed(self.data.items())
         else:
