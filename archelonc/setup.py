@@ -38,6 +38,7 @@ setup(
         'archelonf = archelonc.command:search_form',
         'archelon_update = archelonc.command:update',
         'archelon_import = archelonc.command:import_history',
+        'archelon_export = archelonc.command:export_history',
     ]},
     zip_safe=True,
 )

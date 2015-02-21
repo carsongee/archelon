@@ -129,3 +129,32 @@ def import_history():
     # Make copy of imported history so we only have to track
     # changes from here on out when archelon is invoked
     shutil.copy(hist_file_path, HISTORY_FILE)
+
+
+def export_history():
+    """
+    Pull all remote history down into a file specified or stdout if
+    none is specified
+    """
+    web_history = _get_web_setup()
+    if not web_history:
+        print(
+            'Nothing to export as archelon server not configured in '
+            'environment.'
+            'Please set `ARCHELON_URL` and `ARCHELON_TOKEN` variables.'
+        )
+        sys.exit(1)
+    output_file = sys.stdout
+    stdout = True
+    if len(sys.argv) == 2:
+        output_file = open(sys.argv[1], 'w')
+        stdout = False
+    page = 0
+    results = web_history.all(page)
+    output_file.write('\n'.join(results))
+    while len(results) > 0:
+        page += 1
+        results = web_history.all(page)
+        output_file.write('\n'.join(results))
+    if not stdout:
+        output_file.close()
