@@ -108,6 +108,9 @@ def history(user):
     POST=Add entry
     GET=Get entries with query
     """
+    # We have a lot of logic here since we are doing query string
+    # handling, so let pylint know that is ok.
+    # pylint: disable=too-many-return-statements,too-many-branches
     if request.method == 'GET':
         query = request.args.get('q')
         order = request.args.get('o')
@@ -188,6 +191,10 @@ def history_item(user, cmd_id):
     ``username``, and ``host`` as kwargs to the data stores ``add``
     routine.
     """
+    # We have to handle several methods, which requires branches and
+    # extra returns.  Until/when we switch to pluggable views, let
+    # pylint know that is ok for this view.
+    # pylint: disable=too-many-return-statements,too-many-branches
     if request.method == 'GET':
         log.debug('Retrieving %s for %s', cmd_id, user)
         try:
@@ -231,7 +238,7 @@ def history_item(user, cmd_id):
             del put_command['host']
         except KeyError:
             pass
-        app.data.add(  # pylint: disable=star-args
+        app.data.add(
             cmd['command'], user, request.remote_addr, **put_command
         )
         return '', 204

@@ -73,7 +73,7 @@ class TestLogConfiguration(unittest.TestCase):
             # Nuke syslog handlers from init
             syslog_handlers = []
             for handler in root_logger.handlers:
-                if type(handler) is logging.handlers.SysLogHandler:
+                if isinstance(handler, logging.handlers.SysLogHandler):
                     syslog_handlers.append(handler)
             for handler in syslog_handlers:
                 root_logger.removeHandler(handler)
@@ -97,7 +97,7 @@ class TestLogConfiguration(unittest.TestCase):
                     configure_logging(app)
                     syslog_handler = None
                     for handler in root_logger.handlers:
-                        if type(handler) is logging.handlers.SysLogHandler:
+                        if isinstance(handler, logging.handlers.SysLogHandler):
                             syslog_handler = handler
                     self.assertIsNotNone(syslog_handler)
                     if log_device == '':
