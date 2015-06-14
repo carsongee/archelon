@@ -6,6 +6,6 @@ install:
   - pip install -r archelond/test_requirements.txt
 services:
   - elasticsearch
-script:  bash test_archelond.sh -q
+script:  bash test.sh
 after_success:
   coveralls

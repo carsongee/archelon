@@ -1,9 +1,12 @@
 --index-url https://pypi.python.org/simple/
 
-nose
-coverage
+pytest
+pytest-pep8
+pytest-pylint
+pytest-cov
+pytest-capturelog
+pytest-watch
 mock
 diff-cover
-pep8
-pylint
 coveralls
+
