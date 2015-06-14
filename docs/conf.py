@@ -12,8 +12,11 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-from archelonc import VERSION
+from docutils.utils import get_source_line
+import sphinx.environment
 import sphinx_bootstrap_theme
+
+from archelonc import VERSION
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -23,7 +26,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = [ '_templates' ]
+templates_path = ['_templates']
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -64,6 +67,7 @@ html_theme = 'bootstrap'
 # documentation.
 html_theme_options = {
     'bootswatch_theme': 'yeti',
+    'navbar_title': ' ',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -95,22 +99,14 @@ htmlhelp_basename = 'Archelondoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
-
-# The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
-
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'Archelon.tex', u'Archelon Documentation',
-   u'Carson Gee', 'manual'),
+    ('index', 'Archelon.tex', u'Archelon Documentation',
+     u'Carson Gee', 'manual'),
 ]
 
 
@@ -130,8 +126,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Archelon', u'Archelon Documentation',
-   u'Carson Gee', 'Archelon', 'One line description of project.',
-   'Miscellaneous'),
+    ('index', 'Archelon', u'Archelon Documentation',
+     u'Carson Gee', 'Archelon', 'One line description of project.',
+     'Miscellaneous'),
 ]
 
+
+def _warn_node(self, msg, node):
+    """Monkey patch non-local image warning"""
+    if not msg.startswith('nonlocal image URI found:'):
+        self._warnfunc(msg, '%s:%s' % get_source_line(node))
+
+sphinx.environment.BuildEnvironment.warn_node = _warn_node

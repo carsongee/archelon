@@ -15,6 +15,7 @@ Archelon
 
 |
 |
+
 .. figure:: _static/images/full-logo.png
    :scale: 30%
    :width: 400px
@@ -27,8 +28,10 @@ arcane commands with a half dozen parameters, I'm guessing you do.
 This is my attempt at solving this problem using a curses client for
 searching paired with a simple API and Web server backed by a nice
 search engine (Elasticsearch).
+
 |
 |
+
 .. figure:: _static/images/archelond_index_screen.jpg
   :align: center
   :alt: Archelond screen shot
