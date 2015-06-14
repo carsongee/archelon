@@ -4,6 +4,7 @@ Test out our authentication module.
 import base64
 
 from flask import request
+from itsdangerous import JSONWebSignatureSerializer as Serializer
 import mock
 
 from archelond.auth import (
@@ -24,10 +25,6 @@ class TestAuth(ElasticTestClass):
     """
     TEST_USER = 'foo'
     TEST_PASS = 'bar'
-    TEST_TOKEN = ('eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZvbyIsImhhc2'
-                  'hoYXNoIjoiNTEwNjI3M2Y3Nzg5ZjFlMjZiNGEyMTI3ODk5OTJmN'
-                  'zVjMTU0MzNmNDAyZjNlOTRhZDE4ZTdjODBhZWU4MGZhZiJ9.Bas'
-                  'bIHjgUzemMiBI34SmbiOkOm49ktZZWrFT6b71mVs')
     NOT_USER = 'notuser'
 
     @classmethod
@@ -71,25 +68,28 @@ class TestAuth(ElasticTestClass):
         """
         test_user = self.TEST_USER
         not_user = self.NOT_USER
-        known_token = self.TEST_TOKEN
         known_hashhash = ('5106273f7789f1e26b4a212789992f75c15433f402f3e94a'
                           'd18e7c80aee80faf')
 
         with self.app.app_context():
 
-            # Verify token generation against known value
             token = generate_token(test_user)
-            self.assertEqual(known_token, token)
 
             # Verify hashhash against known value
             hashhash = get_hashhash(test_user)
             self.assertEqual(hashhash, known_hashhash)
 
+            # Now that we verified our hashhash, independently verify
+            # the data with a serializer from config (not trusting
+            # get_signature here).
+            serializer = Serializer(self.app.config['FLASK_SECRET'])
+            self.assertEqual(serializer.loads(token)['hashhash'], hashhash)
+
             # Now go ahead and verify the reverse
             serializer = get_signature()
             data = serializer.loads(token)
-            self.assertTrue(data['username'], test_user)
-            self.assertTrue(data['hashhash'], hashhash)
+            self.assertEqual(data['username'], test_user)
+            self.assertEqual(data['hashhash'], hashhash)
 
             # Verify no user handling (don't really care what
             # exception gets raised).
