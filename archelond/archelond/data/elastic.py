@@ -2,14 +2,16 @@
 ElasticSearch implementation of the data store.  Currently the
 recommended default data store.
 """
-
+from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 import hashlib
 import logging
 
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import (
-    RequestError, NotFoundError, ConnectionError
+    RequestError,
+    NotFoundError,
+    ConnectionError as ESConnectionError
 )
 import pytz
 
@@ -80,7 +82,7 @@ class ElasticData(HistoryData):
         """
         hash the command to make the document id
         """
-        return hashlib.sha256(command).hexdigest()
+        return hashlib.sha256(command.encode('utf-8')).hexdigest()
 
     def add(self, command, username, host, **kwargs):
         """
@@ -167,7 +169,7 @@ class ElasticData(HistoryData):
                 index=self.index, doc_type=doc_type, size=self.NUM_RESULTS,
                 body=body, sort=sort, from_=self.NUM_RESULTS*page
             )
-        except (ConnectionError, RequestError) as ex:
+        except (ESConnectionError, RequestError) as ex:
             log.exception(ex)
             return []
         log.debug(results)

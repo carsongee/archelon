@@ -1,6 +1,7 @@
 """
 Validate log configuration
 """
+from __future__ import absolute_import, unicode_literals
 import mock
 import os
 import unittest
@@ -66,6 +67,10 @@ class TestLogConfiguration(unittest.TestCase):
         """
         Test syslog address handling and handler
         """
+        # Pylint in Python 3.4 (not 3.3 or 2.7), is triggering
+        # this for syslog_handler.address even though the asserts
+        # show it is available at runtime.
+        # pylint: disable=no-member
         import logging
 
         for log_device in ['/dev/log', '/var/run/syslog', '']:

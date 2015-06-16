@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 install:
-  - pip install tox coveralls
+  - "pip install 'tox>=2.0.0,<3.0.0' coveralls"
 services:
   - elasticsearch
 script:  tox

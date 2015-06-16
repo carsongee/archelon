@@ -1,6 +1,7 @@
 """
 Decorators for authentication via basic auth or tokens
 """
+from __future__ import absolute_import, unicode_literals
 from functools import wraps
 import hashlib
 import logging
@@ -56,7 +57,7 @@ def generate_token(username):
             'username': username,
             'hashhash': get_hashhash(username)
         }
-    )
+    ).decode('UTF-8')
 
 
 def check_token_auth(token):
