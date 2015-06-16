@@ -54,6 +54,7 @@ search engine (Elasticsearch).
    c-api
    archelond
    d-api
+   developer
 
 
 Indices and tables
