@@ -9,4 +9,4 @@ pytest-watch
 mock
 diff-cover
 coveralls
-tox
+tox>=2.0.0,<3.0.0

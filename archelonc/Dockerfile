@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 MAINTAINER Carson Gee <x@carsongee.com>
 
 RUN apt-get update
-RUN apt-get install python-dev python-pip -y
+RUN apt-get install python3 python3-dev python-dev python-pip -y
 RUN pip install pip --upgrade
 
 # Add, and run as, non-root user.

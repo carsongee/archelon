@@ -35,6 +35,7 @@ setup(
         'passlib',
         'itsdangerous',
         'pytz',
+        'six',
         'elasticsearch',
         'Flask-Assets',
         'cssmin',

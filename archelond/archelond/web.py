@@ -1,6 +1,7 @@
 """
 Main entry point for flask application
 """
+from __future__ import absolute_import, unicode_literals
 import json
 import logging
 import os
@@ -10,6 +11,7 @@ from flask import Flask, jsonify, request, render_template, url_for
 from flask.ext.assets import Environment
 from passlib.apache import HtpasswdFile
 from werkzeug.contrib.fixers import ProxyFix
+from six import string_types
 
 from archelond.auth import requires_auth, generate_token
 from archelond.data import MemoryData, ElasticData, ORDER_TYPES
@@ -35,6 +37,7 @@ def run_server():
     )
     app.config['LOG_LEVEL'] = 'DEBUG'
     app.config['ASSETS_DEBUG'] = True
+
     configure_logging(app)
     app.run(host=host, port=port)
 
@@ -84,11 +87,11 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 @app.route('/')
 @requires_auth
-def index(user):  # pylint: disable=unused-argument
+def index(user):
     """
     Simple index view for documentation and navigation.
     """
-    return render_template('index.html'), 200
+    return render_template('index.html', user=user), 200
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])
@@ -168,7 +171,7 @@ def history(user):
                     }
                 )
             return jsonify({'responses': results_list})
-        if not (isinstance(command, unicode) or isinstance(command, str)):
+        if not isinstance(command, string_types):
             return jsonify_code({'error': 'Command must be a string'}, 422)
 
         cmd_id = app.data.add(command, user, request.remote_addr)

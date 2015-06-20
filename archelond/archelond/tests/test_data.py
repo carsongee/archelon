@@ -1,6 +1,8 @@
 """
 Test out the server data classes
 """
+from __future__ import absolute_import, unicode_literals
+from six.moves import range  # pylint: disable=import-error,redefined-builtin
 import os
 import time
 import unittest
@@ -85,7 +87,7 @@ class TestMemoryData(unittest.TestCase):
         self.assertEqual(self.config, self.data.config)
 
         # assert data set is equal to INITIAL_DATA
-        data = self.data.data.values()
+        data = list(self.data.data.values())
         commands = [x['command'] for x in data]
         for command in commands:
             self.assertTrue(command in self.data.INITIAL_DATA)

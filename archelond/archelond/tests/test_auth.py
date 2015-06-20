@@ -1,6 +1,7 @@
 """
 Test out our authentication module.
 """
+from __future__ import absolute_import, unicode_literals
 import base64
 
 from flask import request
@@ -34,7 +35,7 @@ class TestAuth(ElasticTestClass):
         :py:function:`archelond.auth.requires_auth`
         """
         wrapped = mock.Mock()
-        wrapped.__name__ = 'foo'
+        wrapped.__name__ = str('foo')
         decorated = requires_auth(wrapped)
         return wrapped, decorated
 
@@ -149,9 +150,13 @@ class TestAuth(ElasticTestClass):
 
         # Test successful basic auth
         with self.app.test_request_context(headers={
-            'Authorization': 'Basic {0}'.format(base64.b64encode(
-                '{0}:{1}'.format(self.TEST_USER, self.TEST_PASS)
-            ))
+            'Authorization': 'Basic {0}'.format(
+                base64.b64encode(
+                    '{0}:{1}'.format(
+                        self.TEST_USER, self.TEST_PASS
+                    ).encode('ascii')
+                ).decode('ascii')
+            )
         }):
             wrapped, decorated = TestAuth._get_requires_auth_decorator()
             decorated()
