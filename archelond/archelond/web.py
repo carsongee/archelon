@@ -9,11 +9,10 @@ import os
 from flask import Flask, jsonify, request, render_template, url_for
 # pylint: disable=no-name-in-module, import-error
 from flask.ext.assets import Environment
-from passlib.apache import HtpasswdFile
+from flask.ext.htpasswd import HtPasswdAuth
 from werkzeug.contrib.fixers import ProxyFix
 from six import string_types
 
-from archelond.auth import requires_auth, generate_token
 from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
 from archelond.util import jsonify_code
@@ -64,29 +63,19 @@ def wsgi_app():
 
     # Set up logging
     configure_logging(new_app)
-
-    # Load up user database
-    try:
-        new_app.config['users'] = HtpasswdFile(new_app.config['HTPASSWD_PATH'])
-    except IOError:
-        log.critical(
-            'No htpasswd file loaded, please set `ARCHELOND_HTPASSWD`'
-            'environment variable to a valid apache htpasswd file.'
-        )
-        new_app.config['users'] = HtpasswdFile()
-
     return new_app
 
 
 # Setup flask application
 app = wsgi_app()  # pylint: disable=invalid-name
 assets = Environment(app)  # pylint: disable=invalid-name
+htpasswd = HtPasswdAuth(app)  # pylint: disable=invalid-name
 # Add proxy fixer
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
-@requires_auth
+@htpasswd.required
 def index(user):
     """
     Simple index view for documentation and navigation.
@@ -95,17 +84,17 @@ def index(user):
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])
-@requires_auth
+@htpasswd.required
 def token(user):
     """
     Return the user token for API auth that is based off the
     flask secret and user password
     """
-    return jsonify({'token': generate_token(user)})
+    return jsonify({'token': htpasswd.generate_token(user)})
 
 
 @app.route('{}history'.format(V1_ROOT), methods=['GET', 'POST'])
-@requires_auth
+@htpasswd.required
 def history(user):
     """
     POST=Add entry
@@ -183,7 +172,7 @@ def history(user):
 
 @app.route('{}history/<cmd_id>'.format(V1_ROOT),
            methods=['GET', 'PUT', 'DELETE'])
-@requires_auth
+@htpasswd.required
 def history_item(user, cmd_id):
     """Actions for individual command history items.
 

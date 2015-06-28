@@ -28,15 +28,6 @@ Elastic Search Data Storage
     :undoc-members:
     :show-inheritance:
 
-
-Authentication Module
-=====================
-
-.. automodule:: archelond.auth
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Configuration Module
 ====================
 
