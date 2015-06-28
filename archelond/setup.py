@@ -31,9 +31,8 @@ setup(
     ],
     install_requires=[
         'flask',
+        'flask-htpasswd',
         'uwsgi',
-        'passlib',
-        'itsdangerous',
         'pytz',
         'six',
         'elasticsearch',

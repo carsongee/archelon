@@ -50,7 +50,7 @@ Within the client curses application, there are a few handy keyboard shortcuts.
 :Alt-o:
 
     This presses the Ok button and runs whatever command is in the
-    ``command`` field
+    ``command`` field.
 
 :Alt-c:
 
@@ -61,17 +61,19 @@ Within the client curses application, there are a few handy keyboard shortcuts.
 :Ctrl-x:
 
     This brings up the menu for doing things like changing the order of the
-	search results.
+    search results.
 
 Within Menus
-~~~~~~~~~~~~
+------------
 
-Within the menu there are also keyboard shortcuts.  And are executed emacs style, i.e. ``Ctrl-x Ctrl-f`` to set sorting order to oldest->newest.  So far those are:
+Within the menu there are also keyboard shortcuts.  And are executed
+emacs style, i.e. ``Ctrl-x Ctrl-f`` to set sorting order to
+oldest->newest.  So far those are:
 
-:Ctrl-F:
+:Ctrl-f:
 
     Sort results from oldest to newest
 
-:Ctrl-R:
+:Ctrl-r:
 
     Default order. Sort results from newest to oldest.

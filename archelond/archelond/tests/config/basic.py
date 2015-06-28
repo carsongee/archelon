@@ -26,9 +26,9 @@ ELASTICSEARCH_INDEX = os.environ.get(
 # enigma: pass
 # norm: god
 # foo: bar
-HTPASSWD_PATH = os.environ.get(
+FLASK_HTPASSWD_PATH = os.environ.get(
     'ARCHELOND_TEST_HTPASSWD_PATH',
     os.path.join(os.path.dirname(
         os.path.abspath(__file__)
-        ), 'test_htpasswd')
+    ), 'test_htpasswd')
 )
