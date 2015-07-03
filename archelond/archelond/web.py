@@ -6,7 +6,7 @@ import json
 import logging
 import os
 
-from flask import Flask, jsonify, request, render_template, url_for
+from flask import Flask, jsonify, request, render_template, url_for, g
 # pylint: disable=no-name-in-module, import-error
 from flask.ext.assets import Environment
 from flask.ext.htpasswd import HtPasswdAuth
@@ -75,27 +75,24 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
-@htpasswd.required
-def index(user):
+def index():
     """
     Simple index view for documentation and navigation.
     """
-    return render_template('index.html', user=user), 200
+    return render_template('index.html', user=g.user), 200
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])
-@htpasswd.required
-def token(user):
+def token():
     """
     Return the user token for API auth that is based off the
     flask secret and user password
     """
-    return jsonify({'token': htpasswd.generate_token(user)})
+    return jsonify({'token': htpasswd.generate_token(g.user)})
 
 
 @app.route('{}history'.format(V1_ROOT), methods=['GET', 'POST'])
-@htpasswd.required
-def history(user):
+def history():
     """
     POST=Add entry
     GET=Get entries with query
@@ -120,11 +117,11 @@ def history(user):
 
         if query:
             results = app.data.filter(
-                query, order_type, user, request.remote_addr, page=page
+                query, order_type, g.user, request.remote_addr, page=page
             )
         else:
             results = app.data.all(
-                order_type, user, request.remote_addr, page=page
+                order_type, g.user, request.remote_addr, page=page
             )
         return jsonify({'commands': results})
 
@@ -149,7 +146,7 @@ def history(user):
             if not isinstance(commands, list):
                 return jsonify_code({'error': 'Commands must be list'}, 422)
             for command in commands:
-                cmd_id = app.data.add(command, user, request.remote_addr)
+                cmd_id = app.data.add(command, g.user, request.remote_addr)
                 results_list.append(
                     {
                         'response': '',
@@ -163,7 +160,7 @@ def history(user):
         if not isinstance(command, string_types):
             return jsonify_code({'error': 'Command must be a string'}, 422)
 
-        cmd_id = app.data.add(command, user, request.remote_addr)
+        cmd_id = app.data.add(command, g.user, request.remote_addr)
         return '', 201, {'location': url_for('history_item', cmd_id=cmd_id)}
     else:  # pragma: no cover
         log.critical('Unsupported method used')
@@ -172,8 +169,7 @@ def history(user):
 
 @app.route('{}history/<cmd_id>'.format(V1_ROOT),
            methods=['GET', 'PUT', 'DELETE'])
-@htpasswd.required
-def history_item(user, cmd_id):
+def history_item(cmd_id):
     """Actions for individual command history items.
 
     Updates, gets, or deletes a command from the active data store.
@@ -188,9 +184,9 @@ def history_item(user, cmd_id):
     # pylint know that is ok for this view.
     # pylint: disable=too-many-return-statements,too-many-branches
     if request.method == 'GET':
-        log.debug('Retrieving %s for %s', cmd_id, user)
+        log.debug('Retrieving %s for %s', cmd_id, g.user)
         try:
-            cmd = app.data.get(cmd_id, user, request.remote_addr)
+            cmd = app.data.get(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(cmd)
@@ -198,9 +194,9 @@ def history_item(user, cmd_id):
     if request.method == 'PUT':
         # This will only update kwargs since we
         # have a deduplicated data structure by command.
-        log.debug('Updating %s for %s', cmd_id, user)
+        log.debug('Updating %s for %s', cmd_id, g.user)
         try:
-            cmd = app.data.get(cmd_id, user, request.remote_addr)
+            cmd = app.data.get(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         from_form = True
@@ -231,14 +227,14 @@ def history_item(user, cmd_id):
         except KeyError:
             pass
         app.data.add(
-            cmd['command'], user, request.remote_addr, **put_command
+            cmd['command'], g.user, request.remote_addr, **put_command
         )
         return '', 204
 
     if request.method == 'DELETE':
-        log.debug('Deleting %s for %s', cmd_id, user)
+        log.debug('Deleting %s for %s', cmd_id, g.user)
         try:
-            app.data.delete(cmd_id, user, request.remote_addr)
+            app.data.delete(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(message='success')

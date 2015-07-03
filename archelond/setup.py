@@ -31,7 +31,7 @@ setup(
     ],
     install_requires=[
         'flask',
-        'flask-htpasswd',
+        'flask-htpasswd>=0.3.0',
         'uwsgi',
         'pytz',
         'six',
