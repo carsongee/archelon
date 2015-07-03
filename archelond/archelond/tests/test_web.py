@@ -7,7 +7,6 @@ import json
 import os
 import unittest
 
-from passlib.apache import HtpasswdFile
 import mock
 
 from archelond.data import MemoryData
@@ -41,7 +40,7 @@ class TestWeb(unittest.TestCase):
         app.config.from_envvar('ARCHELOND_CONF')
         app.data = MemoryData(app.config)
         htpasswd = archelond.web.htpasswd
-        htpasswd.users = HtpasswdFile(app.config['FLASK_HTPASSWD_PATH'])
+        htpasswd.load_users(app)
 
         self.client = archelond.web.app.test_client()
 
