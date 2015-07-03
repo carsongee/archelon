@@ -25,4 +25,4 @@ if os.environ.get('ARCHELOND_HTPASSWD'):
         wfile.write(os.environ['ARCHELOND_HTPASSWD'])
 
 # Enforce authentication on all views
-# FLASK_AUTH_ALL = True
+FLASK_AUTH_ALL = True
