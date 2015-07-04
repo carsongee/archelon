@@ -16,6 +16,10 @@ class SearchResult(npyscreen.Textfield):
     Search result item
     """
     def update(self, clear=True):
+        """
+        Update search results include getting the next page.
+        """
+        # pylint: disable=arguments-differ
         if self.highlight:
             results_list = self.parent.results_list
             current_item = results_list.cursor_line
@@ -116,6 +120,14 @@ class SearchForm(npyscreen.ActionFormWithMenus):
     """
     Command history search form
     """
+    # pylint: disable=too-many-ancestors
+
+    def __init__(self, *args, **keywords):
+        """
+        Add additional properties for use in state tracking
+        """
+        super(SearchForm, self).__init__(*args, **keywords)
+        self.order = None
 
     def forward_order(self):
         """
@@ -135,12 +147,17 @@ class SearchForm(npyscreen.ActionFormWithMenus):
         """
         This is the form to display, so set next to None
         """
+        # Have to use the methods I'm given.
+        # pylint: disable=invalid-name
         self.parentApp.setNextForm(None)
 
     def create(self):
         """
         Build the form for searching
         """
+        # Have to use the methods I'm given.
+        # pylint: disable=invalid-name
+
         # Set default order to reverse
         self.order = 'r'
 
@@ -181,9 +198,12 @@ class SearchForm(npyscreen.ActionFormWithMenus):
         Set the edit index to the search box
         and tell it to preserve the value
         """
+        # Have to use the methods I'm given.
+        # pylint: disable=invalid-name
+
         self.preserve_selected_widget = True
 
-    def on_ok(self, *args):
+    def on_ok(self, *_):
         """
         We just drop the command into a
         known file for the wrapper to pick
@@ -193,7 +213,7 @@ class SearchForm(npyscreen.ActionFormWithMenus):
             cmd_file.write(self.command_box.value)
         sys.exit(0)
 
-    def on_cancel(self, *args):
+    def on_cancel(self, *_):
         """
         Drop out with a non 1 exit code so the
         wrapper doesn't execute anything
@@ -208,6 +228,13 @@ class Search(npyscreen.NPSAppManaged):
     # Set default page, and whether there are more results
     page = 0
     more = True
+
+    def __init__(self):
+        """
+        Initialize data property for later use.
+        """
+        super(Search, self).__init__()
+        self.data = None
 
     def onStart(self):
         """

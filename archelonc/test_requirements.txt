@@ -1,0 +1,12 @@
+--index-url https://pypi.python.org/simple/
+
+pytest
+pytest-pep8
+pytest-pylint
+pytest-cov
+pytest-capturelog
+pytest-watch
+mock
+diff-cover
+coveralls
+tox>=2.0.0,<3.0.0
