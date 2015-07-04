@@ -1,0 +1,12 @@
+[run]
+
+branch = True
+omit = archelond/config.py
+
+[paths]
+
+source = archelond
+
+[report] 
+exclude_lines =
+    pragma: no cover

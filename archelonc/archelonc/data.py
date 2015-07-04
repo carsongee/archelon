@@ -26,7 +26,7 @@ class HistoryBase(object):
 
         If paging is needed, the page parameter is available.
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def search_reverse(self, term, page=0):
@@ -36,7 +36,7 @@ class HistoryBase(object):
 
         If paging is needed, the page parameter is available.
         """
-        pass
+        pass  # pragma: no cover
 
 
 class LocalHistory(HistoryBase):
