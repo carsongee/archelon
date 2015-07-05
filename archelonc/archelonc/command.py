@@ -8,10 +8,8 @@ import os
 import shutil
 import sys
 
-import requests
-
 from archelonc.search import Search
-from archelonc.data import WebHistory
+from archelonc.data import WebHistory, ArcheloncConnectionException
 
 HISTORY_FILE = os.path.expanduser('~/.archelon_history')
 
@@ -79,8 +77,8 @@ def update():
             success, response = web_history.bulk_add(
                 commands
             )
-    except requests.exceptions.ConnectionError as ex:
-        print('Connection Error occured: %s', str(ex))
+    except ArcheloncConnectionException as ex:
+        print(ex)
         sys.exit(1)
     if not success:
         print('Failed to add commands, got:\n {}'.format(
@@ -118,8 +116,8 @@ def import_history():
             commands[command] = None
     try:
         success, response = web_history.bulk_add(commands.keys())
-    except requests.exceptions.ConnectionError as ex:
-        print('Connection Error occured: %s', str(ex))
+    except ArcheloncConnectionException as ex:
+        print(ex)
         sys.exit(1)
 
     if not success:
@@ -150,7 +148,11 @@ def export_history():
         output_file = open(sys.argv[1], 'w')
         stdout = False
     page = 0
-    results = web_history.all(page)
+    try:
+        results = web_history.all(page)
+    except ArcheloncConnectionException as ex:
+        print(ex)
+        sys.exit(1)
     output_file.write('\n'.join(results))
     while len(results) > 0:
         page += 1

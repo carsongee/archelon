@@ -2,13 +2,14 @@
 """
 npyscreen based application for searching shell history
 """
+from __future__ import print_function
 import curses
 import os
 import sys
 
 import npyscreen
 
-from archelonc.data import LocalHistory, WebHistory
+from archelonc.data import LocalHistory, WebHistory, ArcheloncException
 
 
 class SearchResult(npyscreen.Textfield):
@@ -83,10 +84,18 @@ class SearchBox(npyscreen.TitleText):
         """
         Do the search and return the results
         """
-        if not self.parent.order:
-            return self.parent.parentApp.data.search_forward(self.value, page)
-        elif self.parent.order == 'r':
-            return self.parent.parentApp.data.search_reverse(self.value, page)
+        try:
+            if not self.parent.order:
+                return self.parent.parentApp.data.search_forward(
+                    self.value, page
+                )
+            elif self.parent.order == 'r':
+                return self.parent.parentApp.data.search_reverse(
+                    self.value, page
+                )
+        except ArcheloncException, ex:
+            print(ex)
+            sys.exit(1)
 
     def when_value_edited(self):
         """
