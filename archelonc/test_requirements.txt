@@ -7,6 +7,9 @@ pytest-cov
 pytest-capturelog
 pytest-watch
 mock
+vcrpy
+# This is listed in deps for vcrpy but isn't getting installed
+contextlib2
 diff-cover
 coveralls
 tox>=2.0.0,<3.0.0

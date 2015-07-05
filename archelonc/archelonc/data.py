@@ -6,9 +6,23 @@ from __future__ import print_function
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 import os
-import sys
 
 import requests
+
+
+class ArcheloncException(Exception):
+    """Base archelonc exception class."""
+    pass
+
+
+class ArcheloncDataException(ArcheloncException):
+    """Base data exception class."""
+    pass
+
+
+class ArcheloncConnectionException(ArcheloncException):
+    """Base data exception class."""
+    pass
 
 
 class HistoryBase(object):
@@ -99,10 +113,25 @@ class WebHistory(HistoryBase):
         self.session = requests.Session()
         self.session.headers = {'Authorization': 'token {}'.format(token)}
 
+    def _connection_error(self):
+        """
+        Raise nice connection error message exception.
+
+        Raises:
+            ArcheloncConnectionException
+        """
+        raise ArcheloncConnectionException(
+            'Failed to connect to server, check settings '
+            '(currently: {url})'.format(url=self.url)
+        )
+
     def search_forward(self, term, page=0):
         """
         Return a list of commmands that is in forward
         time order. i.e oldest first.
+
+        Raises:
+            ArcheloncConnectionException
         """
         try:
             response = self.session.get(
@@ -110,8 +139,7 @@ class WebHistory(HistoryBase):
                 params={'q': term, 'p': page}
             )
         except requests.exceptions.ConnectionError:
-            print('Failed to connect to server, check settings')
-            sys.exit(1)
+            self._connection_error()
 
         if response.status_code != 200:
             return ['Error in API Call {}'.format(response.text)]
@@ -121,6 +149,9 @@ class WebHistory(HistoryBase):
         """
         Make request to API with sort order specified
         and return the results as a list.
+
+        Raises:
+            ArcheloncConnectionException
         """
         try:
             response = self.session.get(
@@ -128,8 +159,7 @@ class WebHistory(HistoryBase):
                 params={'q': term, 'o': 'r', 'p': page}
             )
         except requests.exceptions.ConnectionError:
-            print('Failed to connect to server, check settings')
-            sys.exit(1)
+            self._connection_error()
 
         if response.status_code != 200:
             return ['Error in API Call {}'.format(response.text)]
@@ -138,6 +168,9 @@ class WebHistory(HistoryBase):
     def add(self, command):
         """
         Post a command to the remote server using the API
+
+        Raises:
+            ArcheloncConnectionException
         """
         try:
             response = self.session.post(
@@ -145,8 +178,7 @@ class WebHistory(HistoryBase):
                 json={'command': command}
             )
         except requests.exceptions.ConnectionError:
-            print('Failed to connect to server, check settings')
-            sys.exit(1)
+            self._connection_error()
 
         if response.status_code != 201:
             return False, (response.json(), response.status_code)
@@ -157,10 +189,13 @@ class WebHistory(HistoryBase):
         """
         Post a list of commands
         """
-        response = self.session.post(
-            self.url,
-            json={'commands': commands}
-        )
+        try:
+            response = self.session.post(
+                self.url,
+                json={'commands': commands}
+            )
+        except requests.exceptions.ConnectionError:
+            self._connection_error()
         if response.status_code != 200:
             return False, (response.json(), response.status_code)
         else:
@@ -169,6 +204,9 @@ class WebHistory(HistoryBase):
     def all(self, page):
         """
         Return the entire data set available, one page at a time
+
+        Raises:
+            ArcheloncConnectionException
         """
         try:
             response = self.session.get(
@@ -176,9 +214,39 @@ class WebHistory(HistoryBase):
                 params={'p': page}
             )
         except requests.exceptions.ConnectionError:
-            print('Failed to connect to server, check settings')
-            sys.exit(1)
+            self._connection_error()
 
         if response.status_code != 200:
             return ['Error in API Call {}'.format(response.text)]
         return [x['command'] for x in response.json()['commands']]
+
+    def delete(self, command):
+        """
+        Deletes the command given on the server.
+
+        Raises:
+            ArcheloncDataException
+            ArcheloncConnectionException
+        Returns:
+            None
+        """
+        # Get the command by ID
+        try:
+            response = self.session.get(
+                self.url,
+                params={'q': command}
+            )
+        except requests.exceptions.ConnectionError:
+            self._connection_error()
+
+        commands = response.json()['commands']
+        if len(commands) != 1:
+            raise ArcheloncDataException(
+                'More than one command given, cannot delete'
+            )
+        command_id = commands[0]['id']
+        response = self.session.delete(
+            '{base_url}/{command_id}'.format(
+                base_url=self.url, command_id=command_id
+            )
+        )
