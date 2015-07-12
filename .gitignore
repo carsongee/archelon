@@ -36,7 +36,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
-.coverage.ar*
+.coverage.*
 .cache
 nosetests.xml
 coverage.xml
@@ -57,3 +57,5 @@ target/
 # Ignore htpasswd files
 archelond/.htpasswd
 cover/
+
+.env

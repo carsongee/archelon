@@ -6,5 +6,6 @@ install:
 services:
   - elasticsearch
 script:  tox
+sudo: false
 after_success:
   coveralls

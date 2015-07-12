@@ -15,13 +15,13 @@ class ArcheloncException(Exception):
     pass
 
 
-class ArcheloncDataException(ArcheloncException):
-    """Base data exception class."""
+class ArcheloncConnectionException(ArcheloncException):
+    """Connection exception class."""
     pass
 
 
-class ArcheloncConnectionException(ArcheloncException):
-    """Base data exception class."""
+class ArcheloncAPIException(ArcheloncException):
+    """API exception occurred."""
     pass
 
 
@@ -125,6 +125,20 @@ class WebHistory(HistoryBase):
             '(currently: {url})'.format(url=self.url)
         )
 
+    @staticmethod
+    def _api_error(response):
+        """
+        Raise nice error message for API exception
+
+        Args:
+           response (requests.response object): Response that was wrong
+        Raises:
+            ArcheloncAPIException
+        """
+        raise ArcheloncAPIException(
+            'Error in API Call ({0.status_code}): {0.text}'.format(response)
+        )
+
     def search_forward(self, term, page=0):
         """
         Return a list of commmands that is in forward
@@ -132,6 +146,7 @@ class WebHistory(HistoryBase):
 
         Raises:
             ArcheloncConnectionException
+            ArcheloncAPIException
         """
         try:
             response = self.session.get(
@@ -142,7 +157,7 @@ class WebHistory(HistoryBase):
             self._connection_error()
 
         if response.status_code != 200:
-            return ['Error in API Call {}'.format(response.text)]
+            self._api_error(response)
         return [x['command'] for x in response.json()['commands']]
 
     def search_reverse(self, term, page=0):
@@ -152,6 +167,7 @@ class WebHistory(HistoryBase):
 
         Raises:
             ArcheloncConnectionException
+            ArcheloncAPIException
         """
         try:
             response = self.session.get(
@@ -162,7 +178,7 @@ class WebHistory(HistoryBase):
             self._connection_error()
 
         if response.status_code != 200:
-            return ['Error in API Call {}'.format(response.text)]
+            self._api_error(response)
         return [x['command'] for x in response.json()['commands']]
 
     def add(self, command):
@@ -171,6 +187,7 @@ class WebHistory(HistoryBase):
 
         Raises:
             ArcheloncConnectionException
+            ArcheloncAPIException
         """
         try:
             response = self.session.post(
@@ -179,15 +196,20 @@ class WebHistory(HistoryBase):
             )
         except requests.exceptions.ConnectionError:
             self._connection_error()
-
         if response.status_code != 201:
-            return False, (response.json(), response.status_code)
+            self._api_error(response)
         else:
             return True, None
 
     def bulk_add(self, commands):
         """
         Post a list of commands
+
+        Args:
+            commands (list): List of commands to add to server.
+        Raises:
+            ArcheloncConnectionException
+            ArcheloncAPIException
         """
         try:
             response = self.session.post(
@@ -197,7 +219,7 @@ class WebHistory(HistoryBase):
         except requests.exceptions.ConnectionError:
             self._connection_error()
         if response.status_code != 200:
-            return False, (response.json(), response.status_code)
+            self._api_error(response)
         else:
             return True, (response.json(), response.status_code)
 
@@ -207,6 +229,7 @@ class WebHistory(HistoryBase):
 
         Raises:
             ArcheloncConnectionException
+            ArcheloncAPIException
         """
         try:
             response = self.session.get(
@@ -217,7 +240,7 @@ class WebHistory(HistoryBase):
             self._connection_error()
 
         if response.status_code != 200:
-            return ['Error in API Call {}'.format(response.text)]
+            self._api_error(response)
         return [x['command'] for x in response.json()['commands']]
 
     def delete(self, command):
@@ -225,8 +248,9 @@ class WebHistory(HistoryBase):
         Deletes the command given on the server.
 
         Raises:
-            ArcheloncDataException
             ArcheloncConnectionException
+            ArcheloncAPIException
+            ValueError
         Returns:
             None
         """
@@ -238,11 +262,12 @@ class WebHistory(HistoryBase):
             )
         except requests.exceptions.ConnectionError:
             self._connection_error()
-
+        if response.status_code != 200:
+            self._api_error(response)
         commands = response.json()['commands']
         if len(commands) != 1:
-            raise ArcheloncDataException(
-                'More than one command given, cannot delete'
+            raise ValueError(
+                'More than one command returned by search, cannot delete'
             )
         command_id = commands[0]['id']
         response = self.session.delete(
@@ -250,3 +275,5 @@ class WebHistory(HistoryBase):
                 base_url=self.url, command_id=command_id
             )
         )
+        if response.status_code != 200:
+            self._api_error(response)
