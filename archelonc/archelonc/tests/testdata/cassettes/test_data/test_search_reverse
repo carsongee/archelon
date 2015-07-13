@@ -1,0 +1,705 @@
+interactions:
+- request:
+    body: '{"commands": ["TestUnique - SearchReverse0", "TestUnique - SearchReverse1",
+      "TestUnique - SearchReverse2", "TestUnique - SearchReverse3", "TestUnique -
+      SearchReverse4", "TestUnique - SearchReverse5", "TestUnique - SearchReverse6",
+      "TestUnique - SearchReverse7", "TestUnique - SearchReverse8", "TestUnique -
+      SearchReverse9", "TestUnique - SearchReverse10", "TestUnique - SearchReverse11",
+      "TestUnique - SearchReverse12", "TestUnique - SearchReverse13", "TestUnique
+      - SearchReverse14", "TestUnique - SearchReverse15", "TestUnique - SearchReverse16",
+      "TestUnique - SearchReverse17", "TestUnique - SearchReverse18", "TestUnique
+      - SearchReverse19", "TestUnique - SearchReverse20", "TestUnique - SearchReverse21",
+      "TestUnique - SearchReverse22", "TestUnique - SearchReverse23", "TestUnique
+      - SearchReverse24", "TestUnique - SearchReverse25", "TestUnique - SearchReverse26",
+      "TestUnique - SearchReverse27", "TestUnique - SearchReverse28", "TestUnique
+      - SearchReverse29", "TestUnique - SearchReverse30", "TestUnique - SearchReverse31",
+      "TestUnique - SearchReverse32", "TestUnique - SearchReverse33", "TestUnique
+      - SearchReverse34", "TestUnique - SearchReverse35", "TestUnique - SearchReverse36",
+      "TestUnique - SearchReverse37", "TestUnique - SearchReverse38", "TestUnique
+      - SearchReverse39", "TestUnique - SearchReverse40", "TestUnique - SearchReverse41",
+      "TestUnique - SearchReverse42", "TestUnique - SearchReverse43", "TestUnique
+      - SearchReverse44", "TestUnique - SearchReverse45", "TestUnique - SearchReverse46",
+      "TestUnique - SearchReverse47", "TestUnique - SearchReverse48", "TestUnique
+      - SearchReverse49", "TestUnique - SearchReverse50", "TestUnique - SearchReverse51",
+      "TestUnique - SearchReverse52", "TestUnique - SearchReverse53", "TestUnique
+      - SearchReverse54", "TestUnique - SearchReverse55", "TestUnique - SearchReverse56",
+      "TestUnique - SearchReverse57", "TestUnique - SearchReverse58", "TestUnique
+      - SearchReverse59", "TestUnique - SearchReverse60", "TestUnique - SearchReverse61",
+      "TestUnique - SearchReverse62", "TestUnique - SearchReverse63", "TestUnique
+      - SearchReverse64", "TestUnique - SearchReverse65", "TestUnique - SearchReverse66",
+      "TestUnique - SearchReverse67", "TestUnique - SearchReverse68", "TestUnique
+      - SearchReverse69", "TestUnique - SearchReverse70", "TestUnique - SearchReverse71",
+      "TestUnique - SearchReverse72", "TestUnique - SearchReverse73", "TestUnique
+      - SearchReverse74", "TestUnique - SearchReverse75", "TestUnique - SearchReverse76",
+      "TestUnique - SearchReverse77", "TestUnique - SearchReverse78", "TestUnique
+      - SearchReverse79", "TestUnique - SearchReverse80", "TestUnique - SearchReverse81",
+      "TestUnique - SearchReverse82", "TestUnique - SearchReverse83", "TestUnique
+      - SearchReverse84", "TestUnique - SearchReverse85", "TestUnique - SearchReverse86",
+      "TestUnique - SearchReverse87", "TestUnique - SearchReverse88", "TestUnique
+      - SearchReverse89", "TestUnique - SearchReverse90", "TestUnique - SearchReverse91",
+      "TestUnique - SearchReverse92", "TestUnique - SearchReverse93", "TestUnique
+      - SearchReverse94", "TestUnique - SearchReverse95", "TestUnique - SearchReverse96",
+      "TestUnique - SearchReverse97", "TestUnique - SearchReverse98", "TestUnique
+      - SearchReverse99"]}'
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+      Content-Length: ['3204']
+      Content-Type: [application/json]
+    method: POST
+    uri: http://192.168.59.103:8580/api/v1/history
+  response:
+    body: {string: !!python/unicode "{\n  \"responses\": [\n    {\n      \"headers\"\
+        : {\n        \"location\": \"/api/v1/history/681dd049d75dc2adb627f595666dae15a0a9442cdcd282db0da5576b1b8f74da\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/42f5151ce228f390c41deb2563620db16071083880de69d5413adeae6f513ca8\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/d45e761353de388b61d47ccbb7f41495fe684e28460fb2cf182a56e3dfaae04e\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/960fae9a34f013d420250f2e19ab31b67ae85e9ce9a395b8d2347c492c665a44\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/780e64c1e90923841186f708059360586f3018f6ba1b9bead5920bb232252fda\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f18fa91b5b1f90a4b690ed6d80e17cb3a0b4b584cb68507819a2b8c03b7143e1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/fee75e11c2850a2648afaa556821cdbc183339a21c53ab32467437233f2ec5f9\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8f68382f3854d5270447e383096c30950c2e3039897121278803f0db5fb307a8\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/4f9b45f3b10786c82af56b43e443baba314a6a963dd72d786a09ff037390a680\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f239c71cbd58ea16843d2e8e6952a3012e4a31268923d2e7383d1af90f0f95d3\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/5d3d5fef7d6cb02ce1ce0483becc03d0675054472e1a20867a45dbd1b7175c1b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/ddd5969a6c8d33f07b3704a49772eff5e6a32ddb0d3ee4a012e5babc10dd2bf3\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f4fb46cd6d2ec901aa1abc4f9e4d0ee3abbb1ed6fde11b6389ccdb72c8745d7f\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/7a30d58d462eff14fad756b0f5412e6e6d64039e85d25d12b526b2d8b37ce5e0\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f9db9192c262c869ce8835e42509633a31432c85774e43abb672620bb383ec32\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/489bc8249e028ecd1b320ca623a1dc7ec715a4f0e003bc96aca12fe2d857471b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/82998ab1275f33aec3cce606506ab7cf8e2b1dce7de6b50c7c21e6ce24badfb4\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/7ad01f06a8efc9911ae611942919d446447d446154af8e0af1e30da869628e85\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/1265cb9f95b75aa35925bab1687d3bbd6036840112ddb059f58c9192aaeeeae2\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/fed0f32eddd65d9dcc494443f9b151dede81688286d23f4bb2ed5ebc504f0e8d\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/397830cb665e546c0bd039c66ae9ed247c0dd1530cdd278d6bc52f804fa61b91\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8ed984dfcacac3417d765234d2740d3983aa89733d187f78c6b3705f393a1994\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/3f96190b54e1a38dacd9024cb38ca181bae31d6c672a25802acd621320866b8b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/41d85bd72c49262a762d1b700f05628bfe459ca3364a4c0f94ea8ea995d6eecb\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/69c41706e728104600799d6a563fecc45339a52ea9273db97fdf93ac40940f42\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/e46d265cb91e4e6fbf908dc0f96495525cf1ba2db6a8c45914bbf4197bed351f\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/433de44694ffa6f8fda61552c642b52a42617da6312a0bb188014b7bfd048f23\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/a34e52984ea63b07fb38ab98c894872f37271ba34477ce2891a267c601fe1d66\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/039674196e4b189ce1117e6740105f8cd3428282c6fd56f929413c7b6261e1f7\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/7d044bfea49cc5d3ece2059607f0e43e3ceb9d87271b06cd3ce778489948e2c9\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/b74a3eddb55f23611eb53b73ca2d14aee9a944365d0fd9abbf725184c1b7dc61\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/b1a5f833a9cea1b7e6d9515443bbe6004c6cedb6d811cb27c53dbe74a390e49a\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f0292d493fca4fbe85225e95050450718afe6f274fcd06c5671953dee69dcb22\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/db3855a941e5781f067026c24f74390c9d53f441327d6cff5a53bb5e5fab07d1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/2c3711dcc9a8a7184b6e5dc34af8ac0596ad18b6cbbff247da5f749c460f2f38\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/c0916788c9baa916a48a56743636b2e90e026813d418d9b318d82f9a8e111063\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f5564f7ee19399a85fa2ce55d6756ccbd07e2292ad1deed089dbe17ea4732deb\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/e97fbed3e1c5645c3fa48c80fd4f4ce22f282d4ad28939f1254fc2d5e016830f\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/6b973e0a6bbd729cb52ed23aec2034c4fcc7d82633e8f60f7020ed12bc7ad2d1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8513c02baeb24358372bf4bd3309512648397ba01e80b45be5a80649a10251ed\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/715f293d2ac2c0399881e3f4810fa09145bbe52af84b7215772c1f58c6c4b2fc\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/174f129b6ebbd12e0014f61925f1b2cc43ea8382d75cdd1c6688a8f592331dba\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/89b8f868a732258dd54635f2d883d1d95ad34afec9d2ba6b924f6b72beab0fd1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8e18943b443f9dc200440f5b6ed98da5c3b103e00925f43777aaba34efbafc0c\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/dd0c5a54e0e66f443826a5dd05c51a7f927229543ac2bad904a0c2753f14e784\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/21603ddcd7d61670c4c8155267b6aa2fb0b6550021b8b8d66ad935c99a95fd6d\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f9b3532ce00deb3aacae59ef2432deede5cfefcc2a67c7a94fa91236753c6677\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8352515d1ef7a5d649711fbfaed6e57de5bd2bb86c0eedf4aa56904e8cb31ce8\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/ae0e8c7874005612fb046c22e7927ba1c87247cd9b4851933118b29dc9e4b98f\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/2772649ed4a48273bed5d477b442e7a722a5e900f207fe1374a9d32d35349114\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/c7f23e6acaf191ec4f1c222631adce8940a54e8b5e988852f14ad28a8b21c3e4\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8cb7ec418a33c23d0b7f65c5ade1307b7605a8a2a5754126ee08ad8944cbe8c8\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/799b6509397c281c8ad5a9303efe52c89e7c8c08cc8123e5e86654cbf05f64c5\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/891a57c666a0b013c71960c705516426747edd25a78f87cfb32c670955735168\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/4647390b9725f783ecea0a75a6ef9c69112d15fa6f5cd6675bb163c486e63db2\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/c2932bc39b14a37b461fe21e7534133f43ddcfcfaecd9e1fd82f1730e66bc5df\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/5e624b0111c75aab1e3910b2c605a5c0354b762edeee2baf6c4004c3716d32d9\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/dfb133b5d2de172ca98f10c4d2982451b9680f7513b29e2148f0f432c4d913b0\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/7200e52f9bee4a8e82c736e9ea3a6d638c1cae6ebdf73afe0084188a7b39e8e2\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/2a9fe82513d5c5f9edcdd86726595dc789e6664cce180bf8898e487fe03c18e5\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/1f17cb5516ebe273d77d0730874f85ac8a8fb4baa1f153763ec1d60f65f75518\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/f3aa2457d12fa8bf134f8a4b0e296c9bd0f4df47a2ccdc8b82fd5da145900c4b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/5022210ab398eedb157bfd8222a5bb36f15b1222b6b80b14beeb2f9754dbf454\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/6a70007d2ed5e14f5f4b0c8009bb26c6d5a21408822dfe4edad1ce6c44a36882\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/34143d7a04b13de1d0cea23d3ae3c1c94d72e244f6139deb8b75b002df96655a\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/aaa2424e3131215e703f32c975bc6ed89227c7230820c9d1c3bea96dcb949d3d\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/3c3df2f3778b3d9690655b2d8c0d0a3bddbdce6a1023794ead82ae3f7719dd88\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/2cdae41d102a3b69aaefbab943999abaa4a092050fde3a81e6ca8199e9a7b832\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/b2dbbb36aa2d498fbf66822d5037579235f292374cc1b08b37f5afb3849ffbe1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/36eba716f197ea752fd95ac6182c11a7f2e85f7ea4756ae00cfd66dcc4113d79\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/209103147da8ab5c8ba44ba71645016fe90e4bf73b97fb8c4de33e509d850fd0\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/8eac1c652a421ded74bd804d09a742cbeff7a18e731bd0e28bdeb5ad34b03b31\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/98de0ce44f4d896281120b55c6d75d10c6b46cf8a1ccd4d9815a406b6ab9c8f1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/57a5bd4fa647541634a3aa62e13504acd76db22cb29d28a7462ef2d9e7641357\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/a4e9cd56618ddc6b4f7399a75e058bf2b25ac8d465e97ffe4c7fcf8254adffb3\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/26cc08597b04f0e46c37f4d751274a58d6bbb98dd260e44facadb1f633d4aef3\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/89e6ea31d1de95bbaac2991a1f45f5eb310adc99c6406459f0360f931914a050\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/bc5f350ad9b3162d3ad9c3c9ff1956703dfa68de04218127dbdf2996b884e430\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/679d5cc99698f472e369bb0a95786144b83c5d8e5cc19c0fa9d8b8abe940512f\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/b7331481bdb7742ae302ad5348c4fd88cb272e44d34782b9cd3836401d4d81af\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/1b522493a5c4d69fb456d8bd21e99e1a98ba743ec2a7cbdac458cab71cfcff86\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/3c75e9b34a82812400d666f88f816939b8d9ba7126464618339f9e770db5075a\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/a8253c819c9f41e3a4c05c3d8681e58c334f185ae0bb50f79eeb5bfd50c53308\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/fda3b6ce900387b3f0753824720d14c22ac2743024ba60400f4c6ed72e59b338\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/aec3d7f3fa9fb9bdcbcdfabe5b7bfd7b626cec49edc5f12b521e2148b706593d\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/da9ffa183fbf083731d5c5f85f0335ff96cbba0caad01d5f1b15d5ecd1680849\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/82c3f29d4d92b42037d97c7c63aa9cbc18ddd46c3f6dc040aa1e85bbb7938dd1\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/71f8f7cd5a2aa9e2f0b01f13bbce5b81df4b96a65138c9902e9403cf12b4c157\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/98acf023004f5753c739a388087234f7396b39d577001a127cec3eba17c06374\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/61ae5ba88ca186f09ad711ad1d74fde8fe3474495a65ae7fd37ca60295734434\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/59d17e3ed9ec07d8cfce2036a7df4bd19755424b91409c1ff7b543f88c70bc81\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/3f68f77c8c1af2f5e3dec86c254c5746d6847b8ba9b288f19a072100babdac95\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/624f9dbac3a98c5d263fa65b2ec7ae3188681fd5b2ba22e9d8452fc30fc3af1b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/333a2c1524e9dee36baef2117e44daf4ee9fe45e48cf5f37bf4d452426095b50\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/37741598f9ea1a94ba86a14a75c5de3b303c157828cae0f57d983494645e905b\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/573f6f0559534c92bcf27931783082f57d8b57def07bdf53f8e4d2b947a445cb\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/4ee9bf4dd0e7d8ec53a3ab1edd18e51b8c6044e5123896380a060a5226e4c9f7\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/83335e3882a67704d30557b67dda2f2dcdfc3f1f3cfa47abd74ab63c3070c2a3\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/0950816ab413445b7696ccb599d35798d480ee95f2c3b5288bca3e38bd78b47d\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/2db630cba0211dbc6711ea8d29658962924565575dab9d788a922cfc60c15af6\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    }\n\
+        \  ]\n}"}
+    headers:
+      content-length: ['19123']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 18:26:02 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?q=TestUnique+-+SearchReverse42&p=0&o=r
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"TestUnique - SearchReverse42\",\n      \"host\": \"192.168.59.3\",\n \
+        \     \"id\": \"89b8f868a732258dd54635f2d883d1d95ad34afec9d2ba6b924f6b72beab0fd1\"\
+        ,\n      \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.403182+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['314']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 18:26:03 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?q=TestUnique+-+SearchReverse&p=1&o=r
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"TestUnique - SearchReverse49\",\n      \"host\": \"192.168.59.3\",\n \
+        \     \"id\": \"2772649ed4a48273bed5d477b442e7a722a5e900f207fe1374a9d32d35349114\"\
+        ,\n      \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.469154+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse48\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        ae0e8c7874005612fb046c22e7927ba1c87247cd9b4851933118b29dc9e4b98f\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.461730+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse47\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8352515d1ef7a5d649711fbfaed6e57de5bd2bb86c0eedf4aa56904e8cb31ce8\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.449826+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse46\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f9b3532ce00deb3aacae59ef2432deede5cfefcc2a67c7a94fa91236753c6677\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.439910+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse45\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        21603ddcd7d61670c4c8155267b6aa2fb0b6550021b8b8d66ad935c99a95fd6d\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.433546+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse44\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        dd0c5a54e0e66f443826a5dd05c51a7f927229543ac2bad904a0c2753f14e784\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.422452+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse43\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8e18943b443f9dc200440f5b6ed98da5c3b103e00925f43777aaba34efbafc0c\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.411271+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse42\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        89b8f868a732258dd54635f2d883d1d95ad34afec9d2ba6b924f6b72beab0fd1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.403182+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse41\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        174f129b6ebbd12e0014f61925f1b2cc43ea8382d75cdd1c6688a8f592331dba\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.388610+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse40\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        715f293d2ac2c0399881e3f4810fa09145bbe52af84b7215772c1f58c6c4b2fc\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.380877+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse39\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8513c02baeb24358372bf4bd3309512648397ba01e80b45be5a80649a10251ed\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.369795+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse38\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        6b973e0a6bbd729cb52ed23aec2034c4fcc7d82633e8f60f7020ed12bc7ad2d1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.360313+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse37\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        e97fbed3e1c5645c3fa48c80fd4f4ce22f282d4ad28939f1254fc2d5e016830f\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.353554+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse36\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f5564f7ee19399a85fa2ce55d6756ccbd07e2292ad1deed089dbe17ea4732deb\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.342732+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse35\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        c0916788c9baa916a48a56743636b2e90e026813d418d9b318d82f9a8e111063\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.333050+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse34\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        2c3711dcc9a8a7184b6e5dc34af8ac0596ad18b6cbbff247da5f749c460f2f38\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.321077+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse33\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        db3855a941e5781f067026c24f74390c9d53f441327d6cff5a53bb5e5fab07d1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.309594+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse32\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f0292d493fca4fbe85225e95050450718afe6f274fcd06c5671953dee69dcb22\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.304339+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse31\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        b1a5f833a9cea1b7e6d9515443bbe6004c6cedb6d811cb27c53dbe74a390e49a\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.290455+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse30\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        b74a3eddb55f23611eb53b73ca2d14aee9a944365d0fd9abbf725184c1b7dc61\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.279992+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse29\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        7d044bfea49cc5d3ece2059607f0e43e3ceb9d87271b06cd3ce778489948e2c9\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.271891+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse28\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        039674196e4b189ce1117e6740105f8cd3428282c6fd56f929413c7b6261e1f7\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.263894+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse27\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        a34e52984ea63b07fb38ab98c894872f37271ba34477ce2891a267c601fe1d66\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.250757+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse26\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        433de44694ffa6f8fda61552c642b52a42617da6312a0bb188014b7bfd048f23\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.238623+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse25\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        e46d265cb91e4e6fbf908dc0f96495525cf1ba2db6a8c45914bbf4197bed351f\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.230452+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse24\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        69c41706e728104600799d6a563fecc45339a52ea9273db97fdf93ac40940f42\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.216757+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse23\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        41d85bd72c49262a762d1b700f05628bfe459ca3364a4c0f94ea8ea995d6eecb\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.207799+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse22\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        3f96190b54e1a38dacd9024cb38ca181bae31d6c672a25802acd621320866b8b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.189126+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse21\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8ed984dfcacac3417d765234d2740d3983aa89733d187f78c6b3705f393a1994\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.173696+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse20\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        397830cb665e546c0bd039c66ae9ed247c0dd1530cdd278d6bc52f804fa61b91\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.163587+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse19\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        fed0f32eddd65d9dcc494443f9b151dede81688286d23f4bb2ed5ebc504f0e8d\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.154152+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse18\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        1265cb9f95b75aa35925bab1687d3bbd6036840112ddb059f58c9192aaeeeae2\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.146798+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse17\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        7ad01f06a8efc9911ae611942919d446447d446154af8e0af1e30da869628e85\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.131388+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse16\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        82998ab1275f33aec3cce606506ab7cf8e2b1dce7de6b50c7c21e6ce24badfb4\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.117976+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse15\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        489bc8249e028ecd1b320ca623a1dc7ec715a4f0e003bc96aca12fe2d857471b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.111227+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse14\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f9db9192c262c869ce8835e42509633a31432c85774e43abb672620bb383ec32\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.102853+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse13\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        7a30d58d462eff14fad756b0f5412e6e6d64039e85d25d12b526b2d8b37ce5e0\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.092117+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse12\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f4fb46cd6d2ec901aa1abc4f9e4d0ee3abbb1ed6fde11b6389ccdb72c8745d7f\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.080127+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse11\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        ddd5969a6c8d33f07b3704a49772eff5e6a32ddb0d3ee4a012e5babc10dd2bf3\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.071975+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse10\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        5d3d5fef7d6cb02ce1ce0483becc03d0675054472e1a20867a45dbd1b7175c1b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.062085+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse9\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f239c71cbd58ea16843d2e8e6952a3012e4a31268923d2e7383d1af90f0f95d3\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.054500+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse8\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        4f9b45f3b10786c82af56b43e443baba314a6a963dd72d786a09ff037390a680\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.041538+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse7\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8f68382f3854d5270447e383096c30950c2e3039897121278803f0db5fb307a8\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.022605+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse6\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        fee75e11c2850a2648afaa556821cdbc183339a21c53ab32467437233f2ec5f9\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.014085+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse5\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f18fa91b5b1f90a4b690ed6d80e17cb3a0b4b584cb68507819a2b8c03b7143e1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.005499+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse4\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        780e64c1e90923841186f708059360586f3018f6ba1b9bead5920bb232252fda\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:00.996181+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse3\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        960fae9a34f013d420250f2e19ab31b67ae85e9ce9a395b8d2347c492c665a44\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:00.988058+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse2\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        d45e761353de388b61d47ccbb7f41495fe684e28460fb2cf182a56e3dfaae04e\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:00.979384+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse1\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        42f5151ce228f390c41deb2563620db16071083880de69d5413adeae6f513ca8\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:00.968194+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse0\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        681dd049d75dc2adb627f595666dae15a0a9442cdcd282db0da5576b1b8f74da\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:00.960536+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['14612']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 18:26:03 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?q=TestUnique+-+SearchReverse&p=0&o=r
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"TestUnique - SearchReverse99\",\n      \"host\": \"192.168.59.3\",\n \
+        \     \"id\": \"2db630cba0211dbc6711ea8d29658962924565575dab9d788a922cfc60c15af6\"\
+        ,\n      \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.977340+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse98\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        0950816ab413445b7696ccb599d35798d480ee95f2c3b5288bca3e38bd78b47d\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.960601+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse97\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        83335e3882a67704d30557b67dda2f2dcdfc3f1f3cfa47abd74ab63c3070c2a3\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.949999+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse96\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        4ee9bf4dd0e7d8ec53a3ab1edd18e51b8c6044e5123896380a060a5226e4c9f7\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.944109+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse95\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        573f6f0559534c92bcf27931783082f57d8b57def07bdf53f8e4d2b947a445cb\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.933547+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse94\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        37741598f9ea1a94ba86a14a75c5de3b303c157828cae0f57d983494645e905b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.925491+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse93\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        333a2c1524e9dee36baef2117e44daf4ee9fe45e48cf5f37bf4d452426095b50\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.919109+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse92\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        624f9dbac3a98c5d263fa65b2ec7ae3188681fd5b2ba22e9d8452fc30fc3af1b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.911973+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse91\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        3f68f77c8c1af2f5e3dec86c254c5746d6847b8ba9b288f19a072100babdac95\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.897465+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse90\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        59d17e3ed9ec07d8cfce2036a7df4bd19755424b91409c1ff7b543f88c70bc81\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.891720+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse89\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        61ae5ba88ca186f09ad711ad1d74fde8fe3474495a65ae7fd37ca60295734434\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.887060+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse88\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        98acf023004f5753c739a388087234f7396b39d577001a127cec3eba17c06374\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.880220+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse87\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        71f8f7cd5a2aa9e2f0b01f13bbce5b81df4b96a65138c9902e9403cf12b4c157\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.869136+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse86\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        82c3f29d4d92b42037d97c7c63aa9cbc18ddd46c3f6dc040aa1e85bbb7938dd1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.862064+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse85\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        da9ffa183fbf083731d5c5f85f0335ff96cbba0caad01d5f1b15d5ecd1680849\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.849695+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse84\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        aec3d7f3fa9fb9bdcbcdfabe5b7bfd7b626cec49edc5f12b521e2148b706593d\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.840868+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse83\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        fda3b6ce900387b3f0753824720d14c22ac2743024ba60400f4c6ed72e59b338\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.832007+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse82\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        a8253c819c9f41e3a4c05c3d8681e58c334f185ae0bb50f79eeb5bfd50c53308\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.824765+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse81\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        3c75e9b34a82812400d666f88f816939b8d9ba7126464618339f9e770db5075a\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.812522+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse80\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        1b522493a5c4d69fb456d8bd21e99e1a98ba743ec2a7cbdac458cab71cfcff86\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.800901+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse79\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        b7331481bdb7742ae302ad5348c4fd88cb272e44d34782b9cd3836401d4d81af\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.789477+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse78\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        679d5cc99698f472e369bb0a95786144b83c5d8e5cc19c0fa9d8b8abe940512f\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.783990+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse77\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        bc5f350ad9b3162d3ad9c3c9ff1956703dfa68de04218127dbdf2996b884e430\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.774680+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse76\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        89e6ea31d1de95bbaac2991a1f45f5eb310adc99c6406459f0360f931914a050\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.769363+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse75\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        26cc08597b04f0e46c37f4d751274a58d6bbb98dd260e44facadb1f633d4aef3\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.758642+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse74\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        a4e9cd56618ddc6b4f7399a75e058bf2b25ac8d465e97ffe4c7fcf8254adffb3\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.747212+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse73\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        57a5bd4fa647541634a3aa62e13504acd76db22cb29d28a7462ef2d9e7641357\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.729539+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse72\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        98de0ce44f4d896281120b55c6d75d10c6b46cf8a1ccd4d9815a406b6ab9c8f1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.722339+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse71\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8eac1c652a421ded74bd804d09a742cbeff7a18e731bd0e28bdeb5ad34b03b31\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.706239+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse70\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        209103147da8ab5c8ba44ba71645016fe90e4bf73b97fb8c4de33e509d850fd0\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.696237+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse69\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        36eba716f197ea752fd95ac6182c11a7f2e85f7ea4756ae00cfd66dcc4113d79\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.682267+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse68\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        b2dbbb36aa2d498fbf66822d5037579235f292374cc1b08b37f5afb3849ffbe1\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.670030+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse67\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        2cdae41d102a3b69aaefbab943999abaa4a092050fde3a81e6ca8199e9a7b832\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.660527+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse66\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        3c3df2f3778b3d9690655b2d8c0d0a3bddbdce6a1023794ead82ae3f7719dd88\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.652452+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse65\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        aaa2424e3131215e703f32c975bc6ed89227c7230820c9d1c3bea96dcb949d3d\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.637924+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse64\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        34143d7a04b13de1d0cea23d3ae3c1c94d72e244f6139deb8b75b002df96655a\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.630933+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse63\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        6a70007d2ed5e14f5f4b0c8009bb26c6d5a21408822dfe4edad1ce6c44a36882\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.621557+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse62\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        5022210ab398eedb157bfd8222a5bb36f15b1222b6b80b14beeb2f9754dbf454\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.611109+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse61\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        f3aa2457d12fa8bf134f8a4b0e296c9bd0f4df47a2ccdc8b82fd5da145900c4b\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.594854+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse60\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        1f17cb5516ebe273d77d0730874f85ac8a8fb4baa1f153763ec1d60f65f75518\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.586562+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse59\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        2a9fe82513d5c5f9edcdd86726595dc789e6664cce180bf8898e487fe03c18e5\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.574115+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse58\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        7200e52f9bee4a8e82c736e9ea3a6d638c1cae6ebdf73afe0084188a7b39e8e2\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.563931+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse57\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        dfb133b5d2de172ca98f10c4d2982451b9680f7513b29e2148f0f432c4d913b0\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.551772+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse56\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        5e624b0111c75aab1e3910b2c605a5c0354b762edeee2baf6c4004c3716d32d9\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.542369+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse55\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        c2932bc39b14a37b461fe21e7534133f43ddcfcfaecd9e1fd82f1730e66bc5df\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.533175+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse54\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        4647390b9725f783ecea0a75a6ef9c69112d15fa6f5cd6675bb163c486e63db2\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.519806+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse53\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        891a57c666a0b013c71960c705516426747edd25a78f87cfb32c670955735168\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.510998+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse52\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        799b6509397c281c8ad5a9303efe52c89e7c8c08cc8123e5e86654cbf05f64c5\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.500308+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse51\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        8cb7ec418a33c23d0b7f65c5ade1307b7605a8a2a5754126ee08ad8944cbe8c8\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.492971+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - SearchReverse50\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"\
+        c7f23e6acaf191ec4f1c222631adce8940a54e8b5e988852f14ad28a8b21c3e4\",\n    \
+        \  \"meta\": {},\n      \"score\": null,\n      \"timestamp\": \"2015-07-12T18:26:01.483007+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['14622']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 18:26:03 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+version: 1
