@@ -12,6 +12,9 @@ from archelonc.search import Search
 from archelonc.data import WebHistory, ArcheloncConnectionException
 
 HISTORY_FILE = os.path.expanduser('~/.archelon_history')
+UNCONFIGURED_ERROR = ("Archelon isn't configured for Web history,"
+                      " check `ARCHELON_URL` and `ARCHELON_TOKEN`"
+                      " environment variables.")
 
 
 def _get_web_setup():
@@ -42,7 +45,8 @@ def update():
     web_history = _get_web_setup()
     # If we aren't setup for Web usage, just bomb out.
     if not web_history:
-        sys.exit(0)
+        print(UNCONFIGURED_ERROR)
+        sys.exit(1)
 
     current_hist_file = os.path.expanduser(
         os.environ.get('HISTFILE', '~/.bash_history')
@@ -61,8 +65,8 @@ def update():
         # use diff lib "codes" to see if we need to upload differences
         for diff in results:
             if diff[:2] == '+ ' or diff[:2] == '? ':
-                if diff[:2]:
-                    commands[diff[2:]] = None
+                if diff[2:-1]:
+                    commands[diff[2:-1]] = None
 
     # Warn if we are doing a large upload
     num_commands = len(commands.keys())
@@ -73,6 +77,8 @@ def update():
     try:
         success = True
         commands = [x for x in commands.keys() if x]
+        # To ease testing, sort commands
+        commands.sort()
         if len(commands) > 0:
             success, response = web_history.bulk_add(
                 commands
@@ -94,10 +100,7 @@ def import_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(
-            'You must specify an archelon server in the environment with '
-            '`ARCHELON_URL` and `ARCHELON_TOKEN` environment variables'
-        )
+        print(UNCONFIGURED_ERROR)
         sys.exit(1)
 
     # Read history and post to server.  if arg[1]
@@ -136,11 +139,7 @@ def export_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(
-            'Nothing to export as archelon server not configured in '
-            'environment.'
-            'Please set `ARCHELON_URL` and `ARCHELON_TOKEN` variables.'
-        )
+        print(UNCONFIGURED_ERROR)
         sys.exit(1)
     output_file = sys.stdout
     stdout = True

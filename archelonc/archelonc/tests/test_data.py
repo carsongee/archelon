@@ -7,7 +7,6 @@ import time
 import unittest
 
 import mock
-import vcr
 
 from archelonc.data import (
     LocalHistory,
@@ -15,6 +14,7 @@ from archelonc.data import (
     ArcheloncConnectionException,
     ArcheloncAPIException,
 )
+from archelonc.tests.base import WebTest
 
 
 class TestLocalHistory(unittest.TestCase):
@@ -72,18 +72,10 @@ class TestLocalHistory(unittest.TestCase):
         )
 
 
-class TestWebHistory(unittest.TestCase):
+class TestWebHistory(WebTest):
     """
     Battery for verifying the Web history class works as expected.
     """
-    URL = os.environ.get('ARCHELON_TEST_URL', 'http://localhost:8580')
-    TOKEN = os.environ.get('ARCHELON_TEST_TOKEN', '1234')
-    VCR = vcr.VCR(
-        serializer='yaml',
-        cassette_library_dir='archelonc/tests/testdata/cassettes/test_data/',
-        record_mode='once',
-        match_on=['method', 'scheme', 'path', 'query', 'body'],
-    )
     CONNECTION_METHODS = [
         ('add', ['arg']),
         ('bulk_add', [['blah', 'foo']]),
@@ -175,7 +167,7 @@ class TestWebHistory(unittest.TestCase):
             with self.assertRaises(ArcheloncAPIException):
                 getattr(history, method[0])(*method[1])
 
-    @VCR.use_cassette()
+    @WebTest.VCR.use_cassette()
     def test_add_successful(self):
         """
         Test adding a command successfully.
@@ -189,7 +181,7 @@ class TestWebHistory(unittest.TestCase):
         time.sleep(1)
         self.assertIn(new_command, self._get_all_commands())
 
-    @VCR.use_cassette()
+    @WebTest.VCR.use_cassette()
     def test_bulk_add_successful(self):
         """
         Test adding a command successfully.
@@ -210,7 +202,7 @@ class TestWebHistory(unittest.TestCase):
             set(new_commands).issubset(set(self._get_all_commands()))
         )
 
-    @VCR.use_cassette()
+    @WebTest.VCR.use_cassette()
     def test_delete_successful(self):
         """
         Test deleting a command successfully.
@@ -228,7 +220,7 @@ class TestWebHistory(unittest.TestCase):
         with self.VCR.use_cassette('test_delete_successful_post_delete'):
             self.assertNotIn(new_command, self._get_all_commands())
 
-    @VCR.use_cassette()
+    @WebTest.VCR.use_cassette()
     def test_search_forward(self):
         """
         Verify searching and paging work.
@@ -256,7 +248,7 @@ class TestWebHistory(unittest.TestCase):
         # I'm not asserting order, since for ES it is by score which
         # doesn't match to numeric/alphabetical
 
-    @VCR.use_cassette()
+    @WebTest.VCR.use_cassette()
     def test_search_reverse(self):
         """
         Verify searching and paging work and don't work respectively in reverse
