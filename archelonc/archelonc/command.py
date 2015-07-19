@@ -11,6 +11,7 @@ import sys
 from archelonc.search import Search
 from archelonc.data import WebHistory, ArcheloncConnectionException
 
+LARGE_UPDATE_COUNT = 50
 HISTORY_FILE = os.path.expanduser('~/.archelon_history')
 UNCONFIGURED_ERROR = ("Archelon isn't configured for Web history,"
                       " check `ARCHELON_URL` and `ARCHELON_TOKEN`"
@@ -70,7 +71,7 @@ def update():
 
     # Warn if we are doing a large upload
     num_commands = len(commands.keys())
-    if num_commands > 50:
+    if num_commands > LARGE_UPDATE_COUNT:
         print('Beginning upload of {} history items. '
               'This may take a while...'.format(num_commands))
 
@@ -90,7 +91,7 @@ def update():
         print('Failed to add commands, got:\n {}'.format(
             response
         ))
-        sys.exit(1)
+        sys.exit(2)
     shutil.copy(current_hist_file, HISTORY_FILE)
 
 
