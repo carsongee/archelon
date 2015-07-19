@@ -1,26 +1,36 @@
 Archelon
 ========
 .. image:: https://img.shields.io/travis/carsongee/archelon.svg
+  :target: https://travis-ci.org/carsongee/archelon
 .. image:: https://img.shields.io/coveralls/carsongee/archelon.svg
+  :target: https://coveralls.io/r/carsongee/archelon
 .. image:: https://img.shields.io/pypi/v/archelonc.svg
-   :alt: 'Archelon Client'
+  :target: https://pypi.python.org/pypi/archelonc
+  :alt: 'Archelon Client'
 .. image:: https://img.shields.io/pypi/dm/archelonc.svg
-   :alt: 'Archelon Client'
+  :alt: 'Archelon Client'
+  :target: https://pypi.python.org/pypi/archelonc
 .. image:: https://img.shields.io/pypi/v/archelond.svg
-   :alt: 'Archelond Daemon'
+  :target: https://pypi.python.org/pypi/archelond
+  :alt: 'Archelond Daemon'
 .. image:: https://img.shields.io/pypi/dm/archelond.svg
-   :alt: 'Archelon Daemon'
+  :target: https://pypi.python.org/pypi/archelond
+  :alt: 'Archelon Daemon'
 .. image:: https://img.shields.io/pypi/l/archelond.svg
-
-
-|
-|
+  :target: https://github.com/carsongee/archelon/blob/master/LICENSE
+.. image:: https://readthedocs.org/projects/archelon/badge/?version=latest
+  :target: https://readthedocs.org/projects/archelon/?badge=latest
+  :alt: Latest Documentation
+.. image:: https://readthedocs.org/projects/archelon/badge/?version=release
+  :target: https://readthedocs.org/projects/archelon/?badge=release
+  :alt: Release Documentation
 
 .. figure:: _static/images/full-logo.png
-   :scale: 30%
-   :width: 400px
-   :height: 400px
-   :figclass: align-left
+  :scale: 30%
+  :width: 400px
+  :height: 400px
+  :figclass: align-left
+
 
 Do you want to share shell command history across multiple servers
 with a decent interface?  If you have a ton of servers and lots of
@@ -45,7 +55,6 @@ search engine (Elasticsearch).
   The curses client for searching and sorting history.  It can be used
   without the server backend if you just want to try it out and not
   get a Web server running.
-
 
 .. toctree::
    :maxdepth: 2
