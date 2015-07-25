@@ -125,7 +125,7 @@ def import_history():
         sys.exit(1)
 
     if not success:
-        print('Failed to add commands, got:\n {}'.format(
+        print('Failed to download commands, got:\n {}'.format(
             response
         ))
     # Make copy of imported history so we only have to track
@@ -153,10 +153,10 @@ def export_history():
     except ArcheloncConnectionException as ex:
         print(ex)
         sys.exit(1)
-    output_file.write('\n'.join(results))
     while len(results) > 0:
+        output_file.write('\n'.join(results))
+        output_file.write('\n')
         page += 1
         results = web_history.all(page)
-        output_file.write('\n'.join(results))
     if not stdout:
         output_file.close()
