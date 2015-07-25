@@ -175,3 +175,28 @@ class TestCommands(WebTest):
             update()
         self.assertEqual(exception_context.exception.code, 2)
         self.assertIn('This may take a while', mock_stdout.getvalue())
+
+    @mock.patch('archelonc.command._get_web_setup')
+    @mock.patch('sys.stdout', new_callable=StringIO)
+    def test_export_success_stdout(self, mock_stdout, mock_web_setup):
+        """
+        Validate that we can export all commands successfully.
+        """
+        test_list = ['testing-export1', 'testing-export2']
+        mock_web = mock.MagicMock()
+
+        def side_effect(*args):
+            """Do two pages of the same results."""
+            if args[0] < 2:
+                return test_list
+            else:
+                return []
+
+        mock_web.all.side_effect = side_effect
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', []):
+            export_history()
+        self.assertEqual(
+            mock_stdout.getvalue(),
+            '\n'.join(test_list * 2) + '\n'
+        )
