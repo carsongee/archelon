@@ -86,9 +86,9 @@ def update():
             )
     except ArcheloncConnectionException as ex:
         print(ex)
-        sys.exit(1)
+        sys.exit(3)
     if not success:
-        print('Failed to add commands, got:\n {}'.format(
+        print('Failed to upload commands, got:\n {}'.format(
             response
         ))
         sys.exit(2)
@@ -122,12 +122,13 @@ def import_history():
         success, response = web_history.bulk_add(commands.keys())
     except ArcheloncConnectionException as ex:
         print(ex)
-        sys.exit(1)
+        sys.exit(4)
 
     if not success:
-        print('Failed to download commands, got:\n {}'.format(
+        print('Failed to upload commands, got:\n {}'.format(
             response
         ))
+        sys.exit(6)
     # Make copy of imported history so we only have to track
     # changes from here on out when archelon is invoked
     shutil.copy(hist_file_path, HISTORY_FILE)
@@ -152,7 +153,7 @@ def export_history():
         results = web_history.all(page)
     except ArcheloncConnectionException as ex:
         print(ex)
-        sys.exit(1)
+        sys.exit(5)
     while len(results) > 0:
         output_file.write('\n'.join(results))
         output_file.write('\n')
