@@ -35,6 +35,11 @@ class TestCommands(WebTest):
         "testdata",
         "history"
     )
+    TEST_BASH_HISTORY_ALT = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)),
+        "testdata",
+        "history_alt"
+    )
 
     def test_web_setup(self):
         """
@@ -156,7 +161,7 @@ class TestCommands(WebTest):
         # Test with connection error
         with self.assertRaises(SystemExit) as exception_context:
             update()
-        self.assertEqual(exception_context.exception.code, 1)
+        self.assertEqual(exception_context.exception.code, 3)
 
     @mock.patch.dict('os.environ', {'HISTFILE': TEST_BASH_HISTORY}, clear=True)
     @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
@@ -175,6 +180,63 @@ class TestCommands(WebTest):
             update()
         self.assertEqual(exception_context.exception.code, 2)
         self.assertIn('This may take a while', mock_stdout.getvalue())
+
+    @mock.patch.dict('os.environ', {'HISTFILE': TEST_BASH_HISTORY}, clear=True)
+    @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
+    @mock.patch('archelonc.command._get_web_setup')
+    def test_import_success(self, mock_web_setup):
+        """
+        Verify the uploading of our history file to the server.
+        """
+        self.addCleanup(os.remove, self.TEST_ARCHELON_HISTORY)
+        mock_web = mock.MagicMock()
+        mock_web.bulk_add.return_value = True, 'foo'
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', []):
+            import_history()
+        self.assertTrue(
+            filecmp.cmp(self.TEST_ARCHELON_HISTORY, self.TEST_BASH_HISTORY)
+        )
+
+    @mock.patch.dict('os.environ', {'HISTFILE': TEST_BASH_HISTORY}, clear=True)
+    @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
+    @mock.patch('archelonc.command._get_web_setup')
+    def test_import_success_specified(self, mock_web_setup):
+        """
+        Verify the uploading of our history file to the server
+        from a specified file.
+        """
+        self.addCleanup(os.remove, self.TEST_ARCHELON_HISTORY)
+        mock_web = mock.MagicMock()
+        mock_web.bulk_add.return_value = True, 'foo'
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', ['a', self.TEST_BASH_HISTORY_ALT]):
+            import_history()
+        self.assertTrue(
+            filecmp.cmp(self.TEST_ARCHELON_HISTORY, self.TEST_BASH_HISTORY_ALT)
+        )
+
+    @mock.patch.dict('os.environ', {'HISTFILE': TEST_BASH_HISTORY}, clear=True)
+    @mock.patch('archelonc.command._get_web_setup')
+    def test_import_errors(self, mock_web_setup):
+        """
+        Test handling of connection error handling.
+        """
+        mock_web = mock.MagicMock()
+        mock_web.bulk_add.side_effect = ArcheloncConnectionException()
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', []):
+            with self.assertRaises(SystemExit) as exception_context:
+                import_history()
+        self.assertEqual(exception_context.exception.code, 4)
+
+        # Test bad results coming back
+        mock_web.bulk_add.side_effect = None
+        mock_web.bulk_add.return_value = False, 'foo'
+        with mock.patch('sys.argv', []):
+            with self.assertRaises(SystemExit) as exception_context:
+                import_history()
+        self.assertEqual(exception_context.exception.code, 6)
 
     @mock.patch('archelonc.command._get_web_setup')
     @mock.patch('sys.stdout', new_callable=StringIO)
@@ -200,3 +262,43 @@ class TestCommands(WebTest):
             mock_stdout.getvalue(),
             '\n'.join(test_list * 2) + '\n'
         )
+
+    @mock.patch('archelonc.command._get_web_setup')
+    def test_export_success_file(self, mock_web_setup):
+        """
+        Validate that we can export all commands successfully to a specified
+        file.
+        """
+        self.addCleanup(os.remove, self.TEST_ARCHELON_HISTORY)
+        test_list = ['testing-export1', 'testing-export2']
+        mock_web = mock.MagicMock()
+
+        def side_effect(*args):
+            """Do two pages of the same results."""
+            if args[0] < 2:
+                return test_list
+            else:
+                return []
+
+        mock_web.all.side_effect = side_effect
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', ['a', self.TEST_ARCHELON_HISTORY]):
+            export_history()
+        with open(self.TEST_ARCHELON_HISTORY) as output_file:
+            self.assertEqual(
+                output_file.read(),
+                '\n'.join(test_list * 2) + '\n'
+            )
+
+    @mock.patch('archelonc.command._get_web_setup')
+    def test_export_connection_error(self, mock_web_setup):
+        """
+        Test handling of connection error handling.
+        """
+        mock_web = mock.MagicMock()
+        mock_web.all.side_effect = ArcheloncConnectionException()
+        mock_web_setup.return_value = mock_web
+        with mock.patch('sys.argv', []):
+            with self.assertRaises(SystemExit) as exception_context:
+                export_history()
+        self.assertEqual(exception_context.exception.code, 5)
