@@ -3,6 +3,13 @@
 pytest
 pytest-pep8
 pytest-pylint
+
+# Thanks to @bdero for this:
+# logilab-common is only necessary because pylint's dependency chain will
+# result in the latest logilab-common being fetched, but astroid
+# (another pylint dependency) depends on logilab-common<=0.63.0
+logilab-common==0.63.0
+
 pytest-cov
 pytest-capturelog
 pytest-watch

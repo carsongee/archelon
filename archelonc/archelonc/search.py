@@ -131,11 +131,11 @@ class SearchForm(npyscreen.ActionFormWithMenus):
     """
     # pylint: disable=too-many-ancestors
 
-    def __init__(self, *args, **keywords):
+    def __init__(self, *args, **kwargs):
         """
         Add additional properties for use in state tracking
         """
-        super(SearchForm, self).__init__(*args, **keywords)
+        super(SearchForm, self).__init__(*args, **kwargs)
         self.order = None
 
     def forward_order(self):
@@ -151,14 +151,6 @@ class SearchForm(npyscreen.ActionFormWithMenus):
         """
         self.order = 'r'
         self.search_box.when_value_edited()
-
-    def afterEditing(self):
-        """
-        This is the form to display, so set next to None
-        """
-        # Have to use the methods I'm given.
-        # pylint: disable=invalid-name
-        self.parentApp.setNextForm(None)
 
     def create(self):
         """
@@ -212,6 +204,14 @@ class SearchForm(npyscreen.ActionFormWithMenus):
 
         self.preserve_selected_widget = True
 
+    def afterEditing(self):
+        """
+        This is the only form to display, so set next to None
+        """
+        # Have to use the methods I'm given.
+        # pylint: disable=invalid-name
+        self.parentApp.setNextForm(None)
+
     def on_ok(self, *_):
         """
         We just drop the command into a
@@ -224,7 +224,7 @@ class SearchForm(npyscreen.ActionFormWithMenus):
 
     def on_cancel(self, *_):
         """
-        Drop out with a non 1 exit code so the
+        Drop out with a non 0 exit code so the
         wrapper doesn't execute anything
         """
         sys.exit(1)
