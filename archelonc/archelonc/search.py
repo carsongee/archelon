@@ -89,7 +89,7 @@ class SearchBox(npyscreen.TitleText):
                 return self.parent.parentApp.data.search_forward(
                     self.value, page
                 )
-            elif self.parent.order == 'r':
+            elif self.parent.order == 'r':  # pragma: no branch
                 return self.parent.parentApp.data.search_reverse(
                     self.value, page
                 )

@@ -9,8 +9,10 @@ import unittest
 
 import mock
 
-from archelonc.search import Search, SearchForm
-from archelonc.data import LocalHistory, WebHistory
+from archelonc.search import Search, SearchForm, SearchBox
+from archelonc.data import (
+    LocalHistory, WebHistory, ArcheloncConnectionException
+)
 
 
 class TestSearchMain(unittest.TestCase):
@@ -132,3 +134,102 @@ class TestSearchForm(unittest.TestCase):
                 self.assertEqual(exception_context.exception.code, 0)
                 temp_file.seek(0)
                 self.assertEqual(test_command, temp_file.read())
+
+
+class TestSearchBox(unittest.TestCase):
+    """
+    Verify the SearchBox component.
+    """
+    @staticmethod
+    def _get_mocked_searchbox():
+        """
+        Generate a nicely mocked SearchBox.
+        """
+        with mock.patch('npyscreen.TitleText.__init__') as mock_init:
+            mock_init.return_value = None
+            search_box = SearchBox(mock.MagicMock())
+        search_box.entry_widget = mock.MagicMock()
+        search_box.value = 'Hi'
+        mock_parent = mock.MagicMock()
+        search_box.parent = mock_parent
+        mock_parent.order = None
+        return search_box, mock_parent
+
+    def test_search(self):
+        """
+        Searching forward works.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+
+        # Test forward search
+        search_box.search()
+        mock_parent.parentApp.data.search_forward.assert_called_with(
+            search_box.value, 0
+        )
+
+        # Set page in call and verify
+        search_box.search(14)
+        mock_parent.parentApp.data.search_forward.assert_called_with(
+            search_box.value, 14
+        )
+
+        # Test reverse search
+        mock_parent.order = 'r'
+        search_box.search()
+        mock_parent.parentApp.data.search_reverse.assert_called_with(
+            search_box.value, 0
+        )
+
+        # Set page in call and verify
+        search_box.search(14)
+        mock_parent.parentApp.data.search_reverse.assert_called_with(
+            search_box.value, 14
+        )
+
+    def test_search_exception(self):
+        """
+        Verify we exit out on search failures.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+        mock_parent.parentApp.data.search_forward.side_effect = (
+            ArcheloncConnectionException
+        )
+        with self.assertRaises(SystemExit) as exception_context:
+            search_box.search()
+            mock_parent.parentApp.data.search_forward.assert_called_with(
+                search_box.value, 0
+            )
+        self.assertEqual(exception_context.exception.code, 1)
+
+    def test_value_edited_handler(self):
+        """
+        Veriy that the value edited handler does as expected.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+        search_box.search = mock.MagicMock()
+
+        # Verify no op on no value
+        search_box.value = ''
+        search_box.when_value_edited()
+        self.assertFalse(search_box.search.called)
+
+        # Verify page setting, state changing and other commands
+        mock_parent.parentApp.page = 40
+        mock_parent.parentApp.more = False
+        search_box.value = 'Hi'
+        search_box.when_value_edited()
+        self.assertEqual(mock_parent.parentApp.page, 0)
+        self.assertEqual(mock_parent.parentApp.more, True)
+        mock_parent.results_list.reset_display_cache.assert_called_once_with()
+        mock_parent.results_list.reset_cursor.assert_called_once_with()
+        mock_parent.results_list.update.assert_called_once_with()
+
+        # Verify that we update command box if it hasn't been edited
+        mock_parent.command_box.been_edited = False
+        search_box.when_value_edited()
+        # No results, so nothing should be done with the box
+        self.assertFalse(mock_parent.command_box.update.called)
+        # Add some results
+        search_box.search.return_value = ['foo']
+        search_box.when_value_edited()
+        self.assertEqual(mock_parent.command_box.value, 'foo')
