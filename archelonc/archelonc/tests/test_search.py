@@ -9,45 +9,222 @@ import unittest
 
 import mock
 
-from archelonc.search import Search, SearchForm, SearchBox
+from archelonc.search import (
+    Search, SearchForm, SearchBox, CommandBox, SearchResults, SearchResult
+)
 from archelonc.data import (
     LocalHistory, WebHistory, ArcheloncConnectionException
 )
 
 
-class TestSearchMain(unittest.TestCase):
+class TestSearchResult(unittest.TestCase):
     """
-    Test for the main app and history initialization.
+    Verify the SearchResult Component.
     """
+    def test_update(self):
+        """
+        Verify that we handle update events properly.
+        """
+        with mock.patch('npyscreen.Textfield.__init__') as mock_init:
+            mock_init.return_value = None
+            search_result = SearchResult(mock.MagicMock())
+        mock_parent = search_result.parent = mock.MagicMock()
+        # Call without highlight set to verify we don't change any state
+        # except by calling the super update method.
+        mock_parent.results_list.side_effect = Exception
+        search_result.highlight = False
+        with mock.patch('npyscreen.Textfield.update') as mock_update:
+            search_result.update()
+            self.assertTrue(mock_update.called_once)
 
-    def test_search_init(self):
-        """
-        Verify main form initializes as expected.
-        """
-        search = Search()
-        self.assertTrue(hasattr(search, 'data'))
+        # Verify case of not needing to page results.
+        mock_parent.reset_mock()
+        search_result.highlight = True
+        mock_parent.results_list.side_effect = None
+        mock_parent.results_list.values = ['a', 'b', 'c']
+        mock_parent.results_list.cursor_line = 1
+        with mock.patch('npyscreen.Textfield.update') as mock_update:
+            search_result.update()
+        self.assertTrue(mock_update.called_once)
+        self.assertFalse(mock_parent.results_list.update.called)
 
-    def test_search_onstart(self):
-        """
-        Verify we setup the form and data class correctly
-        """
-        search = Search()
-        search.addForm = mock.MagicMock()
-        # Verify local data with no URLs set.
-        with mock.patch.dict('os.environ', {}, clear=True):
-            with mock.patch('archelonc.search.LocalHistory.__init__') as init:
-                init.return_value = None
-                search.onStart()
-        self.assertTrue(isinstance(search.data, LocalHistory))
+        # Do the paging with results and assert we increment page.
+        mock_parent.reset_mock()
+        mock_parent.parentApp.page = 41
+        mock_parent.results_list.cursor_line = 2
+        mock_parent.search_box.search.return_value = range(2)
+        with mock.patch('npyscreen.Textfield.update') as mock_update:
+            search_result.update()
+        self.assertTrue(mock_update.called_once)
+        self.assertTrue(mock_parent.results_list.update.called)
+        self.assertEqual(42, mock_parent.parentApp.page)
+        self.assertNotEqual(False, mock_parent.parentApp.more)
+        mock_parent.search_box.search.assert_called_once_with(page=42)
 
-        # Verify Web data with URLs set.
-        with mock.patch.dict(
-            'os.environ',
-            {'ARCHELON_URL': 'http://foo', 'ARCHELON_TOKEN': 'foo'},
-            clear=True
-        ):
-            search.onStart()
-        self.assertTrue(isinstance(search.data, WebHistory))
+        # Do the paging without results and assert we falsify
+        # ``parent.ParentApp.more``.
+        mock_parent.reset_mock()
+        mock_parent.results_list.values = ['a', 'b', 'c']
+        mock_parent.search_box.search.return_value = []
+        mock_parent.parentApp.more = True
+        with mock.patch('npyscreen.Textfield.update') as mock_update:
+            search_result.update()
+        self.assertTrue(mock_update.called_once)
+        self.assertTrue(mock_parent.results_list.update.called)
+        self.assertEqual(43, mock_parent.parentApp.page)
+        self.assertEqual(False, mock_parent.parentApp.more)
+        mock_parent.search_box.search.assert_called_once_with(page=43)
+
+
+class TestCommandBox(unittest.TestCase):
+    """
+    Verify the CommandBox component.
+    """
+    @staticmethod
+    def _get_command_box():
+        """
+        Get mocked command box.
+        """
+        with mock.patch('npyscreen.TitleText.__init__') as mock_init:
+            mock_init.return_value = None
+            return CommandBox(mock.MagicMock())
+
+    def test_init(self):
+        """
+        Verify the constructor does as we expect.
+        """
+        command_box = self._get_command_box()
+        self.assertFalse(command_box.been_edited)
+
+    def test_edited_handler(self):
+        """
+        Verify the constructor does as we expect.
+        """
+        command_box = self._get_command_box()
+        self.assertFalse(command_box.been_edited)
+        command_box.when_value_edited()
+        self.assertTrue(command_box.been_edited)
+
+
+class TestSearchBox(unittest.TestCase):
+    """
+    Verify the SearchBox component.
+    """
+    @staticmethod
+    def _get_mocked_searchbox():
+        """
+        Generate a nicely mocked SearchBox.
+        """
+        with mock.patch('npyscreen.TitleText.__init__') as mock_init:
+            mock_init.return_value = None
+            search_box = SearchBox(mock.MagicMock())
+        search_box.entry_widget = mock.MagicMock()
+        search_box.value = 'Hi'
+        mock_parent = mock.MagicMock()
+        search_box.parent = mock_parent
+        mock_parent.order = None
+        return search_box, mock_parent
+
+    def test_search(self):
+        """
+        Searching forward works.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+
+        # Test forward search
+        search_box.search()
+        mock_parent.parentApp.data.search_forward.assert_called_with(
+            search_box.value, 0
+        )
+
+        # Set page in call and verify
+        search_box.search(14)
+        mock_parent.parentApp.data.search_forward.assert_called_with(
+            search_box.value, 14
+        )
+
+        # Test reverse search
+        mock_parent.order = 'r'
+        search_box.search()
+        mock_parent.parentApp.data.search_reverse.assert_called_with(
+            search_box.value, 0
+        )
+
+        # Set page in call and verify
+        search_box.search(14)
+        mock_parent.parentApp.data.search_reverse.assert_called_with(
+            search_box.value, 14
+        )
+
+    def test_search_exception(self):
+        """
+        Verify we exit out on search failures.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+        mock_parent.parentApp.data.search_forward.side_effect = (
+            ArcheloncConnectionException
+        )
+        with self.assertRaises(SystemExit) as exception_context:
+            search_box.search()
+        self.assertEqual(exception_context.exception.code, 1)
+        mock_parent.parentApp.data.search_forward.assert_called_with(
+            search_box.value, 0
+        )
+
+    def test_value_edited_handler(self):
+        """
+        Veriy that the value edited handler does as expected.
+        """
+        search_box, mock_parent = self._get_mocked_searchbox()
+        search_box.search = mock.MagicMock()
+
+        # Verify no op on no value
+        search_box.value = ''
+        search_box.when_value_edited()
+        self.assertFalse(search_box.search.called)
+
+        # Verify page setting, state changing and other commands
+        mock_parent.parentApp.page = 40
+        mock_parent.parentApp.more = False
+        search_box.value = 'Hi'
+        search_box.when_value_edited()
+        self.assertEqual(mock_parent.parentApp.page, 0)
+        self.assertEqual(mock_parent.parentApp.more, True)
+        mock_parent.results_list.reset_display_cache.assert_called_once_with()
+        mock_parent.results_list.reset_cursor.assert_called_once_with()
+        mock_parent.results_list.update.assert_called_once_with()
+
+        # Verify that we update command box if it hasn't been edited
+        mock_parent.command_box.been_edited = False
+        search_box.when_value_edited()
+        # No results, so nothing should be done with the box
+        self.assertFalse(mock_parent.command_box.update.called)
+        # Add some results
+        search_box.search.return_value = ['foo']
+        search_box.when_value_edited()
+        self.assertEqual(mock_parent.command_box.value, 'foo')
+
+
+class TestSearchResults(unittest.TestCase):
+    """
+    Verify the SearchResults component handlers.
+    """
+    def test_highlighted_action(self):
+        """
+        Verify that we update the CommandBox when highlighted and
+        it hasn't been updated.
+        """
+        with mock.patch('npyscreen.MultiLineAction.__init__') as mock_init:
+            mock_init.return_value = None
+            search_results = SearchResults(mock.MagicMock())
+        mocked_parent = search_results.parent = mock.MagicMock()
+        mocked_parent.editw = 0
+        test_value = 'fhqwhgads'
+        search_results.actionHighlighted(test_value, None)
+        self.assertEqual(mocked_parent.command_box.value, test_value)
+        self.assertEqual(2, mocked_parent.editw)
+        mocked_parent.command_box.edit.assert_called_once_with()
+        mocked_parent.command_box.update.assert_called_once_with()
 
 
 @mock.patch('npyscreen.ActionFormWithMenus.__init__')
@@ -136,100 +313,36 @@ class TestSearchForm(unittest.TestCase):
                 self.assertEqual(test_command, temp_file.read())
 
 
-class TestSearchBox(unittest.TestCase):
+class TestSearch(unittest.TestCase):
     """
-    Verify the SearchBox component.
+    Test for the main app and history initialization.
     """
-    @staticmethod
-    def _get_mocked_searchbox():
+
+    def test_search_init(self):
         """
-        Generate a nicely mocked SearchBox.
+        Verify main form initializes as expected.
         """
-        with mock.patch('npyscreen.TitleText.__init__') as mock_init:
-            mock_init.return_value = None
-            search_box = SearchBox(mock.MagicMock())
-        search_box.entry_widget = mock.MagicMock()
-        search_box.value = 'Hi'
-        mock_parent = mock.MagicMock()
-        search_box.parent = mock_parent
-        mock_parent.order = None
-        return search_box, mock_parent
+        search = Search()
+        self.assertTrue(hasattr(search, 'data'))
 
-    def test_search(self):
+    def test_search_onstart(self):
         """
-        Searching forward works.
+        Verify we setup the form and data class correctly
         """
-        search_box, mock_parent = self._get_mocked_searchbox()
+        search = Search()
+        search.addForm = mock.MagicMock()
+        # Verify local data with no URLs set.
+        with mock.patch.dict('os.environ', {}, clear=True):
+            with mock.patch('archelonc.search.LocalHistory.__init__') as init:
+                init.return_value = None
+                search.onStart()
+        self.assertTrue(isinstance(search.data, LocalHistory))
 
-        # Test forward search
-        search_box.search()
-        mock_parent.parentApp.data.search_forward.assert_called_with(
-            search_box.value, 0
-        )
-
-        # Set page in call and verify
-        search_box.search(14)
-        mock_parent.parentApp.data.search_forward.assert_called_with(
-            search_box.value, 14
-        )
-
-        # Test reverse search
-        mock_parent.order = 'r'
-        search_box.search()
-        mock_parent.parentApp.data.search_reverse.assert_called_with(
-            search_box.value, 0
-        )
-
-        # Set page in call and verify
-        search_box.search(14)
-        mock_parent.parentApp.data.search_reverse.assert_called_with(
-            search_box.value, 14
-        )
-
-    def test_search_exception(self):
-        """
-        Verify we exit out on search failures.
-        """
-        search_box, mock_parent = self._get_mocked_searchbox()
-        mock_parent.parentApp.data.search_forward.side_effect = (
-            ArcheloncConnectionException
-        )
-        with self.assertRaises(SystemExit) as exception_context:
-            search_box.search()
-            mock_parent.parentApp.data.search_forward.assert_called_with(
-                search_box.value, 0
-            )
-        self.assertEqual(exception_context.exception.code, 1)
-
-    def test_value_edited_handler(self):
-        """
-        Veriy that the value edited handler does as expected.
-        """
-        search_box, mock_parent = self._get_mocked_searchbox()
-        search_box.search = mock.MagicMock()
-
-        # Verify no op on no value
-        search_box.value = ''
-        search_box.when_value_edited()
-        self.assertFalse(search_box.search.called)
-
-        # Verify page setting, state changing and other commands
-        mock_parent.parentApp.page = 40
-        mock_parent.parentApp.more = False
-        search_box.value = 'Hi'
-        search_box.when_value_edited()
-        self.assertEqual(mock_parent.parentApp.page, 0)
-        self.assertEqual(mock_parent.parentApp.more, True)
-        mock_parent.results_list.reset_display_cache.assert_called_once_with()
-        mock_parent.results_list.reset_cursor.assert_called_once_with()
-        mock_parent.results_list.update.assert_called_once_with()
-
-        # Verify that we update command box if it hasn't been edited
-        mock_parent.command_box.been_edited = False
-        search_box.when_value_edited()
-        # No results, so nothing should be done with the box
-        self.assertFalse(mock_parent.command_box.update.called)
-        # Add some results
-        search_box.search.return_value = ['foo']
-        search_box.when_value_edited()
-        self.assertEqual(mock_parent.command_box.value, 'foo')
+        # Verify Web data with URLs set.
+        with mock.patch.dict(
+            'os.environ',
+            {'ARCHELON_URL': 'http://foo', 'ARCHELON_TOKEN': 'foo'},
+            clear=True
+        ):
+            search.onStart()
+        self.assertTrue(isinstance(search.data, WebHistory))
