@@ -2,12 +2,13 @@
 """
 Data modeling for command history to be modular
 """
-from __future__ import print_function
+from __future__ import print_function, absolute_import, unicode_literals
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 import os
 
 import requests
+import six
 
 
 class ArcheloncException(Exception):
@@ -25,12 +26,11 @@ class ArcheloncAPIException(ArcheloncException):
     pass
 
 
-class HistoryBase(object):
+class HistoryBase(six.with_metaclass(ABCMeta, object)):
     """
     Base class of what all backend command history
     searches should use.
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def search_forward(self, term, page=0):
@@ -67,7 +67,7 @@ class LocalHistory(HistoryBase):
         with open(os.path.expanduser('~/.bash_history')) as history_file:
             for line in history_file:
                 history_dict[line.strip()] = None
-        self.data = history_dict.keys()
+        self.data = list(history_dict.keys())
 
     def search_forward(self, term, page=0):
         """

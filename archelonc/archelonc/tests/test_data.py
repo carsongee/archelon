@@ -7,6 +7,7 @@ import time
 import unittest
 
 import mock
+from six.moves import range  # pylint: disable=redefined-builtin,import-error
 
 from archelonc.data import (
     LocalHistory,

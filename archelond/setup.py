@@ -28,6 +28,9 @@ setup(
         ('License :: OSI Approved :: '
          'GNU Affero General Public License v3'),
         'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
     ],
     install_requires=[
         'flask',

@@ -2,11 +2,11 @@
 Verify the various archelnc commands.
 """
 from __future__ import absolute_import, print_function, unicode_literals
-from cStringIO import StringIO
 import filecmp
 import os
 from tempfile import NamedTemporaryFile as TempFile
 
+from six.moves import cStringIO  # pylint: disable=import-error
 import mock
 
 from archelonc.command import (
@@ -167,7 +167,7 @@ class TestCommands(WebTest):
     @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
     @mock.patch('archelonc.command.LARGE_UPDATE_COUNT', 1)
     @mock.patch('archelonc.command._get_web_setup')
-    @mock.patch('sys.stdout', new_callable=StringIO)
+    @mock.patch('sys.stdout', new_callable=cStringIO)
     def test_update_large_indicator(self, mock_stdout, mock_web_setup):
         """
         Verify output when there are greater than 50 commands
@@ -239,7 +239,7 @@ class TestCommands(WebTest):
         self.assertEqual(exception_context.exception.code, 6)
 
     @mock.patch('archelonc.command._get_web_setup')
-    @mock.patch('sys.stdout', new_callable=StringIO)
+    @mock.patch('sys.stdout', new_callable=cStringIO)
     def test_export_success_stdout(self, mock_stdout, mock_web_setup):
         """
         Validate that we can export all commands successfully.

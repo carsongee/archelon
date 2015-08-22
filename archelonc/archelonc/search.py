@@ -2,7 +2,7 @@
 """
 npyscreen based application for searching shell history
 """
-from __future__ import print_function
+from __future__ import print_function, absolute_import, unicode_literals
 import curses
 import os
 import sys
@@ -93,7 +93,7 @@ class SearchBox(npyscreen.TitleText):
                 return self.parent.parentApp.data.search_reverse(
                     self.value, page
                 )
-        except ArcheloncException, ex:
+        except ArcheloncException as ex:
             print(ex)
             sys.exit(1)
 
