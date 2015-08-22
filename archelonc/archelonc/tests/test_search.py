@@ -8,6 +8,7 @@ from tempfile import NamedTemporaryFile
 import unittest
 
 import mock
+from six.moves import range  # pylint: disable=redefined-builtin,import-error
 
 from archelonc.search import (
     Search, SearchForm, SearchBox, CommandBox, SearchResults, SearchResult
@@ -52,7 +53,7 @@ class TestSearchResult(unittest.TestCase):
         mock_parent.reset_mock()
         mock_parent.parentApp.page = 41
         mock_parent.results_list.cursor_line = 2
-        mock_parent.search_box.search.return_value = range(2)
+        mock_parent.search_box.search.return_value = list(range(2))
         with mock.patch('npyscreen.Textfield.update') as mock_update:
             search_result.update()
         self.assertTrue(mock_update.called_once)

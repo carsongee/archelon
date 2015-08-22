@@ -2,7 +2,7 @@
 """
 Command line entry points for the archelon client.
 """
-from __future__ import print_function
+from __future__ import print_function, absolute_import, unicode_literals
 from difflib import Differ
 import os
 import shutil
@@ -70,14 +70,14 @@ def update():
                     commands[diff[2:-1]] = None
 
     # Warn if we are doing a large upload
-    num_commands = len(commands.keys())
+    num_commands = len(list(commands.keys()))
     if num_commands > LARGE_UPDATE_COUNT:
         print('Beginning upload of {} history items. '
               'This may take a while...'.format(num_commands))
 
     try:
         success = True
-        commands = [x for x in commands.keys() if x]
+        commands = [x for x in list(commands.keys()) if x]
         # To ease testing, sort commands
         commands.sort()
         if len(commands) > 0:
@@ -119,7 +119,7 @@ def import_history():
                 continue
             commands[command] = None
     try:
-        success, response = web_history.bulk_add(commands.keys())
+        success, response = web_history.bulk_add(list(commands.keys()))
     except ArcheloncConnectionException as ex:
         print(ex)
         sys.exit(4)
