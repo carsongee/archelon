@@ -1,0 +1,24 @@
+archelond:
+  build: archelond/
+  command: /bin/bash -c 'pip install -e .; sleep 10; archelond'
+  volumes:
+    - ./archelond:/app
+  environment:
+    ARCHELOND_HOST: 0.0.0.0
+    ARCHELOND_LOG_LEVEL: DEBUG
+    ARCHELOND_ELASTICSEARCH_URL: http://elastic:9200
+    ARCHELOND_TEST_ELASTICSEARCH_URL: http://elastic:9200
+    ARCHELOND_ELASTICSEARCH_INDEX: archelond
+    # Username: admin
+    # Password: pass
+    ARCHELOND_HTPASSWD: |
+      admin:$apr1$.a/3UvMo$pn6qEpZ/XRyBZNWpj9URs/
+    ARCHELOND_DATABASE: ElasticData
+  ports:
+    - "8580:8580"  
+  links:
+    - elastic
+elastic:
+  image: elasticsearch
+  ports:
+    - "9200"

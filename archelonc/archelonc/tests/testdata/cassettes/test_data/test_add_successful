@@ -1,0 +1,96 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJoYXNoaGFzaCI6IjcxYmEyNmY5YjFhMDUyMmM5OTc0MjA0NmRhN2NlMDExNjE0OTNhMzhiNDA3Yjk2Y2Y5NzUzZGIwMjM0MGRlODQiLCJ1c2VybmFtZSI6ImFkbWluIn0.xkzSNGTo6SKbKHUMlnzE7F2tTHwk07pZ--dMqZ-uKJs]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=0
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"ls\\n\",\n      \"host\": \"172.17.0.24\",\n      \"id\": \"e9fe7e88e89d532379960402db8f9458194dae772aa5fda5a12806c22215f0ff\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-03T13:06:45.940140+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"ping\
+        \ google.com\\n\",\n      \"host\": \"172.17.0.24\",\n      \"id\": \"e851958c66d81c21559daf5a227f68c5681999ee7fe79f935f1e63930137f0aa\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-03T13:06:45.775905+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \". archelon\\\
+        n\",\n      \"host\": \"172.17.0.32\",\n      \"id\": \"8a5010e4da666855e5ea3d04c07aa87ef9e49133a8a6e95b0de37c1f0b06748a\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-04T13:41:58.202172+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['841']
+      content-type: [application/json]
+      date: ['Sun, 05 Jul 2015 16:15:08 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJoYXNoaGFzaCI6IjcxYmEyNmY5YjFhMDUyMmM5OTc0MjA0NmRhN2NlMDExNjE0OTNhMzhiNDA3Yjk2Y2Y5NzUzZGIwMjM0MGRlODQiLCJ1c2VybmFtZSI6ImFkbWluIn0.xkzSNGTo6SKbKHUMlnzE7F2tTHwk07pZ--dMqZ-uKJs]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=1
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": []\n}"}
+    headers:
+      content-length: ['20']
+      content-type: [application/json]
+      date: ['Sun, 05 Jul 2015 16:15:08 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: '{"command": "TestUnique - TestAdd"}'
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJoYXNoaGFzaCI6IjcxYmEyNmY5YjFhMDUyMmM5OTc0MjA0NmRhN2NlMDExNjE0OTNhMzhiNDA3Yjk2Y2Y5NzUzZGIwMjM0MGRlODQiLCJ1c2VybmFtZSI6ImFkbWluIn0.xkzSNGTo6SKbKHUMlnzE7F2tTHwk07pZ--dMqZ-uKJs]
+      Content-Length: ['35']
+      Content-Type: [application/json]
+    method: POST
+    uri: http://192.168.59.103:8580/api/v1/history
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      content-length: ['0']
+      content-type: [text/html; charset=utf-8]
+      date: ['Sun, 05 Jul 2015 16:15:08 GMT']
+      location: ['http://192.168.59.103:8580/api/v1/history/ca9173f3781d2ae5dba57759c2e0579dc131f45f1156da6505d1b7b967419b8b']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 201, message: CREATED}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJoYXNoaGFzaCI6IjcxYmEyNmY5YjFhMDUyMmM5OTc0MjA0NmRhN2NlMDExNjE0OTNhMzhiNDA3Yjk2Y2Y5NzUzZGIwMjM0MGRlODQiLCJ1c2VybmFtZSI6ImFkbWluIn0.xkzSNGTo6SKbKHUMlnzE7F2tTHwk07pZ--dMqZ-uKJs]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=0
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"ls\\n\",\n      \"host\": \"172.17.0.24\",\n      \"id\": \"e9fe7e88e89d532379960402db8f9458194dae772aa5fda5a12806c22215f0ff\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-03T13:06:45.940140+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"TestUnique\
+        \ - TestAdd\",\n      \"host\": \"192.168.59.3\",\n      \"id\": \"ca9173f3781d2ae5dba57759c2e0579dc131f45f1156da6505d1b7b967419b8b\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-05T16:15:08.746196+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \"ping\
+        \ google.com\\n\",\n      \"host\": \"172.17.0.24\",\n      \"id\": \"e851958c66d81c21559daf5a227f68c5681999ee7fe79f935f1e63930137f0aa\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-03T13:06:45.775905+00:00\"\
+        ,\n      \"username\": \"admin\"\n    },\n    {\n      \"command\": \". archelon\\\
+        n\",\n      \"host\": \"172.17.0.32\",\n      \"id\": \"8a5010e4da666855e5ea3d04c07aa87ef9e49133a8a6e95b0de37c1f0b06748a\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-04T13:41:58.202172+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['1124']
+      content-type: [application/json]
+      date: ['Sun, 05 Jul 2015 16:15:09 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJoYXNoaGFzaCI6IjcxYmEyNmY5YjFhMDUyMmM5OTc0MjA0NmRhN2NlMDExNjE0OTNhMzhiNDA3Yjk2Y2Y5NzUzZGIwMjM0MGRlODQiLCJ1c2VybmFtZSI6ImFkbWluIn0.xkzSNGTo6SKbKHUMlnzE7F2tTHwk07pZ--dMqZ-uKJs]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=1
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": []\n}"}
+    headers:
+      content-length: ['20']
+      content-type: [application/json]
+      date: ['Sun, 05 Jul 2015 16:15:09 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+version: 1

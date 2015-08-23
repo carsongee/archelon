@@ -1,6 +1,7 @@
 """
 In memory data store implementation for development and testing
 """
+from __future__ import absolute_import, unicode_literals
 from collections import OrderedDict
 from datetime import datetime
 import hashlib
@@ -40,7 +41,7 @@ class MemoryData(HistoryData):
         """
         hash the command to make the id
         """
-        return hashlib.sha256(command).hexdigest()
+        return hashlib.sha256(command.encode('utf-8')).hexdigest()
 
     def add(self, command, username, host, **kwargs):
         """
@@ -86,9 +87,9 @@ class MemoryData(HistoryData):
             return []
 
         if order and order == 'r':
-            ordered_set = reversed(self.data.items())
+            ordered_set = reversed(list(self.data.items()))
         else:
-            ordered_set = self.data.items()
+            ordered_set = list(self.data.items())
         result_list = []
         for command_id, meta in ordered_set:
             if term is None or term in meta['command']:

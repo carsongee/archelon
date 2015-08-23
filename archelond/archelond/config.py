@@ -1,6 +1,7 @@
 """
 Configure the flask application
 """
+from __future__ import absolute_import, unicode_literals
 import os
 
 DEBUG = False
@@ -17,8 +18,11 @@ ELASTICSEARCH_INDEX = os.environ.get('ARCHELOND_ELASTICSEARCH_INDEX', None)
 
 # Load path to environment variable to point to htpasswd file
 # or write the ARCHELOND_HTPASSWD out to a file and ref that
-HTPASSWD_PATH = os.environ.get('ARCHELOND_HTPASSWD_PATH', '.htpasswd')
+FLASK_HTPASSWD_PATH = os.environ.get('ARCHELOND_HTPASSWD_PATH', '.htpasswd')
 if os.environ.get('ARCHELOND_HTPASSWD'):
-    HTPASSWD_PATH = os.path.abspath('.htpasswd')
-    with open(HTPASSWD_PATH, 'w') as wfile:
+    FLASK_HTPASSWD_PATH = os.path.abspath('.htpasswd')
+    with open(FLASK_HTPASSWD_PATH, 'w') as wfile:
         wfile.write(os.environ['ARCHELOND_HTPASSWD'])
+
+# Enforce authentication on all views
+FLASK_AUTH_ALL = True

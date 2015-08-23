@@ -1,10 +1,13 @@
 """
 Abstract base class for data stores
 """
+from __future__ import absolute_import, unicode_literals
 from abc import ABCMeta, abstractmethod
 
+from six import with_metaclass
 
-class HistoryData(object):
+
+class HistoryData(with_metaclass(ABCMeta, object)):
     """Abstract Data storage for command history
 
     Abstract class implementation of a database for use with command
@@ -23,7 +26,6 @@ class HistoryData(object):
     by a term equal to that command.
 
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def __init__(self, config):

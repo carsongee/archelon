@@ -1,0 +1,85 @@
+interactions:
+- request:
+    body: '{"command": "TestUnique - TestDelete"}'
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+      Content-Length: ['38']
+      Content-Type: [application/json]
+    method: POST
+    uri: http://192.168.59.103:8580/api/v1/history
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      content-length: ['0']
+      content-type: [text/html; charset=utf-8]
+      date: ['Sun, 12 Jul 2015 17:56:35 GMT']
+      location: ['http://192.168.59.103:8580/api/v1/history/d792351d1db503956ae8015461ba783b2bf61d9967f7c911f89d586f05c3f13b']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 201, message: CREATED}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=0
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"TestUnique - TestDelete\",\n      \"host\": \"192.168.59.3\",\n      \"\
+        id\": \"d792351d1db503956ae8015461ba783b2bf61d9967f7c911f89d586f05c3f13b\"\
+        ,\n      \"meta\": {},\n      \"score\": 1.0,\n      \"timestamp\": \"2015-07-12T17:56:35.752473+00:00\"\
+        ,\n      \"username\": \"admin\"\n    }\n  ]\n}"}
+    headers:
+      content-length: ['308']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 17:56:36 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?p=1
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": []\n}"}
+    headers:
+      content-length: ['20']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 17:56:36 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+    method: GET
+    uri: http://192.168.59.103:8580/api/v1/history?q=TestUnique+-+TestDelete
+  response:
+    body: {string: !!python/unicode "{\n  \"commands\": [\n    {\n      \"command\"\
+        : \"TestUnique - TestDelete\",\n      \"host\": \"192.168.59.3\",\n      \"\
+        id\": \"d792351d1db503956ae8015461ba783b2bf61d9967f7c911f89d586f05c3f13b\"\
+        ,\n      \"meta\": {},\n      \"score\": 0.38356602,\n      \"timestamp\"\
+        : \"2015-07-12T17:56:35.752473+00:00\",\n      \"username\": \"admin\"\n \
+        \   }\n  ]\n}"}
+    headers:
+      content-length: ['315']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 17:56:36 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+      Content-Length: ['0']
+    method: DELETE
+    uri: http://192.168.59.103:8580/api/v1/history/d792351d1db503956ae8015461ba783b2bf61d9967f7c911f89d586f05c3f13b
+  response:
+    body: {string: !!python/unicode "{\n  \"message\": \"success\"\n}"}
+    headers:
+      content-length: ['26']
+      content-type: [application/json]
+      date: ['Sun, 12 Jul 2015 17:56:36 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+version: 1

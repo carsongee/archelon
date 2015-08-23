@@ -1,6 +1,7 @@
 """
 Unit tests for :py:module:`archelond.util`.
 """
+from __future__ import absolute_import, unicode_literals
 import json
 import unittest
 
@@ -24,19 +25,21 @@ class TestUtil(unittest.TestCase):
             self.assertTrue(response.status_code, 400)
             self.assertTrue(isinstance(response, Response))
             self.assertEqual(
-                response.response,
-                [json.dumps({'test': 1}, indent=2)]
+                response.get_data(as_text=True),
+                json.dumps({'test': 1}, indent=2)
             )
 
             # Verify jsonify not accepting a root valued json object
-            with self.assertRaisesRegexp(ValueError,
-                                         'dictionary update sequence element'
-                                         ' #0 .+'):
+            with self.assertRaisesRegexp(
+                ValueError,
+                'dictionary update sequence element #0 .+'
+            ):
 
                 jsonify_code('asdf', 200)
 
             # Verify bad status_code
-            with self.assertRaisesRegexp(TypeError,
-                                         'a number is required'):
-
+            with self.assertRaisesRegexp(
+                TypeError,
+                'a number is required'
+            ):
                 jsonify_code({'test': 1}, 'foo')
