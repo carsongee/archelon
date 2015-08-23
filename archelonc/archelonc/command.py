@@ -9,7 +9,7 @@ import shutil
 import sys
 
 from archelonc.search import Search
-from archelonc.data import WebHistory, ArcheloncConnectionException
+from archelonc.data import WebHistory, ArcheloncException
 
 LARGE_UPDATE_COUNT = 50
 HISTORY_FILE = os.path.expanduser('~/.archelon_history')
@@ -84,7 +84,7 @@ def update():
             success, response = web_history.bulk_add(
                 commands
             )
-    except ArcheloncConnectionException as ex:
+    except ArcheloncException as ex:
         print(ex)
         sys.exit(3)
     if not success:
@@ -120,7 +120,7 @@ def import_history():
             commands[command] = None
     try:
         success, response = web_history.bulk_add(list(commands.keys()))
-    except ArcheloncConnectionException as ex:
+    except ArcheloncException as ex:
         print(ex)
         sys.exit(4)
 
@@ -151,7 +151,7 @@ def export_history():
     page = 0
     try:
         results = web_history.all(page)
-    except ArcheloncConnectionException as ex:
+    except ArcheloncException as ex:
         print(ex)
         sys.exit(5)
     while len(results) > 0:
