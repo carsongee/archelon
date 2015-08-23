@@ -63,6 +63,7 @@ search engine (Elasticsearch).
    c-api
    archelond
    d-api
+   changes
    developer
 
 
