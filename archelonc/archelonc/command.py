@@ -2,18 +2,20 @@
 """
 Command line entry points for the archelon client.
 """
-from __future__ import print_function
+from __future__ import print_function, absolute_import, unicode_literals
 from difflib import Differ
 import os
 import shutil
 import sys
 
-import requests
-
 from archelonc.search import Search
-from archelonc.data import WebHistory
+from archelonc.data import WebHistory, ArcheloncException
 
+LARGE_UPDATE_COUNT = 50
 HISTORY_FILE = os.path.expanduser('~/.archelon_history')
+UNCONFIGURED_ERROR = ("Archelon isn't configured for Web history,"
+                      " check `ARCHELON_URL` and `ARCHELON_TOKEN`"
+                      " environment variables.")
 
 
 def _get_web_setup():
@@ -44,7 +46,8 @@ def update():
     web_history = _get_web_setup()
     # If we aren't setup for Web usage, just bomb out.
     if not web_history:
-        sys.exit(0)
+        print(UNCONFIGURED_ERROR)
+        sys.exit(1)
 
     current_hist_file = os.path.expanduser(
         os.environ.get('HISTFILE', '~/.bash_history')
@@ -63,30 +66,32 @@ def update():
         # use diff lib "codes" to see if we need to upload differences
         for diff in results:
             if diff[:2] == '+ ' or diff[:2] == '? ':
-                if diff[:2]:
-                    commands[diff[2:]] = None
+                if diff[2:-1]:
+                    commands[diff[2:-1]] = None
 
     # Warn if we are doing a large upload
-    num_commands = len(commands.keys())
-    if num_commands > 50:
+    num_commands = len(list(commands.keys()))
+    if num_commands > LARGE_UPDATE_COUNT:
         print('Beginning upload of {} history items. '
               'This may take a while...'.format(num_commands))
 
     try:
         success = True
-        commands = [x for x in commands.keys() if x]
+        commands = [x for x in list(commands.keys()) if x]
+        # To ease testing, sort commands
+        commands.sort()
         if len(commands) > 0:
             success, response = web_history.bulk_add(
                 commands
             )
-    except requests.exceptions.ConnectionError, ex:
-        print('Connection Error occured: %s', str(ex))
-        sys.exit(1)
+    except ArcheloncException as ex:
+        print(ex)
+        sys.exit(3)
     if not success:
-        print('Failed to add commands, got:\n {}'.format(
+        print('Failed to upload commands, got:\n {}'.format(
             response
         ))
-        sys.exit(1)
+        sys.exit(2)
     shutil.copy(current_hist_file, HISTORY_FILE)
 
 
@@ -96,10 +101,7 @@ def import_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(
-            'You must specify an archelon server in the environment with '
-            '`ARCHELON_URL` and `ARCHELON_TOKEN` environment variables'
-        )
+        print(UNCONFIGURED_ERROR)
         sys.exit(1)
 
     # Read history and post to server.  if arg[1]
@@ -117,15 +119,16 @@ def import_history():
                 continue
             commands[command] = None
     try:
-        success, response = web_history.bulk_add(commands.keys())
-    except requests.exceptions.ConnectionError, ex:
-        print('Connection Error occured: %s', str(ex))
-        sys.exit(1)
+        success, response = web_history.bulk_add(list(commands.keys()))
+    except ArcheloncException as ex:
+        print(ex)
+        sys.exit(4)
 
     if not success:
-        print('Failed to add commands, got:\n {}'.format(
+        print('Failed to upload commands, got:\n {}'.format(
             response
         ))
+        sys.exit(6)
     # Make copy of imported history so we only have to track
     # changes from here on out when archelon is invoked
     shutil.copy(hist_file_path, HISTORY_FILE)
@@ -138,11 +141,7 @@ def export_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(
-            'Nothing to export as archelon server not configured in '
-            'environment.'
-            'Please set `ARCHELON_URL` and `ARCHELON_TOKEN` variables.'
-        )
+        print(UNCONFIGURED_ERROR)
         sys.exit(1)
     output_file = sys.stdout
     stdout = True
@@ -150,11 +149,15 @@ def export_history():
         output_file = open(sys.argv[1], 'w')
         stdout = False
     page = 0
-    results = web_history.all(page)
-    output_file.write('\n'.join(results))
+    try:
+        results = web_history.all(page)
+    except ArcheloncException as ex:
+        print(ex)
+        sys.exit(5)
     while len(results) > 0:
+        output_file.write('\n'.join(results))
+        output_file.write('\n')
         page += 1
         results = web_history.all(page)
-        output_file.write('\n'.join(results))
     if not stdout:
         output_file.close()

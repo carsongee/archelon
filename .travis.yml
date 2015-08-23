@@ -2,10 +2,10 @@ language: python
 python:
   - "2.7"
 install:
-  - pip install archelond
-  - pip install -r archelond/test_requirements.txt
+  - "pip install 'tox>=2.0.0,<3.0.0' coveralls"
 services:
   - elasticsearch
-script:  bash test_archelond.sh -q
+script:  tox
+sudo: false
 after_success:
   coveralls

@@ -1,0 +1,12 @@
+archelonc:
+  build: archelonc/
+  command: /bin/bash -c 'pip install -e .; bash'
+  volumes:
+    - ./archelonc:/app
+  environment:
+    ARCHELON_URL: http://archelond:8580
+    ARCHELON_TOKEN: "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc"
+    ARCHELON_TEST_URL: http://archelond:8580
+    ARCHELON_TEST_TOKEN: "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc"
+  external_links:
+    - archelon_archelond_1:archelond

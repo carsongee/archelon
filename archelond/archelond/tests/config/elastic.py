@@ -1,6 +1,7 @@
 """
 Setup test configuration
 """
+from __future__ import absolute_import, unicode_literals
 import os
 
 DEBUG = True
@@ -25,7 +26,7 @@ ELASTICSEARCH_INDEX = os.environ.get(
 # enigma: pass
 # norm: god
 # foo: bar
-HTPASSWD_PATH = os.environ.get(
+FLASK_HTPASSWD_PATH = os.environ.get(
     'ARCHELOND_TEST_HTPASSWD_PATH',
     os.path.join(os.path.dirname(
         os.path.abspath(__file__)

@@ -1,0 +1,23 @@
+interactions:
+- request:
+    body: '{"commands": ["echo ''Hey you guys!''", "export FOO=''bar''"]}'
+    headers:
+      Authorization: [token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaGFzaGhhc2giOiI3MWJhMjZmOWIxYTA1MjJjOTk3NDIwNDZkYTdjZTAxMTYxNDkzYTM4YjQwN2I5NmNmOTc1M2RiMDIzNDBkZTg0In0.wWzpjl_GGVSkbuqL94Anb2NGXfE7yttxEgiSd20wkOc]
+      Content-Length: ['62']
+      Content-Type: [application/json]
+    method: POST
+    uri: http://192.168.59.103:8580/api/v1/history
+  response:
+    body: {string: !!python/unicode "{\n  \"responses\": [\n    {\n      \"headers\"\
+        : {\n        \"location\": \"/api/v1/history/8745b3e4fb308743217896cbc408943f68cc99a7026b638f0b74e62d81c32e11\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    },\n\
+        \    {\n      \"headers\": {\n        \"location\": \"/api/v1/history/65fd16b5c57e61043110a97630d67aa0b182589d93da072b262cbc39bacdd019\"\
+        \n      },\n      \"response\": \"\",\n      \"status_code\": 201\n    }\n\
+        \  ]\n}"}
+    headers:
+      content-length: ['405']
+      content-type: [application/json]
+      date: ['Sat, 18 Jul 2015 16:54:50 GMT']
+      server: [Werkzeug/0.10.4 Python/3.4.0]
+    status: {code: 200, message: OK}
+version: 1

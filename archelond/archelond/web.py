@@ -1,17 +1,18 @@
 """
 Main entry point for flask application
 """
+from __future__ import absolute_import, unicode_literals
 import json
 import logging
 import os
 
-from flask import Flask, jsonify, request, render_template, url_for
+from flask import Flask, jsonify, request, render_template, url_for, g
 # pylint: disable=no-name-in-module, import-error
 from flask.ext.assets import Environment
-from passlib.apache import HtpasswdFile
+from flask.ext.htpasswd import HtPasswdAuth
 from werkzeug.contrib.fixers import ProxyFix
+from six import string_types
 
-from archelond.auth import requires_auth, generate_token
 from archelond.data import MemoryData, ElasticData, ORDER_TYPES
 from archelond.log import configure_logging
 from archelond.util import jsonify_code
@@ -35,6 +36,7 @@ def run_server():
     )
     app.config['LOG_LEVEL'] = 'DEBUG'
     app.config['ASSETS_DEBUG'] = True
+
     configure_logging(app)
     app.run(host=host, port=port)
 
@@ -61,53 +63,43 @@ def wsgi_app():
 
     # Set up logging
     configure_logging(new_app)
-
-    # Load up user database
-    try:
-        new_app.config['users'] = HtpasswdFile(new_app.config['HTPASSWD_PATH'])
-    except IOError:
-        log.critical(
-            'No htpasswd file loaded, please set `ARCHELOND_HTPASSWD`'
-            'environment variable to a valid apache htpasswd file.'
-        )
-        new_app.config['users'] = HtpasswdFile()
-
     return new_app
 
 
 # Setup flask application
 app = wsgi_app()  # pylint: disable=invalid-name
 assets = Environment(app)  # pylint: disable=invalid-name
+htpasswd = HtPasswdAuth(app)  # pylint: disable=invalid-name
 # Add proxy fixer
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 @app.route('/')
-@requires_auth
-def index(user):  # pylint: disable=unused-argument
+def index():
     """
     Simple index view for documentation and navigation.
     """
-    return render_template('index.html'), 200
+    return render_template('index.html', user=g.user), 200
 
 
 @app.route('{}token'.format(V1_ROOT), methods=['GET'])
-@requires_auth
-def token(user):
+def token():
     """
     Return the user token for API auth that is based off the
     flask secret and user password
     """
-    return jsonify({'token': generate_token(user)})
+    return jsonify({'token': htpasswd.generate_token(g.user)})
 
 
 @app.route('{}history'.format(V1_ROOT), methods=['GET', 'POST'])
-@requires_auth
-def history(user):
+def history():
     """
     POST=Add entry
     GET=Get entries with query
     """
+    # We have a lot of logic here since we are doing query string
+    # handling, so let pylint know that is ok.
+    # pylint: disable=too-many-return-statements,too-many-branches
     if request.method == 'GET':
         query = request.args.get('q')
         order = request.args.get('o')
@@ -125,11 +117,11 @@ def history(user):
 
         if query:
             results = app.data.filter(
-                query, order_type, user, request.remote_addr, page=page
+                query, order_type, g.user, request.remote_addr, page=page
             )
         else:
             results = app.data.all(
-                order_type, user, request.remote_addr, page=page
+                order_type, g.user, request.remote_addr, page=page
             )
         return jsonify({'commands': results})
 
@@ -154,7 +146,7 @@ def history(user):
             if not isinstance(commands, list):
                 return jsonify_code({'error': 'Commands must be list'}, 422)
             for command in commands:
-                cmd_id = app.data.add(command, user, request.remote_addr)
+                cmd_id = app.data.add(command, g.user, request.remote_addr)
                 results_list.append(
                     {
                         'response': '',
@@ -165,10 +157,10 @@ def history(user):
                     }
                 )
             return jsonify({'responses': results_list})
-        if not (isinstance(command, unicode) or isinstance(command, str)):
+        if not isinstance(command, string_types):
             return jsonify_code({'error': 'Command must be a string'}, 422)
 
-        cmd_id = app.data.add(command, user, request.remote_addr)
+        cmd_id = app.data.add(command, g.user, request.remote_addr)
         return '', 201, {'location': url_for('history_item', cmd_id=cmd_id)}
     else:  # pragma: no cover
         log.critical('Unsupported method used')
@@ -177,8 +169,7 @@ def history(user):
 
 @app.route('{}history/<cmd_id>'.format(V1_ROOT),
            methods=['GET', 'PUT', 'DELETE'])
-@requires_auth
-def history_item(user, cmd_id):
+def history_item(cmd_id):
     """Actions for individual command history items.
 
     Updates, gets, or deletes a command from the active data store.
@@ -188,10 +179,14 @@ def history_item(user, cmd_id):
     ``username``, and ``host`` as kwargs to the data stores ``add``
     routine.
     """
+    # We have to handle several methods, which requires branches and
+    # extra returns.  Until/when we switch to pluggable views, let
+    # pylint know that is ok for this view.
+    # pylint: disable=too-many-return-statements,too-many-branches
     if request.method == 'GET':
-        log.debug('Retrieving %s for %s', cmd_id, user)
+        log.debug('Retrieving %s for %s', cmd_id, g.user)
         try:
-            cmd = app.data.get(cmd_id, user, request.remote_addr)
+            cmd = app.data.get(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(cmd)
@@ -199,9 +194,9 @@ def history_item(user, cmd_id):
     if request.method == 'PUT':
         # This will only update kwargs since we
         # have a deduplicated data structure by command.
-        log.debug('Updating %s for %s', cmd_id, user)
+        log.debug('Updating %s for %s', cmd_id, g.user)
         try:
-            cmd = app.data.get(cmd_id, user, request.remote_addr)
+            cmd = app.data.get(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         from_form = True
@@ -231,15 +226,15 @@ def history_item(user, cmd_id):
             del put_command['host']
         except KeyError:
             pass
-        app.data.add(  # pylint: disable=star-args
-            cmd['command'], user, request.remote_addr, **put_command
+        app.data.add(
+            cmd['command'], g.user, request.remote_addr, **put_command
         )
         return '', 204
 
     if request.method == 'DELETE':
-        log.debug('Deleting %s for %s', cmd_id, user)
+        log.debug('Deleting %s for %s', cmd_id, g.user)
         try:
-            app.data.delete(cmd_id, user, request.remote_addr)
+            app.data.delete(cmd_id, g.user, request.remote_addr)
         except KeyError:
             return jsonify_code({'error': 'No such history item'}, 404)
         return jsonify(message='success')

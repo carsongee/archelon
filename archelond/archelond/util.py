@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
 Classic utility module for removing repetitive tasks and such
 """
+from __future__ import absolute_import, unicode_literals
 
 
 from flask import jsonify
