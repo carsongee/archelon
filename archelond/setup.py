@@ -38,7 +38,7 @@ setup(
         'uwsgi',
         'pytz',
         'six',
-        'elasticsearch',
+        'elasticsearch>=1.3.0',
         'Flask-Assets',
         'cssmin',
         'jsmin',
