@@ -1,27 +1,40 @@
 /* Primary site css */
-.logo {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
 
 h1 {
     color: #0f382a;
+    padding-top: 0;
+    margin-top: 0;
 }
-#search-box {
-    margin-top: 1.5em;
+a {
+   color: #3b836c;
 }
 #token {
-    margin-top: 1.5em;
+    margin-top: 2.3rem;
 }
 #token-toggle {
     background-color: #3ebfcf;
+    border-color: #3ebfcf;
+}
+#token-label {
+    color: #fff;
+}
+#search {
+    width: 98%;
+}
+.pb0 {
+    padding-bottom: 0;
+}
+.pt0 {
+    padding-top: 0;
+}
+.my-fa-space {
+    padding-left: .3rem;
 }
 #token-display {
     border: 1px solid #333;
     color: #ccc;
-    margin: 0 0 .5em 0;
-    padding: 2em;
+    margin: -1.5rem 0 .5rem 0;
+    padding: 2rem;
     display: none;
     background: #56934a; /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -37,12 +50,13 @@ h1 {
     word-wrap: break-word;
 }
 
-#history-table {
+.history-table {
     table-layout: fixed;
     word-break: break-all;
+    width: 100%;
 }
 
-li.paginate_button.active a{
+li.paginate_button.active a {
     background-color: #3ebfcf;
     border-color: #3ebfcf;
 }
@@ -51,7 +65,18 @@ li.paginate_button.active a{
     color: #3ebfcf;
 }
 
-#history-table thead tr {
+.history-table thead tr {
     background-color: #3b836c;
-    color: #f0f0f0;
+    color: #fff;
+}
+.history-table thead th {
+    background-color: #3b836c;
+    color: #fff;
+    text-align: left;
+}
+.history-table tbody tr:hover {
+    background-color: #efefef;
+}
+.history-table thead a {
+    color: #ffff;
 }
