@@ -4,72 +4,39 @@ Archelon is Hungry
 {% endblock %}
 
 {% block content %}
-
-<script id="CommandsTemplate" type="text/x-handlebars-template">
+<script id="actionTemplate" type="text/x-handlebars-template">
 {% raw %}
-  {{#each []}}
-  <tr>
-    <td>{{ this.attributes.command }}</td>
-    <td>{{ this.attributes.host }}</td>
-    <td>{{ this.last_used }}</td>
-    <td>
-      <button type="button" data-id="{{ this.attributes.id }}"
-              class="btn btn-danger delete-history" aria-label="Left Align">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-      </button>
-    </td>
-  </tr>
-  {{/each}}
+  <button type="button" data-id="{{ this.attributes.id }}"
+          class="btn--red delete-history" aria-label="Left Align">
+    <span class="fa fa-trash"></span><span class="my-fa-space">Delete</span>
+  </button>
 {% endraw %}
 </script>
-<div class="logo">
-  <img src="{{ url_for('static', filename='images/header.png') }}">
+<div class="p1 grd-row pb0">
+  <div class="grd-row-col-1-6">
+    <img class="flt--left" src="{{ url_for('static', filename='images/header.png') }}">
+  </div>
+  <div class="grd-row-col-3-6">
+    <h1>
+      Archelon
+    </h1>
+  </div>
+  <div class="grd-row-col-2-6 txt--right" id="token">
+    <a href="#" id="token-toggle" class="btn">
+      <span id="token-label">Reveal Token</span>
+    </a>
+  </div>  
 </div>
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="col-xs-1">
-    </div>
-    <div class="col-xs-3">
-      <h1>
-        Archelon
-      </h1>
-    </div>
-    <div class="col-xs-6" id="search-box">
-      <form class="form-inline pull-right">
-        <div class="form-group">
-          <input type="search" class="form-control input-lg"
-                 name="search" id="search" placeholder="Search">
-        </div>
-      </form>
-    </div>
-    <div class="col-xs-2 pull-right" id="token">
-      <a href="#" id="token-toggle" class="pull-right token btn btn-lg btn-info">
-        <span id="token-label">Reveal Token</span>
-      </a>
-    </div>
+<div>
+  <div class="grd-row-col-6-6" id="token-display">
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12" id="token-display">
-  </div>
+<div class="p1 pt0" id="search-box">
+  <form>
+    <input type="search" name="search" id="search" placeholder="Search">
+  </form>
 </div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      <table id="history-table" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Command</th>
-            <th>Host</th>
-            <th>Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="history-table-body">
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="p1" id="table-grid">
 </div>
 {% endblock %}
 
