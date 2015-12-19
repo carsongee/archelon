@@ -249,6 +249,9 @@ class Search(npyscreen.NPSAppManaged):
         """
         Startup routine for the search application
         """
+        # Properly using base classes but pylint doesn't seem to
+        # understand that.
+        # pylint: disable=redefined-variable-type
         url = os.environ.get('ARCHELON_URL')
         token = os.environ.get('ARCHELON_TOKEN')
 

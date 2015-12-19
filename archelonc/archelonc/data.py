@@ -4,6 +4,7 @@ Data modeling for command history to be modular
 """
 from __future__ import print_function, absolute_import, unicode_literals
 from abc import ABCMeta, abstractmethod
+import codecs
 from collections import OrderedDict
 import os
 
@@ -64,7 +65,9 @@ class LocalHistory(HistoryBase):
         dumped to a list.
         """
         history_dict = OrderedDict()
-        with open(os.path.expanduser('~/.bash_history')) as history_file:
+        with codecs.open(
+            os.path.expanduser('~/.bash_history'), encoding='UTF-8'
+        ) as history_file:
             for line in history_file:
                 history_dict[line.strip()] = None
         self.data = list(history_dict.keys())
