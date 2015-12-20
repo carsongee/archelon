@@ -45,6 +45,9 @@ def wsgi_app():
     """
     Start flask application runtime
     """
+    # Disabling check since both types are implementations of same base class
+    # pylint: disable=redefined-variable-type
+
     # Setup the app
     new_app = Flask('archelond')
     # Get configuration from default or via environment variable

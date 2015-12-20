@@ -2,9 +2,11 @@
 Validate log configuration
 """
 from __future__ import absolute_import, unicode_literals
-import mock
 import os
 import unittest
+
+import mock
+from six import assertRaisesRegex
 
 from archelond.web import app
 
@@ -45,7 +47,7 @@ class TestLogConfiguration(unittest.TestCase):
         self.assertEqual(logging.NOTSET, log_level)
 
         from archelond.log import configure_logging
-        with self.assertRaisesRegexp(ValueError, 'Invalid log level.+'):
+        with assertRaisesRegex(self, ValueError, 'Invalid log level.+'):
             log_level = configure_logging(app)
 
     @mock.patch.dict(app.config,

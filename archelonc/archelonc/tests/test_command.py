@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 """
-Verify the various archelnc commands.
+Verify the various archelonc commands.
 """
 from __future__ import absolute_import, print_function, unicode_literals
 import filecmp
+from io import BytesIO
 import os
 from tempfile import NamedTemporaryFile as TempFile
 
-from six.moves import cStringIO  # pylint: disable=import-error
 import mock
 
 from archelonc.command import (
@@ -107,16 +108,16 @@ class TestCommands(WebTest):
         mock_web = mock.MagicMock()
         mock_web.bulk_add.return_value = True, 'foo'
         mock_web_setup.return_value = mock_web
-        with TempFile(mode='r+') as arch_history:
+        with TempFile(mode='rb+') as arch_history:
             with mock.patch(
                 'archelonc.command.HISTORY_FILE', arch_history.name
             ):
-                print("export FOO='bar'", file=arch_history)
+                arch_history.write("export FOO='bar☠'\n".encode('UTF-8'))
                 arch_history.flush()
                 update()
                 self.assertEqual(
                     mock_web.bulk_add.call_args[0][0],
-                    ["echo 'Hey you guys!'"]
+                    ["echo 'Hey you guys!☠'"]
                 )
 
     @mock.patch('archelonc.command._get_web_setup')
@@ -129,10 +130,10 @@ class TestCommands(WebTest):
         mock_web_setup.return_value = mock_web
 
         with TempFile(mode='r+') as bash, TempFile(mode='r+') as arch:
-            print('blah', file=bash)
+            print('blah☠'.encode('UTF-8'), file=bash)
             print('', file=bash)
             bash.flush()
-            print('blah', file=arch)
+            print('blah☠'.encode('UTF-8'), file=arch)
             arch.flush()
             with mock.patch.dict(
                 'os.environ', {'HISTFILE': bash.name}, clear=True
@@ -167,7 +168,7 @@ class TestCommands(WebTest):
     @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
     @mock.patch('archelonc.command.LARGE_UPDATE_COUNT', 1)
     @mock.patch('archelonc.command._get_web_setup')
-    @mock.patch('sys.stdout', new_callable=cStringIO)
+    @mock.patch('sys.stdout.buffer', new_callable=BytesIO)
     def test_update_large_indicator(self, mock_stdout, mock_web_setup):
         """
         Verify output when there are greater than 50 commands
@@ -179,7 +180,7 @@ class TestCommands(WebTest):
         with self.assertRaises(SystemExit) as exception_context:
             update()
         self.assertEqual(exception_context.exception.code, 2)
-        self.assertIn('This may take a while', mock_stdout.getvalue())
+        self.assertIn('This may take a while', str(mock_stdout.getvalue()))
 
     @mock.patch.dict('os.environ', {'HISTFILE': TEST_BASH_HISTORY}, clear=True)
     @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
@@ -239,12 +240,12 @@ class TestCommands(WebTest):
         self.assertEqual(exception_context.exception.code, 6)
 
     @mock.patch('archelonc.command._get_web_setup')
-    @mock.patch('sys.stdout', new_callable=cStringIO)
+    @mock.patch('sys.stdout.buffer', new_callable=BytesIO)
     def test_export_success_stdout(self, mock_stdout, mock_web_setup):
         """
         Validate that we can export all commands successfully.
         """
-        test_list = ['testing-export1', 'testing-export2']
+        test_list = ['testing-export1', 'testing-export2☠']
         mock_web = mock.MagicMock()
 
         def side_effect(*args):
@@ -260,7 +261,7 @@ class TestCommands(WebTest):
             export_history()
         self.assertEqual(
             mock_stdout.getvalue(),
-            '\n'.join(test_list * 2) + '\n'
+            ('\n'.join(test_list * 2) + '\n').encode('UTF-8')
         )
 
     @mock.patch('archelonc.command._get_web_setup')
@@ -270,7 +271,7 @@ class TestCommands(WebTest):
         file.
         """
         self.addCleanup(os.remove, self.TEST_ARCHELON_HISTORY)
-        test_list = ['testing-export1', 'testing-export2']
+        test_list = ['testing-export1', 'testing-export2☠']
         mock_web = mock.MagicMock()
 
         def side_effect(*args):
@@ -284,9 +285,9 @@ class TestCommands(WebTest):
         mock_web_setup.return_value = mock_web
         with mock.patch('sys.argv', ['a', self.TEST_ARCHELON_HISTORY]):
             export_history()
-        with open(self.TEST_ARCHELON_HISTORY) as output_file:
+        with open(self.TEST_ARCHELON_HISTORY, 'rb') as output_file:
             self.assertEqual(
-                output_file.read(),
+                output_file.read().decode('UTF-8'),
                 '\n'.join(test_list * 2) + '\n'
             )
 

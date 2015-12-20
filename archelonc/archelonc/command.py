@@ -2,7 +2,8 @@
 """
 Command line entry points for the archelon client.
 """
-from __future__ import print_function, absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals
+import codecs
 from difflib import Differ
 import os
 import shutil
@@ -16,6 +17,12 @@ HISTORY_FILE = os.path.expanduser('~/.archelon_history')
 UNCONFIGURED_ERROR = ("Archelon isn't configured for Web history,"
                       " check `ARCHELON_URL` and `ARCHELON_TOKEN`"
                       " environment variables.")
+
+
+def print_b(data):
+    """Prints UTF decoded bytes with newline to ``sys.stdout``."""
+    data = str(data) + '\n'
+    sys.stdout.write(data.encode('UTF-8'))
 
 
 def _get_web_setup():
@@ -46,7 +53,7 @@ def update():
     web_history = _get_web_setup()
     # If we aren't setup for Web usage, just bomb out.
     if not web_history:
-        print(UNCONFIGURED_ERROR)
+        print_b(UNCONFIGURED_ERROR)
         sys.exit(1)
 
     current_hist_file = os.path.expanduser(
@@ -59,7 +66,8 @@ def update():
     # Compare the current history to our previously stored one,
     # upload any additions and copy the file over.
     commands = {}
-    with open(HISTORY_FILE) as cached, open(current_hist_file) as current:
+    with codecs.open(HISTORY_FILE, encoding='UTF-8') as cached, \
+            codecs.open(current_hist_file, encoding='UTF-8') as current:
         differ = Differ()
         results = differ.compare(cached.readlines(), current.readlines())
 
@@ -72,8 +80,8 @@ def update():
     # Warn if we are doing a large upload
     num_commands = len(list(commands.keys()))
     if num_commands > LARGE_UPDATE_COUNT:
-        print('Beginning upload of {} history items. '
-              'This may take a while...'.format(num_commands))
+        print_b('Beginning upload of {} history items. '
+                'This may take a while...\n'.format(num_commands))
 
     try:
         success = True
@@ -85,10 +93,10 @@ def update():
                 commands
             )
     except ArcheloncException as ex:
-        print(ex)
+        print_b(ex)
         sys.exit(3)
     if not success:
-        print('Failed to upload commands, got:\n {}'.format(
+        print_b('Failed to upload commands, got:\n {}'.format(
             response
         ))
         sys.exit(2)
@@ -101,7 +109,7 @@ def import_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(UNCONFIGURED_ERROR)
+        print_b(UNCONFIGURED_ERROR)
         sys.exit(1)
 
     # Read history and post to server.  if arg[1]
@@ -111,7 +119,7 @@ def import_history():
         hist_file = sys.argv[1]
 
     hist_file_path = os.path.expanduser(hist_file)
-    with open(hist_file_path) as history_file:
+    with codecs.open(hist_file_path, encoding='UTF-8') as history_file:
         commands = {}
         for line in history_file:
             command = line.strip()
@@ -121,11 +129,11 @@ def import_history():
     try:
         success, response = web_history.bulk_add(list(commands.keys()))
     except ArcheloncException as ex:
-        print(ex)
+        print_b(ex)
         sys.exit(4)
 
     if not success:
-        print('Failed to upload commands, got:\n {}'.format(
+        print_b('Failed to upload commands, got:\n {}'.format(
             response
         ))
         sys.exit(6)
@@ -141,22 +149,27 @@ def export_history():
     """
     web_history = _get_web_setup()
     if not web_history:
-        print(UNCONFIGURED_ERROR)
+        print_b(UNCONFIGURED_ERROR)
         sys.exit(1)
-    output_file = sys.stdout
+    # Block below is covered across versions of Python, but report
+    # doesn't say that.
+    if hasattr(sys.stdout, 'buffer'):  # pragma: no cover
+        output_file = sys.stdout.buffer
+    else:
+        output_file = sys.stdout  # pragma: no cover
     stdout = True
     if len(sys.argv) == 2:
-        output_file = open(sys.argv[1], 'w')
+        output_file = open(sys.argv[1], 'wb')
         stdout = False
     page = 0
     try:
         results = web_history.all(page)
     except ArcheloncException as ex:
-        print(ex)
+        print_b(ex)
         sys.exit(5)
     while len(results) > 0:
-        output_file.write('\n'.join(results))
-        output_file.write('\n')
+        output_file.write('\n'.join(results).encode('UTF-8'))
+        output_file.write('\n'.encode('UTF-8'))
         page += 1
         results = web_history.all(page)
     if not stdout:

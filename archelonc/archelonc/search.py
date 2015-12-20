@@ -74,6 +74,10 @@ class SearchResults(npyscreen.MultiLineAction):
         self.parent.editw = 2
         self.parent.command_box.edit()
 
+    def display_value(self, vl):
+        """Overloaded to support unicode."""
+        return self.safe_string(vl)
+
 
 class SearchBox(npyscreen.TitleText):
     """
@@ -249,6 +253,9 @@ class Search(npyscreen.NPSAppManaged):
         """
         Startup routine for the search application
         """
+        # Properly using base classes but pylint doesn't seem to
+        # understand that.
+        # pylint: disable=redefined-variable-type
         url = os.environ.get('ARCHELON_URL')
         token = os.environ.get('ARCHELON_TOKEN')
 

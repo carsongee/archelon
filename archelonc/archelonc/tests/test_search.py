@@ -227,6 +227,25 @@ class TestSearchResults(unittest.TestCase):
         mocked_parent.command_box.edit.assert_called_once_with()
         mocked_parent.command_box.update.assert_called_once_with()
 
+        # Verify that display works with unicode_literals
+
+        # Have to set ascii pref since we bypassed init
+        search_results._force_ascii = False  # pylint: disable=protected-access
+        try:
+            display = search_results.display_value('☠☠☠☠☠☠☠').decode('UTF-8')
+        except AttributeError:
+            display = search_results.display_value('☠☠☠☠☠☠☠')
+        self.assertEqual(
+            display,
+            '☠☠☠☠☠☠☠'
+        )
+        # Assert ascii only terminals are handled
+        search_results._force_ascii = True  # pylint: disable=protected-access
+        self.assertEqual(
+            search_results.display_value('☠☠☠☠☠☠☠'),
+            '???????'
+        )
+
 
 @mock.patch('npyscreen.ActionFormWithMenus.__init__')
 class TestSearchForm(unittest.TestCase):

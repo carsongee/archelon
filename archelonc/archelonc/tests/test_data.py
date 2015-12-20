@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Verify that the API calls work as expected
 """
@@ -41,7 +42,7 @@ class TestLocalHistory(unittest.TestCase):
         """
         self.assertEqual(
             self.history.data,
-            ["echo 'Hey you guys!'", "export FOO='bar'"]
+            ["echo 'Hey you guys!☠'", "export FOO='bar☠'"]
         )
 
     def test_local_search_forward(self):
@@ -50,7 +51,7 @@ class TestLocalHistory(unittest.TestCase):
         """
         self.assertEqual(
             self.history.search_forward('Hey'),
-            ["echo 'Hey you guys!'"]
+            ["echo 'Hey you guys!☠'"]
         )
         # Local has no paging, assert that any page other than 0 is empty
         self.assertEqual(
@@ -64,7 +65,7 @@ class TestLocalHistory(unittest.TestCase):
         """
         self.assertEqual(
             self.history.search_reverse('e'),
-            ["export FOO='bar'", "echo 'Hey you guys!'"]
+            ["export FOO='bar☠'", "echo 'Hey you guys!☠'"]
         )
         # Local has no paging, assert that any page other than 0 is empty
         self.assertEqual(
