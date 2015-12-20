@@ -1,6 +1,7 @@
 """
 Configure logging
 """
+# pylint: disable=ungrouped-imports
 from __future__ import absolute_import, unicode_literals
 import logging
 import os
@@ -50,7 +51,7 @@ def configure_logging(app):
     elif os.path.exists('/var/run/syslog'):
         address = '/var/run/syslog'
     else:
-        address = ('127.0.0.1', 514)
+        address = ('127.0.0.1', 514)  # pylint: disable=redefined-variable-type
     # Add syslog handler before adding formatters
     root_logger.addHandler(
         SysLogHandler(address=address, facility=SysLogHandler.LOG_LOCAL0)

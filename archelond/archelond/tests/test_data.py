@@ -2,12 +2,12 @@
 Test out the server data classes
 """
 from __future__ import absolute_import, unicode_literals
-from six.moves import range  # pylint: disable=import-error,redefined-builtin
 import os
 import time
 import unittest
 
 from elasticsearch import Elasticsearch
+from six.moves import range  # pylint: disable=import-error,redefined-builtin
 
 import archelond.data
 from archelond.data.abstract import HistoryData
@@ -34,6 +34,7 @@ class TestBaseHistoryData(unittest.TestCase):
         Verify that the methods are what we expect.
         """
         expected_set = ('__init__', 'add', 'all', 'delete', 'filter', 'get',)
+        # pylint: disable=no-member
         abstract_methods = HistoryData.__abstractmethods__
         self.assertEqual(0, len(abstract_methods.difference(expected_set)))
 
@@ -45,7 +46,8 @@ class TestBaseHistoryData(unittest.TestCase):
         """
         from archelond.data import __all__
         for klass in __all__:
-            # pylint: disable=eval-used
+            # pylint: disable=eval-used, no-member
+
             self.assertTrue(
                 HistoryData.__subclasscheck__(
                     eval('archelond.data.{}'.format(klass))

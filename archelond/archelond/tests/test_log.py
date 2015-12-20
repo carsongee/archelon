@@ -2,9 +2,10 @@
 Validate log configuration
 """
 from __future__ import absolute_import, unicode_literals
-import mock
 import os
 import unittest
+
+import mock
 
 from archelond.web import app
 
