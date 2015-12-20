@@ -83,6 +83,8 @@ class MemoryData(HistoryData):
         """
         Return filtered and reversed OrderedDict.
         """
+        # we reverse a list, and pylint thinks that is a type change...
+        # pylint: disable=redefined-variable-type
         if page != 0:
             return []
 

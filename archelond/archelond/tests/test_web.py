@@ -8,6 +8,7 @@ import os
 import unittest
 
 import mock
+from six import assertRaisesRegex
 
 from archelond.data import MemoryData
 import archelond.web
@@ -92,8 +93,8 @@ class TestWeb(unittest.TestCase):
         """
         old_class = os.environ.get('ARCHELOND_TEST_DATABASE')
         os.environ['ARCHELOND_TEST_DATABASE'] = 'NotADatabaseClass'
-        with self.assertRaisesRegexp(
-            Exception, 'No valid database type is set'
+        with assertRaisesRegex(
+            self, Exception, 'No valid database type is set'
         ):
             archelond.web.wsgi_app()
 

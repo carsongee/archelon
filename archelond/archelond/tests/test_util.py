@@ -6,6 +6,7 @@ import json
 import unittest
 
 from flask import Response
+from six import assertRaisesRegex
 
 from archelond.util import jsonify_code
 from archelond.web import app
@@ -30,7 +31,8 @@ class TestUtil(unittest.TestCase):
             )
 
             # Verify jsonify not accepting a root valued json object
-            with self.assertRaisesRegexp(
+            with assertRaisesRegex(
+                self,
                 ValueError,
                 'dictionary update sequence element #0 .+'
             ):
@@ -38,7 +40,8 @@ class TestUtil(unittest.TestCase):
                 jsonify_code('asdf', 200)
 
             # Verify bad status_code
-            with self.assertRaisesRegexp(
+            with assertRaisesRegex(
+                self,
                 TypeError,
                 'a number is required'
             ):
