@@ -2,7 +2,6 @@
 Unit tests for :py:module:`archelond.util`.
 """
 from __future__ import absolute_import, unicode_literals
-import json
 import unittest
 
 from flask import Response
@@ -25,19 +24,10 @@ class TestUtil(unittest.TestCase):
             response = jsonify_code({'test': 1}, 400)
             self.assertTrue(response.status_code, 400)
             self.assertTrue(isinstance(response, Response))
-            self.assertEqual(
+            self.assertIn(
+                '"test": 1',
                 response.get_data(as_text=True),
-                json.dumps({'test': 1}, indent=2)
             )
-
-            # Verify jsonify not accepting a root valued json object
-            with assertRaisesRegex(
-                self,
-                ValueError,
-                'dictionary update sequence element #0 .+'
-            ):
-
-                jsonify_code('asdf', 200)
 
             # Verify bad status_code
             with assertRaisesRegex(
