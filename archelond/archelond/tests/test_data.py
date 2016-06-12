@@ -7,6 +7,8 @@ import time
 import unittest
 
 from elasticsearch import Elasticsearch
+from mock import MagicMock
+from semantic_version import Version
 from six.moves import range  # pylint: disable=import-error,redefined-builtin
 
 import archelond.data
@@ -209,6 +211,23 @@ class TestElasticData(ElasticTestClass):
             }
         )
 
+    def test_version_handling(self):
+        """
+        Verify the version handling works.
+        """
+        info_mock = MagicMock()
+        self.data.elasticsearch.info = info_mock
+        info_mock.return_value = dict(version=dict(number='1.5.0'))
+        self.data.version_handling()
+        self.assertEqual(self.data.version, Version('1.5.0'))
+        self.assertEqual(self.data.index_analyzer_key, 'index_analyzer')
+
+        # Handles >2.0.0
+        info_mock.return_value = dict(version=dict(number='2.3.0'))
+        self.data.version_handling()
+        self.assertEqual(self.data.version, Version('2.3.0'))
+        self.assertEqual(self.data.index_analyzer_key, 'analyzer')
+
     def test_doc_type(self):
         """
         Test that we are using the right document type
@@ -291,6 +310,7 @@ class TestElasticData(ElasticTestClass):
         self.data.add('cheesey petes', user, None)
         time.sleep(2)
         results = self.data.filter('this', None, user, None)
+        import ipdb; ipdb.set_trace()
         self.assertEqual(1, len(results))
         self.assertFalse('petes' in results[0]['command'])
 
