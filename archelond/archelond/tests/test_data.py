@@ -310,7 +310,6 @@ class TestElasticData(ElasticTestClass):
         self.data.add('cheesey petes', user, None)
         time.sleep(2)
         results = self.data.filter('this', None, user, None)
-        import ipdb; ipdb.set_trace()
         self.assertEqual(1, len(results))
         self.assertFalse('petes' in results[0]['command'])
 

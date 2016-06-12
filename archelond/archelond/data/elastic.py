@@ -14,6 +14,7 @@ from elasticsearch.exceptions import (
     ConnectionError as ESConnectionError
 )
 import pytz
+from semantic_version import Version, Spec
 
 from archelond.data.abstract import HistoryData
 
@@ -28,6 +29,7 @@ class ElasticData(HistoryData):
     DOC_TYPE = 'history'
     # Only return a max of 50 results
     NUM_RESULTS = 50
+    ES2_SPEC = Spec('>=2.0.0')
 
     def __init__(self, config):
         """
@@ -39,6 +41,7 @@ class ElasticData(HistoryData):
         self.elasticsearch = Elasticsearch(
             self.config['ELASTICSEARCH_URL']
         )
+        self.version_handling()
         # Create configured index.
         # Analyzer is setup such that every single character can
         # be part of the search query
@@ -62,7 +65,7 @@ class ElasticData(HistoryData):
                         'properties': {
                             'command': {
                                 'search_analyzer': 'command_analyzer',
-                                'index_analyzer': 'command_analyzer',
+                                self.index_analyzer_key: 'command_analyzer',
                                 'type': 'string'
                             }
                         }
@@ -70,6 +73,18 @@ class ElasticData(HistoryData):
                 }
             }
         )
+
+    def version_handling(self):
+        """
+        Handle version differences in ES.
+        """
+        # Handle slight version variations
+        self.version = Version(
+            self.elasticsearch.info()['version']['number']
+        )
+        self.index_analyzer_key = 'index_analyzer'
+        if self.ES2_SPEC.match(self.version):
+            self.index_analyzer_key = 'analyzer'
 
     def _doc_type(self, username):
         """
