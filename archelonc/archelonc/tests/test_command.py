@@ -90,7 +90,7 @@ class TestCommands(WebTest):
     @mock.patch('archelonc.command.HISTORY_FILE', TEST_ARCHELON_HISTORY)
     def test_update_successful(self):
         """
-        Do the succesful test with one command.
+        Do the successful test with one command.
         """
         self.assertFalse(os.path.exists(self.TEST_ARCHELON_HISTORY))
         self.addCleanup(os.remove, self.TEST_ARCHELON_HISTORY)
