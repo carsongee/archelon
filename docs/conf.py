@@ -47,6 +47,7 @@ version = VERSION
 # The full version, including alpha/beta/rc tags.
 release = VERSION
 
+suppress_warnings = ['image.nonlocal_uri']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -130,11 +131,3 @@ texinfo_documents = [
      u'Carson Gee', 'Archelon', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-def _warn_node(self, msg, node):
-    """Monkey patch non-local image warning"""
-    if not msg.startswith('nonlocal image URI found:'):
-        self._warnfunc(msg, '%s:%s' % get_source_line(node))
-
-sphinx.environment.BuildEnvironment.warn_node = _warn_node
